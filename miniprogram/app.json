@@ -1,0 +1,30 @@
+{
+  "pages": [
+    "pages/main/main",
+    "pages/my/my"
+  ],
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#34D0BA",
+    "navigationBarTitleText": "易清单",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "selectedColor":"#34D0BA",
+    "list": [{
+      "pagePath": "pages/main/main",
+      "text": "主页",
+      "iconPath": "../miniprogram/image/main.png",
+      "selectedIconPath": "../miniprogram/image/mainselect.png"
+    },
+    {
+      "pagePath": "pages/my/my",
+      "text": "我",
+      "iconPath": "../miniprogram/image/my.png",
+      "selectedIconPath": "../miniprogram/image/myselect.png"
+    }]
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2"
+}

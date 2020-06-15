@@ -1,2 +1,8 @@
-<!--pages/my/my.wxml-->
-<text>pages/my/my.wxml</text>
+<view wx:if="{{!openid}}">
+<button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">点击登录</button>
+</view>
+
+<view class="uploader-container" wx:if="{{openid}}">
+  <image class="image" src="{{userinfo.avatarUrl}}"></image>
+  <view class="name">{{userinfo.nickName}}</view>
+</view>

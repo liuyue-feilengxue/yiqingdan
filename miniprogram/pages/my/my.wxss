@@ -1,1 +1,19 @@
-/* pages/my/my.wxss */
+
+.image{
+  width: 200rpx;
+  height: 200rpx;
+  margin: 0 auto;
+  display: block;
+  padding-top: 40rpx;
+}
+
+.name{
+  text-align: center;
+  padding-top: 20rpx;
+}
+
+button{
+  width: 60%;
+  margin-top: 10rpx;
+  color: black;
+}

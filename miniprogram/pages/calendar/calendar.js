@@ -24,6 +24,10 @@ Page({
     this.getMonthDaysCurrent(new Date())
   },
   handleCalendar(e){
+    wx.showLoading({
+      title: '加载中',
+      mask : true
+    })
     const handle = e.currentTarget.dataset.handle;//点击的是上一个月还是下一个月
     const cur_year = this.data.selectDate.year;
     const cur_month = this.data.selectDate.month;
@@ -47,6 +51,11 @@ Page({
       let e = new Date(cur_year, cur_month , this.data.selectDate.date)
       this.getMonthDaysCurrent(e)
     }
+    wx.hideLoading()
+    wx.showToast({
+      title: '加载完成',
+      duration:1000
+    })
   },
   // 所选时间对应月份日期
   getMonthDaysCurrent(e) {
@@ -139,12 +148,22 @@ Page({
         if (list[i].year != this.data.selectDate.year || list[i].month != this.data.selectDate.month) {
           let date = new Date(list[i].year, list[i].month - 1, list[i].date)
           this.getMonthDaysCurrent(date)
+          wx.hideLoading()
+          wx.showToast({
+            title: '加载完成',
+            duration:1000
+          })
           return
         }
         // 更新顶部显示日期
         this.setData({
-          calendarTitle: list[i].year + "/" + (list[i].month > 9 ? list[i].month : "0" + list[i].month) + "/" + (list[i].date > 9 ? list[i].date : "0" + list[i].date)
+          calendarTitle: list[i].year + "/" + (list[i].month > 9 ? list[i].month : "0" + list[i].month) + "/" + (list[i].date > 9 ? list[i].date : "0" + list[i].date),
         })
+        this.data.selectDate = {
+          'year':list[i].year,
+          'month':list[i].month,
+          'date': list[i].date,
+        }
       }
     }
     this.setData({

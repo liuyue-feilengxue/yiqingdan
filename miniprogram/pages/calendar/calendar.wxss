@@ -1,1 +1,35 @@
 /* pages/calendar/calendar.wxss */
+.calendar-background {
+  font-size: 30rpx;
+  padding-top: 40rpx;
+}
+
+.calendar-item {
+  width: 14%;
+  height: 65rpx;
+  text-align: center;
+}
+
+.display-space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.display-space-between .titletext{
+  font-size: 40rpx;
+  margin-top: 10rpx;
+}
+
+.text-gray {
+  color: #878787;
+}
+.text-red {
+  color: #34d0ba;
+}
+
+image{
+  width: 50rpx;
+  height: 50rpx;
+}

@@ -171,10 +171,6 @@ Page({
     })
     
     wx.hideLoading()
-    wx.showToast({
-      title: '加载完成',
-      duration:1000
-    })
   },
 
 })

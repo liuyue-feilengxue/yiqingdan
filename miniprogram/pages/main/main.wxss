@@ -1,1 +1,20 @@
 /* pages/main/main.wxss */
+.title{
+  color: #34D0BA;
+  margin-left: 40rpx;
+  margin-block: 12rpx;
+}
+
+.line{
+  width:100%;
+  height:2rpx;
+  background:#000;
+}
+
+.plus{
+  width: 120rpx;
+  height: 120rpx;
+  position: fixed;
+  margin-top: 900rpx;
+  margin-left: 600rpx;
+}

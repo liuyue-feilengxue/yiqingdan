@@ -2,24 +2,70 @@
 .image{
   width: 150rpx;
   height: 150rpx;
-  display: block;
-  padding-top: 40rpx;
-  margin-left: 100rpx;
+  margin-left: 300rpx;
+  margin-top: 40rpx;
 }
 
 .name{
   text-align: center;
-  padding-top: 40rpx;
-  margin-left: 50rpx;
+  margin-top: 50rpx;
+  margin-bottom: 50rpx;
   font-size: 50rpx;
 }
 
-button{
-  width: 60%;
-  margin-top: 10rpx;
-  color: black;
+.uploader-container{
+  background-color: #ffffff;
 }
 
-.uploader-container{
-  display: flex;
+.login{
+  background-color: #ffffff;
+}
+
+.login-button{
+  margin-top: 50rpx;
+  margin-bottom: 50rpx;
+  color: #ffffff;
+  background-color: #34D0BA;
+}
+
+.login image{
+  width: 150rpx;
+  height: 150rpx;
+  margin-left: 300rpx;
+  margin-top: 40rpx;
+}
+
+.menu{
+  margin-top: 30rpx;
+  background-color: #ffffff;
+}
+
+.menu .message{
+  margin-block: 40rpx;
+  display:flex;
+  margin-left:5px;
+  text-align: center;
+  align-items:center;
+}
+
+.menu .setup{
+  margin-block: 40rpx;
+  display:flex;
+  margin-left:5px;
+  text-align: center;
+  align-items:center;
+}
+
+.menu .share{
+  margin-block: 40rpx;
+  display:flex;
+  margin-left:5px;
+  text-align: center;
+  align-items:center;
+}
+
+.menu image{
+  margin-right: 40rpx;
+  width: 60rpx;
+  height: 60rpx;
 }

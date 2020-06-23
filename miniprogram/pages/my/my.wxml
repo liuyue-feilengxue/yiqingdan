@@ -1,8 +1,31 @@
-<view wx:if="{{!openid}}">
-<button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">点击登录</button>
+<view wx:if="{{!openid}}" class="login">
+  <image src="../../image/头像.png" class="unloginImage">
+  </image>
+  <button open-type="getUserInfo" 
+  lang="zh_CN" 
+  bindgetuserinfo="onGotUserInfo"
+   class="login-button"
+   style="width:210rpx;font-size:28rpx">点击登录</button>
 </view>
 
 <view class="uploader-container" wx:if="{{openid}}">
   <image class="image" src="{{userinfo.avatarUrl}}"></image>
   <view class="name">{{userinfo.nickName}}</view>
+</view>
+
+<view class="menu">
+  <navigator url="../allTask/allTask">
+    <view class="message">
+      <image src="../../image/任务.png"></image>
+      <view>全部任务</view>
+    </view>
+  </navigator>
+  <view class="setup">
+    <image src="../../image/设置.png"></image>
+    <view>设置</view>
+  </view>
+  <view class="share">
+    <image src="../../image/分享.png"></image>
+    <view>分享给你的好友</view>
+  </view>
 </view>

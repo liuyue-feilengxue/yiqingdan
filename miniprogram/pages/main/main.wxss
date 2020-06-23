@@ -21,6 +21,6 @@
   width: 120rpx;
   height: 120rpx;
   position: fixed;
-  margin-top: 1000rpx;
-  margin-left: 600rpx;
+  left: 600rpx;
+  bottom: 150rpx;
 }

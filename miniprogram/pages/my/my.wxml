@@ -20,7 +20,7 @@
       <view>全部任务</view>
     </view>
   </navigator>
-  <view class="setup">
+  <view class="setup"  bindtap="clearLogin">
     <image src="../../image/setup.png"></image>
     <view>设置</view>
   </view>

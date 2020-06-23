@@ -72,3 +72,10 @@
   width: 60rpx;
   height: 60rpx;
 }
+
+.outlogin{
+  margin-top : 100rpx;
+  display: flex;
+  justify-content: center;
+  color: #34D0BA;
+}

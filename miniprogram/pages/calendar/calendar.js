@@ -52,10 +52,6 @@ Page({
       this.getMonthDaysCurrent(e)
     }
     wx.hideLoading()
-    wx.showToast({
-      title: '加载完成',
-      duration:1000
-    })
   },
   // 所选时间对应月份日期
   getMonthDaysCurrent(e) {
@@ -169,7 +165,6 @@ Page({
     this.setData({
       calendarDays: list
     })
-    
     wx.hideLoading()
   },
 

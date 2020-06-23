@@ -29,7 +29,18 @@ Page({
   },
 
   clearLogin(){
-    wx.clearStorage()
+    const that = this;
+    wx.showModal({
+      title:"确定退出当前账号吗",
+      confirmColor:"#34D0BA",
+      success (res){
+        wx.clearStorage()
+        that.setData({
+          userinfo:{},
+          openid:""
+        })
+      }
+    })
   },
 
   /**

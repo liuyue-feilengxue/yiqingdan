@@ -1,5 +1,5 @@
 <view wx:if="{{!openid}}" class="login">
-  <image src="../../image/头像.png" class="unloginImage">
+  <image src="../../image/unlogin.png" class="unloginImage">
   </image>
   <button open-type="getUserInfo" 
   lang="zh_CN" 
@@ -20,7 +20,7 @@
       <view>全部任务</view>
     </view>
   </navigator>
-  <view class="setup"  bindtap="clearLogin">
+  <view class="setup">
     <image src="../../image/setup.png"></image>
     <view>设置</view>
   </view>
@@ -28,4 +28,8 @@
     <image src="../../image/share.png"></image>
     <view>分享给你的好友</view>
   </view>
+</view>
+
+<view wx:if="{{openid}}">
+  <view  bindtap="clearLogin" class="outlogin">退出登录</view>
 </view>

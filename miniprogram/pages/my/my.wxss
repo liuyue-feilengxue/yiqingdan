@@ -41,7 +41,8 @@
 }
 
 .menu .message{
-  margin-block: 40rpx;
+  /* margin-block: 40rpx; */
+  height: 100rpx;
   display:flex;
   margin-left:5px;
   text-align: center;
@@ -49,7 +50,8 @@
 }
 
 .menu .setup{
-  margin-block: 40rpx;
+  /* margin-block: 40rpx; */
+  height: 100rpx;
   display:flex;
   margin-left:5px;
   text-align: center;
@@ -57,7 +59,8 @@
 }
 
 .menu .share{
-  margin-block: 40rpx;
+  /* margin-block: 40rpx; */
+  height: 100rpx;
   display:flex;
   margin-left:5px;
   text-align: center;

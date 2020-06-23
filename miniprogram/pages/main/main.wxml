@@ -2,5 +2,7 @@
 <navigator url="/pages/addEvent/addEvent">
   <image src = '../../image/mainplus.png' class = 'plus'></image>
 </navigator>
-<view class='title'>待做清单</view>
-<view class="line"></view>
+<view class="title">
+  <view class='titletext'>待做清单</view>
+  <view class="line"></view>
+</view>

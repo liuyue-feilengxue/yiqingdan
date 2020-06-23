@@ -16,16 +16,16 @@
 <view class="menu">
   <navigator url="../allTask/allTask">
     <view class="message">
-      <image src="../../image/任务.png"></image>
+      <image src="../../image/task.png"></image>
       <view>全部任务</view>
     </view>
   </navigator>
   <view class="setup">
-    <image src="../../image/设置.png"></image>
+    <image src="../../image/setup.png"></image>
     <view>设置</view>
   </view>
   <view class="share">
-    <image src="../../image/分享.png"></image>
+    <image src="../../image/share.png"></image>
     <view>分享给你的好友</view>
   </view>
 </view>

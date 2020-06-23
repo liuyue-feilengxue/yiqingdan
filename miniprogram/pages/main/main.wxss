@@ -1,8 +1,14 @@
 /* pages/main/main.wxss */
 .title{
+  height: 80rpx;
+}
+
+.titletext{
   color: #34D0BA;
+  display: flex;
+  align-items: center;
   margin-left: 40rpx;
-  margin-block: 12rpx;
+  height: 80rpx;
 }
 
 .line{
@@ -15,6 +21,6 @@
   width: 120rpx;
   height: 120rpx;
   position: fixed;
-  margin-top: 900rpx;
+  margin-top: 1000rpx;
   margin-left: 600rpx;
 }

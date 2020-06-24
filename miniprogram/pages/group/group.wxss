@@ -2,9 +2,20 @@
 @import '../../wxss/style/weui-searchbar.wxss';
 @import '../../wxss/style/weui.wxss';
 
-
 image{
   height: 100rpx;
+}
+.title{
+  background-color: white;
+}
+
+.icon{
+  width: 50rpx;
+  height: 50rpx;
+  /* display: inline; */
+  margin-right: 30rpx;
+  margin-block: 5rpx;
+  float: right;
 }
 
 .plus{

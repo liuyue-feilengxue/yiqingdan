@@ -1,0 +1,8 @@
+/* pages/searchGroup/searchGroup.wxss */
+@import '../../wxss/style/weui-searchbar.wxss';
+@import '../../wxss/style/weui.wxss';
+
+
+image{
+  height: 100rpx;
+}

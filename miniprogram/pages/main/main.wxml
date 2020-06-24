@@ -2,7 +2,6 @@
 
 <view class="title">
   <view class='titletext'>待做清单</view>
-  <view class="line"></view>
 </view>
 
 <!-- 置底 -->

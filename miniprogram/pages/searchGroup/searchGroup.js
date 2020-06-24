@@ -7,12 +7,6 @@ Page({
   data: {
     inputShowed: false,
     inputVal: "",
-    showDialog: false,
-  },
-  search(){
-    wx.navigateTo({
-      url: '/pages/searchGroup/searchGroup',
-    })
   },
   showInput: function () {
     this.setData({
@@ -33,16 +27,6 @@ Page({
   inputTyping: function (e) {
     this.setData({
         inputVal: e.detail.value
-    });
-  },
-  openDialog: function () {
-    this.setData({
-        showDialog: true
-    });
-  },
-  close: function() {
-    this.setData({
-        showDialog: false
     });
   },
   /**

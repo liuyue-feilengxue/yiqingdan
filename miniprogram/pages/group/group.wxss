@@ -1,1 +1,4 @@
 /* pages/group/group.wxss */
+@import '../../wxss/style/weui-searchbar.wxss';
+@import '../../wxss/style/weui.wxss';
+

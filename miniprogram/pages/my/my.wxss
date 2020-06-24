@@ -1,3 +1,4 @@
+@import '../../wxss/style/weui.wxss';
 
 .image{
   width: 150rpx;

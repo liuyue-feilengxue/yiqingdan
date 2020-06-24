@@ -67,7 +67,19 @@
   align-items:center;
 }
 
-.menu image{
+.right1{
+  margin-left: 438rpx;
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.right2{
+  margin-left: 500rpx;
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.menu .icon{
   margin-right: 40rpx;
   width: 60rpx;
   height: 60rpx;

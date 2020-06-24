@@ -16,18 +16,22 @@
 <view class="menu">
   <navigator url="../allTask/allTask">
     <view class="message">
-      <image src="../../image/task.png"></image>
+      <image src="../../image/task.png" class="icon"></image>
       <view>全部任务</view>
+      <image src="../../image/right.png" class="right1"></image>
     </view>
   </navigator>
+
   <view class="setup">
-    <image src="../../image/setup.png"></image>
+    <image src="../../image/setup.png"  class="icon"></image>
     <view>设置</view>
+    <image src="../../image/right.png" class="right2"></image>
   </view>
-  <view class="share">
-    <image src="../../image/share.png"></image>
+  <!-- <view class="share" bindtap="share">
+    <image src="../../image/share.png"  class="icon"></image>
     <view>分享给你的好友</view>
-  </view>
+    <image src="../../image/right.png" class="right"></image>
+  </view> -->
 </view>
 
 <view wx:if="{{openid}}">

@@ -10,22 +10,31 @@ Page({
   },
   onGotUserInfo(e){
     const that = this
-    wx.cloud.callFunction({
-      name:"login",
-      success:res=>{
-        that.setData({
-          openid: res.result.openid,
-          userinfo : e.detail.userInfo
-        })
-        //保存在缓存中
-        that.data.userinfo.openid = that.data.openid
-        // console.log(userInfo)
-        wx.setStorageSync('userinfo', that.data.userinfo)
-      },
-      fail:res=>{
-        console.log("云函数调用失败")
+    wx.showModal({
+      title:"是否同意获取本机授权",
+      confirmColor:"#34D0BA",
+      success(res){
+        if (res.confirm){
+          wx.cloud.callFunction({
+            name:"login",
+            success:res=>{
+              that.setData({
+                openid: res.result.openid,
+                userinfo : e.detail.userInfo
+              })
+              //保存在缓存中
+              that.data.userinfo.openid = that.data.openid
+              // console.log(userInfo)
+              wx.setStorageSync('userinfo', that.data.userinfo)
+            },
+            fail:res=>{
+              console.log("云函数调用失败")
+            }
+          })
+        }
       }
     })
+    
   },
 
   clearLogin(){
@@ -34,15 +43,16 @@ Page({
       title:"确定退出当前账号吗",
       confirmColor:"#34D0BA",
       success (res){
-        wx.clearStorage()
-        that.setData({
-          userinfo:{},
-          openid:""
-        })
+        if (res.confirm){
+          wx.clearStorage()
+          that.setData({
+            userinfo:{},
+            openid:""
+          })
+        }
       }
     })
   },
-
   /**
    * 生命周期函数--监听页面加载
    */

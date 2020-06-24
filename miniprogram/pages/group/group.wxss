@@ -2,3 +2,15 @@
 @import '../../wxss/style/weui-searchbar.wxss';
 @import '../../wxss/style/weui.wxss';
 
+
+image{
+  height: 100rpx;
+}
+
+.plus{
+  width: 120rpx;
+  height: 120rpx;
+  position: fixed;
+  left: 600rpx;
+  bottom: 150rpx;
+}

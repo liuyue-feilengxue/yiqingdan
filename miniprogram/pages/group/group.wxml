@@ -35,3 +35,30 @@
     </view>
   </view>
 </view>
+
+<view class="weui-cells" wx:for='{{10}}'>
+  <view class="weui-cell weui-cell_active">
+    <view class="weui-cell__hd" style="position: relative; margin-right: 10px;">
+      <image src="../../image/group.png" style="width: 50px; display: block;"></image>
+      <!-- <text class="weui-badge" style="position: absolute; top: -0.4em; right: -0.4em;">1</text> -->
+    </view>
+
+    <view class="weui-cell__bd">
+      <view>群名称</view>
+      <view style="font-size: 13px; color: #888;">群号</view>
+    </view>
+
+  </view>
+</view>
+
+<!-- 加号（创建群聊，加入群聊） -->
+<image src = '../../image/mainplus.png' class = 'plus' bindtap="openDialog"></image>
+<view wx:if="{{showDialog}}" class="weui-skin_android fadeIn" bindtap="close">
+  <view class="weui-mask"></view>
+  <view class="weui-actionsheet">
+      <view class="weui-actionsheet__menu">
+          <view class="weui-actionsheet__cell">创建群聊</view>
+          <view class="weui-actionsheet__cell">加入群聊</view>
+      </view>
+  </view>
+</view>

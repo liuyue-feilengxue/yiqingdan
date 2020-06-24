@@ -6,7 +6,8 @@ Page({
    */
   data: {
     inputShowed: false,
-    inputVal: ""
+    inputVal: "",
+    showDialog: false,
   },
   showInput: function () {
     this.setData({
@@ -29,7 +30,16 @@ Page({
         inputVal: e.detail.value
     });
   },
-  
+  openDialog: function () {
+    this.setData({
+        showDialog: true
+    });
+  },
+  close: function() {
+    this.setData({
+        showDialog: false
+    });
+  },
   /**
    * 生命周期函数--监听页面加载
    */

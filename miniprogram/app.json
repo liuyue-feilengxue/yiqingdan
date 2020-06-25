@@ -7,7 +7,8 @@
     "pages/addEvent/addEvent",
     "pages/allTask/allTask",
     "pages/setUp/setUp",
-    "pages/searchGroup/searchGroup"
+    "pages/searchGroup/searchGroup",
+    "pages/addTask/addTask"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

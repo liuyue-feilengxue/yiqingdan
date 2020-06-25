@@ -1,0 +1,55 @@
+<!--pages/addTask/addTask.wxml-->
+<view class="weui-cells__title">新建任务</view>
+<view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_active">
+        <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="任务名称" />
+        </view>
+    </view>
+</view>
+<view class="weui-cells__title">截止时间</view>
+<view class="selectdate">
+   <picker mode="date" value="{{ddldate}}" start='{{nowdate}}' bindchange="bindDateChange" data-name="ddl">
+      <a class="weui-btn weui-btn_default">日期选择器</a>
+  </picker>
+
+  <picker mode="time" value="{{ddltime}}" start='{{nowtime}}' bindchange="bindTimeChange" data-name="ddl">
+      <a class="weui-btn weui-btn_default">时间选择器</a>
+  </picker>
+
+</view>
+
+<view class="weui-cells__group weui-cells__group_form">
+  <view class="weui-cells weui-cells_form">
+    <view class="weui-cell weui-cell_active weui-cell_disabled">
+      <view class="weui-cell__bd">
+        <input class="weui-input" value="{{ddldate}} {{ddltime}}" disabled />
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="weui-cells__title">提醒时间</view>
+<view class="selectdate">
+
+   <picker mode="date" value="{{warndate}}" start='{{nowdate}}' bindchange="bindDateChange" data-name="warn">
+      <a class="weui-btn weui-btn_default" >日期选择器</a>
+  </picker>
+
+  <picker mode="time" value="{{warntime}}" start='{{nowtime}}' bindchange="bindTimeChange" data-name="warn">
+      <a class="weui-btn weui-btn_default">时间选择器</a>
+  </picker>
+
+</view>
+
+<view class="weui-cells__group weui-cells__group_form">
+  <view class="weui-cells weui-cells_form">
+    <view class="weui-cell weui-cell_active weui-cell_disabled">
+      <view class="weui-cell__bd">
+        <input class="weui-input" value="{{warndate}} {{warntime}}" disabled />
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="weui-cells__title">任务优先级</view>

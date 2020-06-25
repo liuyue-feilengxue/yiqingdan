@@ -61,6 +61,13 @@
 					"id": -1,
 					"name": "pages/addEvent/addEvent",
 					"pathName": "pages/addEvent/addEvent",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/addTask/addTask",
+					"pathName": "pages/addTask/addTask",
 					"scene": null
 				}
 			]

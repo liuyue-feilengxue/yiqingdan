@@ -1,1 +1,2 @@
 /* pages/addEvent/addEvent.wxss */
+@import '../../wxss/style/weui.wxss';

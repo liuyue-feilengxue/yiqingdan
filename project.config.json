@@ -54,6 +54,13 @@
 					"id": -1,
 					"name": "pages/group/group",
 					"pathName": "pages/group/group",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/addEvent/addEvent",
+					"pathName": "pages/addEvent/addEvent",
 					"scene": null
 				}
 			]

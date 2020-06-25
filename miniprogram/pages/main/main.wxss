@@ -1,6 +1,6 @@
 /* pages/main/main.wxss */
 .title{
-  height: 60rpx;
+  height: 80rpx;
   background-color: white;
 }
 
@@ -9,7 +9,8 @@
   display: flex;
   align-items: center;
   margin-left: 40rpx;
-  height: 60rpx;
+  margin-top: 15rpx;
+  font-size: large;
 }
 
 .line{

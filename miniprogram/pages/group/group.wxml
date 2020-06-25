@@ -8,6 +8,7 @@
   <view class="weui-cell weui-cell_active">
     <view class="weui-cell__hd" style="position: relative; margin-right: 10px;">
       <image src="../../image/group.png" style="width: 50px; display: block;"></image>
+      <!-- 角标 -->
       <!-- <text class="weui-badge" style="position: absolute; top: -0.4em; right: -0.4em;">1</text> -->
     </view>
 

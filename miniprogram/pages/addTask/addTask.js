@@ -10,8 +10,17 @@ Page({
     warndate: '2000-01-01',
     warntime: '12:00',
     nowdate: '',
-    nowtime: ''
+    nowtime: '',
+    array1: ['高优先级', '中优先级', '低优先级','无优先级'],
+    value1: 0,
   },
+  //获取优先级
+  bindPicker1Change: function(e) {
+    this.setData({
+        value1: e.detail.value
+    })
+  },
+  //获取日期（ddl与warn日期都在这）
   bindDateChange: function(e) {
     // console.log(e)
     if (e.target.dataset.name=='ddl'){
@@ -26,6 +35,7 @@ Page({
     }
     
   },
+  //获取时间
   bindTimeChange: function(e) {
     if (e.target.dataset.name=='ddl'){
       this.setData({
@@ -53,7 +63,9 @@ Page({
     //  如果需要时分秒，就放开
     var h = now.getHours();
     var m = now.getMinutes();
-    var s = now.getSeconds();
+    if(m<10){
+      m='0'+m
+    }
     var date = year + '-' + month + '-' + day;
     var time =  h + ':' + m;
     // console.log('当前时间',formatDate)

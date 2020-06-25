@@ -4,6 +4,23 @@
   <view class='titletext'>待做清单</view>
 </view>
 
+<view class="weui-form-preview weui-cell_active" wx:for='{{10}}' bindtap="">
+  <view class="weui-form-preview__bd">
+    <view class="weui-form-preview__item">
+      <label class="weui-form-preview__label">任务</label>
+      <text class="weui-form-preview__value">历史考试</text>
+    </view>
+    <view class="weui-form-preview__item">
+      <label class="weui-form-preview__label">截止日期</label>
+      <text class="weui-form-preview__value">2020-7-4 8:00</text>
+    </view>
+    <view class="weui-form-preview__item">
+      <label class="weui-form-preview__label">提醒日期</label>
+      <text class="weui-form-preview__value">2020-7-3 22:00</text>
+    </view>
+  </view>
+</view>
+
 <!-- 置底 -->
 <navigator url="/pages/addEvent/addEvent">
   <image src = '../../image/mainplus.png' class = 'plus'></image>

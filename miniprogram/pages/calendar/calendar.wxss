@@ -1,4 +1,6 @@
 /* pages/calendar/calendar.wxss */
+@import '../../wxss/style/weui.wxss';
+
 .calendar-background {
   font-size: 30rpx;
   padding-top: 40rpx;
@@ -33,3 +35,37 @@ image{
   width: 50rpx;
   height: 50rpx;
 }
+
+
+.unfinishtitle{
+  height: 80rpx;
+  background-color: white;
+}
+
+.unfinishtitletext{
+  color: #34D0BA;
+  display: flex;
+  align-items: center;
+  margin-left: 40rpx;
+  margin-top: 15rpx;
+  font-size: large;
+}
+
+.finishtitle{
+  height: 80rpx;
+  background-color: #34D0BA;
+}
+
+.finishtitletext{
+  color: white;
+  display: flex;
+  align-items: center;
+  margin-left: 40rpx;
+  margin-top: 15rpx;
+  font-size: large;
+}
+
+.weui-cells{
+  margin-bottom: 20rpx;
+}
+

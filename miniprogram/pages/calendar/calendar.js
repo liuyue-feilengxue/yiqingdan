@@ -14,7 +14,10 @@ Page({
     },
     calendarTitle: '',
     // 日期list 
-    calendarDays: []
+    calendarDays: [],
+
+    allfinish:false,
+    allunfinish:false,
   },
 
   /**
@@ -168,4 +171,37 @@ Page({
     wx.hideLoading()
   },
 
+  // 从未完成到完成
+  toFinish(){
+    console.log("toFinish")
+    wx.showModal({
+      title:"请确认该任务是否真的完成",
+      confirmColor:"#34D0BA",
+      success(res){
+        if (res.confirm){
+
+        }
+        else{
+
+        }
+      }
+    })
+  },
+
+  // 从完成到未完成
+  toUnFinish(){
+    console.log("toUnFinish")
+    wx.showModal({
+      title:"请确认该任务是否仍未完成",
+      confirmColor:"#34D0BA",
+      success(res){
+        if (res.confirm){
+
+        }
+        else{
+          
+        }
+      }
+    })
+  },
 })

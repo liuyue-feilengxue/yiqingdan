@@ -1,4 +1,6 @@
 /* pages/main/main.wxss */
+@import '../../wxss/style/weui.wxss';
+
 .title{
   height: 80rpx;
   background-color: white;
@@ -25,4 +27,8 @@
   position: fixed;
   left: 600rpx;
   bottom: 150rpx;
+}
+
+.weui-form-preview{
+  margin-top: 20rpx;
 }

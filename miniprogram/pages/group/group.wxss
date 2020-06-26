@@ -26,3 +26,7 @@ image{
   left: 600rpx;
   bottom: 150rpx;
 }
+
+.weui-footer{
+  margin-top: 50rpx;
+}

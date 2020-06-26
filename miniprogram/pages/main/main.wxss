@@ -22,13 +22,17 @@
 }
 
 .plus{
-  width: 120rpx;
-  height: 120rpx;
+  width: 80rpx;
+  height: 80rpx;
   position: fixed;
-  left: 600rpx;
-  bottom: 150rpx;
+  right: 50rpx;
+  bottom: 50rpx;
 }
 
 .weui-form-preview{
   margin-top: 20rpx;
+}
+
+.weui-footer{
+  margin-top: 50rpx;
 }

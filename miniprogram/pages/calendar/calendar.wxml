@@ -30,7 +30,7 @@
             <image src="../../image/unfinished.png" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
         </view>
         <view class="weui-cell__bd">历史作业</view>
-        <!-- <view class="weui-cell__ft">说明文字</view> -->
+        <view class="weui-cell__ft">20:00</view>
     </view>
 </view>
 
@@ -44,6 +44,6 @@
             <image src="../../image/finished.png" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
         </view>
         <view class="weui-cell__bd" style="color:#c9c9c9">吃饭</view>
-        <!-- <view class="weui-cell__ft">说明文字</view> -->
+        <view class="weui-cell__ft" style="color:#c9c9c9">9:00</view>
     </view>
 </view>

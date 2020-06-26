@@ -21,6 +21,10 @@
   </view>
 </view>
 
+<view class="weui-footer">
+  <view class="weui-footer__text">别拉啦~到底啦~再拉我疼~</view>
+</view>
+
 <!-- 置底 -->
 <navigator url="/pages/addEvent/addEvent">
   <image src = '../../image/mainplus.png' class = 'plus'></image>

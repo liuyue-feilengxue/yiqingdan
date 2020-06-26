@@ -20,6 +20,10 @@
   </view>
 </view>
 
+<view class="weui-footer">
+  <view class="weui-footer__text">别拉啦~到底啦~再拉我疼~</view>
+</view>
+
 <!-- 加号（创建群聊，加入群聊） -->
 <!-- <image src = '../../image/mainplus.png' class = 'plus' bindtap="openDialog"></image> -->
 <view wx:if="{{showDialog}}" class="weui-skin_android fadeIn" bindtap="close">

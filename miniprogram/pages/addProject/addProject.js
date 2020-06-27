@@ -30,9 +30,9 @@ Page({
       })
     }
     console.log(that.data.time)
-    // wx.navigateTo({
-    //   url: 'url',
-    // })
+    wx.navigateTo({
+      url: '/pages/projectTimeSelect/projectTimeSelect',
+    })
   },
   /**
    * 生命周期函数--监听页面加载
@@ -44,7 +44,7 @@ Page({
     })
     if (options.name=='paper'){
       this.setData({
-        tasks:['确定题目','细列提纲','全新撰写','精心修改','完善要素']
+        tasks:['确定题目','细列提纲','全心撰写','精心修改','完善要素']
       })
     }
     else if(options.name=='book'){

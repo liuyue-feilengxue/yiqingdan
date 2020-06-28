@@ -8,6 +8,8 @@ Page({
     name:'',
     tasks:[],
     time:[],
+    // 是不是第一次跳转页面（防止把数据清空）
+    isFirst : true,
     
     array1: ['高优先级', '中优先级', '低优先级','无优先级'],
     value1: 0,
@@ -17,22 +19,65 @@ Page({
     console.log(e.currentTarget.dataset.index)
     var time=[];
     const that=this;
-    if (that.data.name=='paper'){
-      time=[{},{},{},{},{}]
-      that.setData({
-        time:time
-      })
+    //第一次的话要初始化time
+    if (this.data.isFirst){
+      if (that.data.name=='paper'){
+        time=[{},{},{},{},{}]
+        that.setData({
+          time:time
+        })
+      }
+      else if(that.data.name=='book'){
+        time=[{},{},{},{}]
+        that.setData({
+          time:time
+        })
+      }
     }
-    else if(that.data.name=='book'){
-      time=[{},{},{},{}]
-      that.setData({
-        time:time
-      })
-    }
-    console.log(that.data.time)
+    
+    // console.log(that.data.time)
+    var timejson = JSON.stringify(this.data.time)
     wx.navigateTo({
-      url: '/pages/projectTimeSelect/projectTimeSelect',
+      url: '/pages/projectTimeSelect/projectTimeSelect?time='+timejson+'&index='+e.currentTarget.dataset.index,
     })
+  },
+
+  //添加任务（自定义）
+  addTask(){
+    wx.navigateTo({
+      //告诉addTask页面父页面是哪个
+      url: '/pages/addTask/addTask?father=addProject',
+    })
+  },
+
+  //是否填完
+  isFillIn(){
+    var time = this.data.time;
+    //数组为空
+    if (time.length == 0){
+      return false;
+    }
+    // 里面有对象为空
+    for (var i=0;i<time.length;i++){
+      if (Object.keys(time[i]).length == 0){
+        return false;
+      }
+    }
+    return true
+  },
+  finish(){
+    //如果没填好
+    if(!this.isFillIn()){
+      wx.showModal({
+        showCancel: false,
+        title : '你仍有任务未设置提醒时间或截止时间'
+      })
+    }
+    else{
+      // 传递到数据库中
+      
+    }
+    
   },
   /**
    * 生命周期函数--监听页面加载

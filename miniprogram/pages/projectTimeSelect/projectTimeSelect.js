@@ -11,14 +11,9 @@ Page({
     warntime: '12:00',
     nowdate: '',
     nowtime: '',
-    array1: ['高优先级', '中优先级', '低优先级','无优先级'],
-    value1: 0,
-  },
-  //获取优先级
-  bindPicker1Change: function(e) {
-    this.setData({
-        value1: e.detail.value
-    })
+    // 上一页面传递下来的参数
+    time:[],
+    index:-1
   },
   //获取日期（ddl与warn日期都在这）
   bindDateChange: function(e) {
@@ -79,11 +74,46 @@ Page({
       nowtime:time,
     })
   },
+  //返回父页面
+  toFatherPages(){
+    const pages = getCurrentPages()
+    // 上一页
+    const lastPages = pages[pages.length - 2]
+    var time = this.data.time;
+    var index = this.data.index;
+    var ddl = this.data.ddldate+' '+this.data.ddltime;
+    var warn = this.data.warndate+ ' ' + this.data.warntime;
+    var obj = {ddl,warn}
+    time[index] = obj
+    console.log(time)
+    //数据传到上一页
+    lastPages.setData({
+      time:time,
+      isFirst:false
+    })
+    wx.navigateBack({
+      success(){
+        console.log('success')
+      },
+      fail(){
+        console.log('fail')
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     this.getNowTime()
+
+    var timejson = options.time
+    var time = JSON.parse(timejson)
+    this.setData({
+      time:time,
+      index:options.index
+    })
+    console.log(this.data.time)
+    console.log(this.data.index)
   },
 
   /**
@@ -111,7 +141,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    
   },
 
   /**

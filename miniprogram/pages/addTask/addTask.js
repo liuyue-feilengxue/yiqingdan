@@ -13,6 +13,11 @@ Page({
     nowtime: '',
     array1: ['高优先级', '中优先级', '低优先级','无优先级'],
     value1: 0,
+    // 父页面
+    father:'',
+    //自定义页面用到
+    time:[],
+    index:-1
   },
   //获取优先级
   bindPicker1Change: function(e) {
@@ -79,11 +84,38 @@ Page({
       nowtime:time,
     })
   },
+  //点击确定
+  finish(){
+    const pages = getCurrentPages()
+    // 上一页
+    const lastPages = pages[pages.length - 2]
+    
+    // 自定义的time和index
+    var time = this.data.time;
+    var index = this.data.index;
+    var ddl = this.data.ddldate+' '+this.data.ddltime;
+    var warn = this.data.warndate+ ' ' + this.data.warntime;
+    // 数据传递
+    lastPages.setData({
+     
+    })
+    wx.navigateBack({
+      success(){
+        console.log('success')
+      },
+      fail(){
+        console.log('fail')
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     this.getNowTime()
+    this.setData({
+      father:options.father
+    })
   },
 
   /**

@@ -13,11 +13,13 @@ Page({
     nowtime: '',
     array1: ['高优先级', '中优先级', '低优先级','无优先级'],
     value1: 0,
+    taskname:'',
     // 父页面
     father:'',
     //自定义页面用到
     time:[],
-    index:-1
+    tasks:[],
+    index:-1,
   },
   //获取优先级
   bindPicker1Change: function(e) {
@@ -84,38 +86,76 @@ Page({
       nowtime:time,
     })
   },
+  //任务名获取
+  taskinput(e){
+    this.setData({
+      taskname:e.detail.value
+    })
+  },
   //点击确定
   finish(){
-    const pages = getCurrentPages()
-    // 上一页
-    const lastPages = pages[pages.length - 2]
-    
-    // 自定义的time和index
-    var time = this.data.time;
-    var index = this.data.index;
-    var ddl = this.data.ddldate+' '+this.data.ddltime;
-    var warn = this.data.warndate+ ' ' + this.data.warntime;
-    // 数据传递
-    lastPages.setData({
-     
-    })
-    wx.navigateBack({
-      success(){
-        console.log('success')
-      },
-      fail(){
-        console.log('fail')
-      }
-    })
+    if (this.data.father == 'addProject'){
+      //addProject
+      const pages = getCurrentPages()
+      // 上一页
+      const lastPages = pages[pages.length - 2]
+      
+      // 自定义的time和index（time没有回传）
+      var time = this.data.time;
+      var index = this.data.index + 1;
+      console.log(index)
+      var ddl = this.data.ddldate+' '+this.data.ddltime;
+      var warn = this.data.warndate+ ' ' + this.data.warntime;
+      var obj = {ddl,warn}
+      time[index] = obj
+      var tasks = this.data.tasks.concat(this.data.taskname)
+      // 数据传递
+      lastPages.setData({
+        tasks:tasks,
+        time:time,
+        index:index,
+        isFirst:false
+      })
+      wx.navigateBack({
+        success(){
+          console.log('success')
+        },
+        fail(){
+          console.log('fail')
+        }
+      })
+    }
+    else{
+      //addTask
+      wx.navigateBack({
+        success(){
+          console.log('success')
+        },
+        fail(){
+          console.log('fail')
+        }
+      })
+    }
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     this.getNowTime()
-    this.setData({
-      father:options.father
-    })
+    if (options.father=='addProject'){
+      var tasksjson = options.tasksjson
+      var tasks = JSON.parse(tasksjson)
+      this.setData({
+        father:options.father,
+        tasks:tasks,
+        index:options.index
+      })
+    }
+    else{
+      this.setData({
+        father:options.father,
+      })
+    }
   },
 
   /**

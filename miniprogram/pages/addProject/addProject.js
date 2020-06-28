@@ -44,9 +44,11 @@ Page({
 
   //添加任务（自定义）
   addTask(){
+    var tasksjson = JSON.stringify(this.data.tasks)
     wx.navigateTo({
       //告诉addTask页面父页面是哪个
-      url: '/pages/addTask/addTask?father=addProject',
+      url: '/pages/addTask/addTask?father=addProject&tasksjson='+tasksjson,
+      // +'&index='+this.data.index,
     })
   },
 
@@ -67,6 +69,7 @@ Page({
   },
   finish(){
     //如果没填好
+    console.log(this.data.time)
     if(!this.isFillIn()){
       wx.showModal({
         showCancel: false,

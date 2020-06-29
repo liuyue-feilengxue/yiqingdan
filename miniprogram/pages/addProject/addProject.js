@@ -16,6 +16,7 @@ Page({
   },
   //选择ddltime和warntime
   toSelectDate(e){
+    var index=e.currentTarget.dataset.index
     console.log(e.currentTarget.dataset.index)
     var time=[];
     const that=this;
@@ -37,18 +38,21 @@ Page({
     
     // console.log(that.data.time)
     var timejson = JSON.stringify(this.data.time)
+    var tasksjson = JSON.stringify(this.data.tasks)
     wx.navigateTo({
-      url: '/pages/projectTimeSelect/projectTimeSelect?time='+timejson+'&index='+e.currentTarget.dataset.index,
+      url: '/pages/projectTimeSelect/projectTimeSelect?time='+timejson+'&index='+index
+      +'&tasks='+tasksjson+'&father='+this.data.name,
     })
   },
 
   //添加任务（自定义）
   addTask(){
     var tasksjson = JSON.stringify(this.data.tasks)
+    var timejson = JSON.stringify(this.data.time)
     wx.navigateTo({
       //告诉addTask页面父页面是哪个
-      url: '/pages/addTask/addTask?father=addProject&tasksjson='+tasksjson,
-      // +'&index='+this.data.index,
+      url: '/pages/addTask/addTask?father=addProject&tasksjson='+tasksjson
+      +'&length='+this.data.tasks.length+'&time='+timejson,
     })
   },
 
@@ -78,7 +82,8 @@ Page({
     }
     else{
       // 传递到数据库中
-      
+
+      wx.navigateBack()//关闭当前页面，返回主页，实际不要用back，现在暂时用
     }
     
   },

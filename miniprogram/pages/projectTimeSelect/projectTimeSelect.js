@@ -12,8 +12,11 @@ Page({
     nowdate: '',
     nowtime: '',
     // 上一页面传递下来的参数
+    father:'',
     time:[],
-    index:-1
+    index:-1,
+    taskname:'',
+    tasks:[],
   },
   //获取日期（ddl与warn日期都在这）
   bindDateChange: function(e) {
@@ -74,6 +77,12 @@ Page({
       nowtime:time,
     })
   },
+  //任务名输入
+  taskinput(e){
+    this.setData({
+      taskname:e.detail.value
+    })
+  },
   //返回父页面
   toFatherPages(){
     const pages = getCurrentPages()
@@ -84,12 +93,18 @@ Page({
     var ddl = this.data.ddldate+' '+this.data.ddltime;
     var warn = this.data.warndate+ ' ' + this.data.warntime;
     var obj = {ddl,warn}
+    if (time.length==0){
+      time = [{}]
+    }
     time[index] = obj
     console.log(time)
+    var tasks = this.data.tasks
+    tasks[index]=this.data.taskname
     //数据传到上一页
     lastPages.setData({
       time:time,
-      isFirst:false
+      isFirst:false,
+      tasks:tasks
     })
     wx.navigateBack({
       success(){
@@ -108,12 +123,16 @@ Page({
 
     var timejson = options.time
     var time = JSON.parse(timejson)
+    var tasksjson = options.tasks
+    var tasks = JSON.parse(tasksjson)
+    
     this.setData({
       time:time,
-      index:options.index
+      index:options.index,
+      tasks:tasks,
+      father:options.father,
+      taskname:tasks[options.index],
     })
-    console.log(this.data.time)
-    console.log(this.data.index)
   },
 
   /**

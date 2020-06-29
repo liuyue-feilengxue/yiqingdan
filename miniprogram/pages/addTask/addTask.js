@@ -19,7 +19,7 @@ Page({
     //自定义页面用到
     time:[],
     tasks:[],
-    index:-1,
+    length:-1,
   },
   //获取优先级
   bindPicker1Change: function(e) {
@@ -96,24 +96,31 @@ Page({
   finish(){
     if (this.data.father == 'addProject'){
       //addProject
+      if (this.data.taskname==''){
+        wx.showModal({
+          showCancel: false,
+          title : '请设置任务名'
+        })
+      }else{
       const pages = getCurrentPages()
       // 上一页
       const lastPages = pages[pages.length - 2]
       
-      // 自定义的time和index（time没有回传）
+      // 自定义的time和index
       var time = this.data.time;
-      var index = this.data.index + 1;
+      // index为task的长度
+      var index = this.data.length;
       console.log(index)
       var ddl = this.data.ddldate+' '+this.data.ddltime;
       var warn = this.data.warndate+ ' ' + this.data.warntime;
       var obj = {ddl,warn}
-      time[index] = obj
+      var time1 = time.concat(obj)
+
       var tasks = this.data.tasks.concat(this.data.taskname)
       // 数据传递
       lastPages.setData({
         tasks:tasks,
-        time:time,
-        index:index,
+        time:time1,
         isFirst:false
       })
       wx.navigateBack({
@@ -124,6 +131,8 @@ Page({
           console.log('fail')
         }
       })
+      }
+       
     }
     else{
       //addTask
@@ -145,10 +154,14 @@ Page({
     if (options.father=='addProject'){
       var tasksjson = options.tasksjson
       var tasks = JSON.parse(tasksjson)
+      var timejson = options.time
+      var time = JSON.parse(timejson)
       this.setData({
         father:options.father,
         tasks:tasks,
-        index:options.index
+        time:time,
+        // tasks长度
+        length:Number(options.length)
       })
     }
     else{

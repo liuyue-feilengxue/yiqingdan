@@ -1,4 +1,19 @@
 <!--pages/projectTimeSelect/projectTimeSelect.wxml-->
+
+<view class="weui-cells__title">任务名</view>
+<view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_active">
+        <view class="weui-cell__bd">
+          <block wx:if="{{father=='customize'}}">
+            <input class="weui-input" placeholder="任务名称" bindinput="taskinput" value="{{taskname}}"/>
+          </block>
+          <block wx:else>
+            <input class="weui-input" placeholder="任务名称" bindinput="taskinput" value="{{taskname}}" disabled="true"/>
+          </block>
+        </view>
+    </view>
+</view>
+
 <view class="weui-cells__title">截止时间</view>
 <view class="selectdate">
    <picker mode="date" value="{{ddldate}}" start='{{nowdate}}' bindchange="bindDateChange" data-name="ddl">

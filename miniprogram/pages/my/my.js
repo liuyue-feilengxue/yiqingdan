@@ -1,4 +1,5 @@
 // pages/my/my.js
+const db = wx.cloud.database();
 Page({
 
   /**
@@ -24,8 +25,30 @@ Page({
               })
               //保存在缓存中
               that.data.userinfo.openid = that.data.openid
-              // console.log(userInfo)
               wx.setStorageSync('userinfo', that.data.userinfo)
+              //在数据库中查找是否有userinfo（即查一下有没有这个用户）
+              wx.cloud.callFunction({
+                name:"getUserInfo",
+                //把userinfo传过去，如果有，就不用存入，没有就存入
+                data:{
+                  userInfo:that.data.userinfo
+                }
+              }).then(res=>{
+                // console.log(res.errMsg)
+                if (res.errMsg=='cloud.callFunction:ok'){
+                  //在数据库内存在这个人的信息
+                }else{
+                  //数据库中没有这个人的信息
+                  // 存入数据库
+                  db.collection("t_user").add({
+                    data:{
+                      userInfo:that.data.userinfo
+                    }
+                  }).then(res=>{
+                    console.log(res)
+                  })
+                }
+              })
             },
             fail:res=>{
               console.log("云函数调用失败")

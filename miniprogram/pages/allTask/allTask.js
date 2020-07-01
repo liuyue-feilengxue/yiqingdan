@@ -5,7 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    unfinish:[{name:'历史作业',time:'20:00'}],
+    finish:[{name:'吃饭',time:'9:00'}]
   },
 
   /**

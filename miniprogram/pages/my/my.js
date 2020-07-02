@@ -85,6 +85,7 @@ Page({
       userinfo: ui,
       openid: ui.openid
     })
+    
   },
 
   /**

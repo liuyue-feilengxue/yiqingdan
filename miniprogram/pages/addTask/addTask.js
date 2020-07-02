@@ -1,4 +1,5 @@
 // pages/addTask/addTask.js
+const db = wx.cloud.database();
 Page({
 
   /**
@@ -94,57 +95,87 @@ Page({
   },
   //点击确定
   finish(){
-    if (this.data.father == 'addProject'){
-      //addProject
-      if (this.data.taskname==''){
-        wx.showModal({
-          showCancel: false,
-          title : '请设置任务名'
-        })
-      }else{
-      const pages = getCurrentPages()
-      // 上一页
-      const lastPages = pages[pages.length - 2]
-      
-      // 自定义的time和index
-      var time = this.data.time;
-      // index为task的长度
-      var index = this.data.length;
-      console.log(index)
-      var ddl = this.data.ddldate+' '+this.data.ddltime;
-      var warn = this.data.warndate+ ' ' + this.data.warntime;
-      var obj = {ddl,warn}
-      var time1 = time.concat(obj)
-
-      var tasks = this.data.tasks.concat(this.data.taskname)
-      // 数据传递
-      lastPages.setData({
-        tasks:tasks,
-        time:time1,
-        isFirst:false
+    const that = this;
+    var warn = that.data.warndate+' '+that.data.warntime
+    var ddl = that.data.ddldate+' '+that.data.ddltime
+    if (warn>ddl){
+      //错误提醒，提醒大于截止时间（不可能）
+      wx.showModal({
+        showCancel: false,
+        title : '您的提醒时间大于截止时间，请重新确认'
       })
-      wx.navigateBack({
-        success(){
-          console.log('success')
-        },
-        fail(){
-          console.log('fail')
-        }
-      })
-      }
-       
     }
     else{
-      //addTask
-      wx.navigateBack({
-        success(){
-          console.log('success')
-        },
-        fail(){
-          console.log('fail')
+      if (this.data.father == 'addProject'){
+        //addProject
+        if (this.data.taskname==''){
+          wx.showModal({
+            showCancel: false,
+            title : '请设置任务名'
+          })
+        }else{
+        const pages = getCurrentPages()
+        // 上一页
+        const lastPages = pages[pages.length - 2]
+        
+        // 自定义的time和index
+        var time = this.data.time;
+        // index为task的长度
+        var index = this.data.length;
+        console.log(index)
+        var ddl = this.data.ddldate+' '+this.data.ddltime;
+        var warn = this.data.warndate+ ' ' + this.data.warntime;
+        var obj = {ddl,warn}
+        var time1 = time.concat(obj)
+  
+        var tasks = this.data.tasks.concat(this.data.taskname)
+        // 数据传递
+        lastPages.setData({
+          tasks:tasks,
+          time:time1,
+          isFirst:false
+        })
+        wx.navigateBack({
+          success(){
+            console.log('success')
+          },
+          fail(){
+            console.log('fail')
+          }
+        })
         }
-      })
+         
+      }
+      else{
+        //addTask
+        //存入数据库
+        db.collection("t_task").add({
+          data:{
+            //任务名
+            fTask:that.data.taskname,
+            //提醒时间
+            fWarnTime:that.data.warndate+' '+that.data.warntime,
+            //截止时间
+            fDeadline:that.data.ddldate+' '+that.data.ddltime,
+            //紧急程度（存0-3）
+            fUrgency:that.data.value1,
+            //是否完成
+            fFinish:false,
+            //系统自带openid无法查找
+            openid:wx.getStorageSync('userinfo').openid
+          }
+        })
+        wx.navigateBack({
+          success(){
+            console.log('success')
+          },
+          fail(){
+            console.log('fail')
+          }
+        })
+      }
     }
+    
   },
   /**
    * 生命周期函数--监听页面加载

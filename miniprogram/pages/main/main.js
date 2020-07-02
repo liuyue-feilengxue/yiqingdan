@@ -5,14 +5,29 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    //存任务
+    tasks:[]
   },
 
   /**
    * 生命周期函数--监听页面加载
+   * 
    */
   onLoad: function (options) {
-
+    const ui=wx.getStorageSync('userinfo')
+    //如果没有登录
+    if(!ui){
+      wx.showModal({
+        title:"您尚未登录",
+        success(res){
+          if (res.confirm){
+            wx.switchTab({
+              url: '/pages/my/my',
+            })
+          }
+        }
+      })
+    }
   },
 
   /**
@@ -24,9 +39,31 @@ Page({
 
   /**
    * 生命周期函数--监听页面显示
+   * 要到数据库取数据
    */
   onShow: function () {
-
+    const ui=wx.getStorageSync('userinfo')
+    const that = this
+    if (ui){
+      //如果已经登录
+      wx.cloud.callFunction({
+        name:"getTTask",
+        data:{
+          openid:ui.openid
+        }
+      }).then(res=>{
+        //data是数组，存的是整个数据库的东西
+        console.log(res.result.data)
+        that.setData({
+          tasks:res.result.data
+        })
+      })
+    }
+    else{
+      that.setData({
+        tasks:[]
+      })
+    }
   },
 
   /**

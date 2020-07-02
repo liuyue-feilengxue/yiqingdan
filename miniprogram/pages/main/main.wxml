@@ -4,25 +4,35 @@
   <view class='titletext'>待做清单</view>
 </view>
 
-<view class="weui-form-preview weui-cell_active" wx:for='{{10}}' bindtap="">
+<view class="weui-form-preview weui-cell_active" wx:for='{{tasks}}' bindtap="">
   <view class="weui-form-preview__bd">
     <view class="weui-form-preview__item">
       <label class="weui-form-preview__label">任务</label>
-      <text class="weui-form-preview__value">历史考试</text>
+      <text class="weui-form-preview__value">{{item.fTask}}</text>
     </view>
     <view class="weui-form-preview__item">
       <label class="weui-form-preview__label">截止日期</label>
-      <text class="weui-form-preview__value">2020-7-4 8:00</text>
+      <text class="weui-form-preview__value">{{item.fDeadline}}</text>
     </view>
     <view class="weui-form-preview__item">
       <label class="weui-form-preview__label">提醒日期</label>
-      <text class="weui-form-preview__value">2020-7-3 22:00</text>
+      <text class="weui-form-preview__value">{{item.fWarnTime}}</text>
     </view>
   </view>
 </view>
 
-<view class="weui-footer">
+<view class="weui-footer" wx:if='{{tasks.length>0}}'>
   <view class="weui-footer__text">别拉啦~到底啦~再拉我疼~</view>
+</view>
+
+<!-- 暂定若首页没任务时页面 -->
+<view wx:else>
+  <view class="icon-box">
+			<i class="weui-icon-info weui-icon_msg"></i>
+			<view class="icon-box__ctn">
+				<h1 class="icon-box__title">所有的任务都完成啦</h1>
+			</view>
+		</view>
 </view>
 
 <!-- 置底 -->

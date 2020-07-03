@@ -18,6 +18,7 @@ Page({
     //如果没有登录
     if(!ui){
       wx.showModal({
+        //到时候把取消给删掉，必须要登录才能使用我们小程序
         title:"您尚未登录",
         success(res){
           if (res.confirm){
@@ -62,6 +63,17 @@ Page({
     else{
       that.setData({
         tasks:[]
+      })
+      wx.showModal({
+        //到时候把取消给删掉，必须要登录才能使用我们小程序
+        title:"您尚未登录",
+        success(res){
+          if (res.confirm){
+            wx.switchTab({
+              url: '/pages/my/my',
+            })
+          }
+        }
       })
     }
   },

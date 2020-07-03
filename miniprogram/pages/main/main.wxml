@@ -26,13 +26,9 @@
 </view>
 
 <!-- 暂定若首页没任务时页面 -->
-<view wx:else>
-  <view class="icon-box">
-			<i class="weui-icon-info weui-icon_msg"></i>
-			<view class="icon-box__ctn">
-				<h1 class="icon-box__title">所有的任务都完成啦</h1>
-			</view>
-		</view>
+<view wx:else class="weui-footer">
+  <view class="weui-footer__text nopages">( っ`-´c)ﾏｯ</view>
+  <view class="weui-footer__text">当前没有待办任务，点击右下角 + 号创建一个吧</view>
 </view>
 
 <!-- 置底 -->

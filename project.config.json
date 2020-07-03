@@ -75,6 +75,13 @@
 					"id": -1,
 					"name": "pages/calendar/calendar",
 					"pathName": "pages/calendar/calendar",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/taskDetail/taskDetail",
+					"pathName": "pages/taskDetail/taskDetail",
 					"scene": null
 				}
 			]

@@ -8,7 +8,15 @@ Page({
     //存任务
     tasks:[]
   },
-
+  //转到任务详情
+  toTaskDetail(e){
+    var tasks = this.data.tasks
+    var index = e.currentTarget.dataset.index
+    var taskjson = JSON.stringify(tasks[index])
+    wx.navigateTo({
+      url: '/pages/taskDetail/taskDetail?taskjson='+taskjson,
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    * 

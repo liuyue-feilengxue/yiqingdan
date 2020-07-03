@@ -18,6 +18,8 @@ Page({
 
     allfinish:false,
     allunfinish:false,
+    //今日任务
+    tasks:[]
   },
 
   /**
@@ -25,7 +27,9 @@ Page({
    */
   onLoad: function (options) {
     this.getMonthDaysCurrent(new Date())
+
   },
+  //最上面左右切换月份
   handleCalendar(e){
     wx.showLoading({
       title: '加载中',

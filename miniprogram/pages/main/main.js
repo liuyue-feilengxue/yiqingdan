@@ -53,6 +53,8 @@ Page({
   onShow: function () {
     const ui=wx.getStorageSync('userinfo')
     const that = this
+    //任务
+    var tasks=[]
     if (ui){
       //如果已经登录
       wx.cloud.callFunction({
@@ -62,9 +64,42 @@ Page({
         }
       }).then(res=>{
         //data是数组，存的是整个数据库的东西
-        console.log(res.result.data)
+        tasks=res.result.data
+        //排序函数
+        var compare = function(obj1,obj2){
+          var value1 = obj1.fUrgency
+          var value2 = obj2.fUrgency
+          if (value1<value2){
+            return -1;
+          }
+          else if (value1>value2){
+            return 1;
+          }
+          else{
+            var ddl1 = obj1.fDeadline
+            var ddl2 = obj2.fDeadline
+            if (ddl1 < ddl2) {
+              return -1;
+            } else if (ddl1 > ddl2) {
+                return 1;
+            } else {
+                var warn1 = obj1.fWarnTime
+                var warn2 = obj2.fWarnTime
+                if (warn1<warn2){
+                  return -1;
+                }
+                else if (warn1>warn2){
+                  return 1;
+                }
+                else{
+                  return 0;
+                }
+              }
+          }   
+        }
+        console.log(tasks.sort(compare))
         that.setData({
-          tasks:res.result.data
+          tasks:tasks
         })
       })
     }

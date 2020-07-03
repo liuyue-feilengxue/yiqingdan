@@ -88,7 +88,18 @@ Page({
   },
   //点击删除
   delete(){
-    
+    const that = this
+    wx.showModal({
+      title:"确定要删除本任务吗？",
+      success(res){
+        if (res.confirm){
+          db.collection("t_task").doc(that.data._id).remove().then(res=>{
+            console.log(res)
+            wx.navigateBack()
+          })
+        }
+      }
+    }) 
   },
   /**
    * 生命周期函数--监听页面加载

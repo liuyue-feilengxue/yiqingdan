@@ -1,4 +1,5 @@
 // pages/calendar/calendar.js
+const db = wx.cloud.database();
 Page({
 
   /**
@@ -21,13 +22,58 @@ Page({
     //今日任务
     tasks:[]
   },
-
+  
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     this.getMonthDaysCurrent(new Date())
-
+    this.setTodayTask()
+  },
+  onShow: function(){
+    
+  },
+  //设置今日任务
+  setTodayTask(){
+    const ui=wx.getStorageSync('userinfo')
+    //所有任务
+    var tasks = []
+    //今日任务
+    var todayTask = []
+    var ddl = this.data.calendarTitle
+    wx.cloud.callFunction({
+      name:"getTTask",
+      data:{
+        openid:ui.openid
+      }
+    }).then(res=>{
+      tasks=res.result.data
+      for (var i=0;i<tasks.length;i++){
+        var ddldate = tasks[i].fDeadline.split(' ')
+        //当前日期等于tasks里面的ddl
+        if (ddldate[0]==ddl){
+          var task = tasks[i]
+          todayTask.push(task)
+          this.setData({
+            tasks:todayTask
+          })
+        }else{
+          console.log(2)
+        }
+      }
+      //今日无任务
+      if(this.data.tasks.length==0){
+        // this.setData({
+        //   allfinish:true,
+        //   allunfinish:true
+        // })
+        console.log(1)
+      }else{
+        //今日有任务
+        console.log(2)
+      }
+      console.log(this.data.tasks)
+    })
   },
   //最上面左右切换月份
   handleCalendar(e){
@@ -83,7 +129,7 @@ Page({
     
     // 更新顶部显示日期
     this.setData({
-      calendarTitle: year + "/" + (month > 9 ? month : "0" + month) + "/" + (date > 9 ? date : "0" + date)
+      calendarTitle: year + "-" + (month > 9 ? month : "0" + month) + "-" + (date > 9 ? date : "0" + date)
     })
 
     let calendarDays = []
@@ -160,7 +206,7 @@ Page({
         }
         // 更新顶部显示日期
         this.setData({
-          calendarTitle: list[i].year + "/" + (list[i].month > 9 ? list[i].month : "0" + list[i].month) + "/" + (list[i].date > 9 ? list[i].date : "0" + list[i].date),
+          calendarTitle: list[i].year + "-" + (list[i].month > 9 ? list[i].month : "0" + list[i].month) + "-" + (list[i].date > 9 ? list[i].date : "0" + list[i].date),
         })
         this.data.selectDate = {
           'year':list[i].year,

@@ -1,10 +1,11 @@
 <!--pages/calendar/calendar.wxml-->
+<!-- 标题（年月日） -->
 <view class='display-space-between'>
   <image src="../../image/left.png" bindtap="handleCalendar" data-handle="prev"></image>
   <view class="titletext">{{calendarTitle}}</view>
   <image src="../../image/right.png" bindtap="handleCalendar" data-handle="next"></image>
 </view>
-
+<!-- 日历主体 -->
 <view class='calendar-background display-space-between'>
   <view class='calendar-item' wx:for-items="{{weeks}}" wx:for-item="item" wx:key="*item">{{item}}</view>
   <!-- current是不是这个月的，selected是不是选中的 -->
@@ -20,30 +21,40 @@
 </view>
 
 <!-- 任务栏 -->
-<view wx:if="!{{allfinish}}" class="unfinishtitle">
+<view wx:if="{{allunfinish}}" class="unfinishtitle">
   <view class='unfinishtitletext'>未完成</view>
 </view>
 
-<view class="weui-cells weui-cells_after-title">
-    <view class="weui-cell weui-cell_example weui-cell_active" bindtap="toFinish">
+<view wx:if="{{allunfinish}}" class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_example weui-cell_active" bindtap="toFinish"
+    wx:for='{{unfinishtasks}}' wx:key='{{index}}' data-index="{{index}}" 
+    >
         <view class="weui-cell__hd">
             <image src="../../image/unfinished.png" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
         </view>
-        <view class="weui-cell__bd">历史作业</view>
-        <view class="weui-cell__ft">20:00</view>
+        <view class="weui-cell__bd">{{item.fTask}}</view>
+        <view class="weui-cell__ft">{{item.fDeadline}}</view>
     </view>
 </view>
 
-<view wx:if="!{{allunfinish}}" class="finishtitle">
+<view wx:if="{{allfinish}}" class="finishtitle">
   <view class='finishtitletext'>已完成</view>
 </view>
 
-<view class="weui-cells weui-cells_after-title">
-    <view class="weui-cell weui-cell_example weui-cell_active" bindtap="toUnFinish">
+<view wx:if="{{allfinish}}" class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_example weui-cell_active" bindtap="toUnFinish"
+    wx:for='{{finishtasks}}' data-index="{{index}}"  wx:key='{{index}}'>
         <view class="weui-cell__hd">
             <image src="../../image/finished.png" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
         </view>
-        <view class="weui-cell__bd" style="color:#c9c9c9">吃饭</view>
-        <view class="weui-cell__ft" style="color:#c9c9c9">9:00</view>
+        <view class="weui-cell__bd" style="color:#c9c9c9">{{item.fTask}}</view>
+        <view class="weui-cell__ft" style="color:#c9c9c9">{{item.fDeadline}}</view>
     </view>
+</view>
+
+<view wx:if='{{!allfinish&&!allunfinish}}'>
+  <view class="weui-footer">
+    <view class="weui-footer__text nopages">( っ`-´c)ﾏｯ</view>
+    <view class="weui-footer__text">今天没有任务呢~快去新建一个任务吧~</view>
+  </view>
 </view>

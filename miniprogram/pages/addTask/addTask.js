@@ -114,6 +114,9 @@ Page({
             title : '请设置任务名'
           })
         }else{
+        wx.showLoading({
+          title: '加载中',
+        })
         const pages = getCurrentPages()
         // 上一页
         const lastPages = pages[pages.length - 2]
@@ -135,6 +138,7 @@ Page({
           time:time1,
           isFirst:false
         })
+        wx.hideLoading()
         wx.navigateBack({
           success(){
             console.log('success')

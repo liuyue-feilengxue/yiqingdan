@@ -64,7 +64,13 @@ Page({
         }
       }).then(res=>{
         //data是数组，存的是整个数据库的东西
-        tasks=res.result.data
+        //看一下里面有没有已经完成的任务，若已经完成就不用出现
+        for(var i=0;i<res.result.data.length;i++){
+          //未完成
+          if (!res.result.data[i].fFinish){
+            tasks.push(res.result.data[i])
+          }
+        }
         //排序函数
         var compare = function(obj1,obj2){
           var value1 = obj1.fUrgency
@@ -103,6 +109,7 @@ Page({
         })
       })
     }
+    //未登录
     else{
       that.setData({
         tasks:[]

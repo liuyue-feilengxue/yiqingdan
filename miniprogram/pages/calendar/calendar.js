@@ -16,11 +16,14 @@ Page({
     calendarTitle: '',
     // 日期list 
     calendarDays: [],
-
+    //有完成的任务
     allfinish:false,
+    //有未完成的任务
     allunfinish:false,
     //今日任务
-    tasks:[]
+    todaytasks:[],
+    unfinishtasks:[],
+    finishtasks:[]
   },
   
   /**
@@ -31,11 +34,12 @@ Page({
     this.setTodayTask()
   },
   onShow: function(){
-    
+    this.setTodayTask()
   },
   //设置今日任务
   setTodayTask(){
     const ui=wx.getStorageSync('userinfo')
+    const that = this
     //所有任务
     var tasks = []
     //今日任务
@@ -47,32 +51,59 @@ Page({
         openid:ui.openid
       }
     }).then(res=>{
+      //所有任务
       tasks=res.result.data
       for (var i=0;i<tasks.length;i++){
         var ddldate = tasks[i].fDeadline.split(' ')
-        //当前日期等于tasks里面的ddl
+        //当前日期等于tasks里面的ddl(今日任务)
         if (ddldate[0]==ddl){
+          //如果就是今天的任务，task就是今天的任务之一
           var task = tasks[i]
           todayTask.push(task)
           this.setData({
-            tasks:todayTask
+            todaytasks:todayTask
           })
-        }else{
-          console.log(2)
         }
       }
       //今日无任务
-      if(this.data.tasks.length==0){
-        // this.setData({
-        //   allfinish:true,
-        //   allunfinish:true
-        // })
-        console.log(1)
-      }else{
-        //今日有任务
-        console.log(2)
+      if(todayTask.length==0){
+        that.setData({
+          allfinish:false,
+          allunfinish:false,
+          todaytasks:[],
+          unfinishtasks:[],
+          finishtasks:[]
+        })
       }
-      console.log(this.data.tasks)
+      //今日有任务
+      else{
+        var unfinishflag = false
+        var finishflag = false
+        //未完成的任务
+        var unfinishtasks=[]
+        //完成的任务
+        var finishtasks=[]
+        for(var i=0;i<that.data.todaytasks.length;i++){
+          //未做完
+          if (that.data.todaytasks[i].fFinish==false){
+            unfinishflag = true
+            var task = that.data.todaytasks[i]
+            unfinishtasks.push(task)
+          }
+          else{
+            finishflag=true
+            var task = that.data.todaytasks[i]
+            finishtasks.push(task)
+          }
+        }
+        that.setData({
+          allfinish:finishflag,
+          allunfinish:unfinishflag,
+          unfinishtasks:unfinishtasks,
+          finishtasks:finishtasks
+        })
+      }
+      console.log(this.data.todaytasks)
     })
   },
   //最上面左右切换月份
@@ -104,6 +135,7 @@ Page({
       let e = new Date(cur_year, cur_month , this.data.selectDate.date)
       this.getMonthDaysCurrent(e)
     }
+    this.setTodayTask()
     wx.hideLoading()
   },
   // 所选时间对应月份日期
@@ -131,7 +163,6 @@ Page({
     this.setData({
       calendarTitle: year + "-" + (month > 9 ? month : "0" + month) + "-" + (date > 9 ? date : "0" + date)
     })
-
     let calendarDays = []
 
     // 上个月显示的天数及日期
@@ -198,10 +229,6 @@ Page({
           let date = new Date(list[i].year, list[i].month - 1, list[i].date)
           this.getMonthDaysCurrent(date)
           wx.hideLoading()
-          wx.showToast({
-            title: '加载完成',
-            duration:1000
-          })
           return
         }
         // 更新顶部显示日期
@@ -218,38 +245,53 @@ Page({
     this.setData({
       calendarDays: list
     })
+    this.setTodayTask()
     wx.hideLoading()
   },
 
   // 从未完成到完成
-  toFinish(){
-    console.log("toFinish")
+  toFinish(e){
+    //点击的是第几个
+    var index = e.currentTarget.dataset.index
+    var task = this.data.unfinishtasks[index]
+    const that = this
+    console.log(task)
     wx.showModal({
       title:"请确认该任务是否真的完成",
       confirmColor:"#34D0BA",
       success(res){
         if (res.confirm){
-
-        }
-        else{
-
+          //点击确定键，就把该项从未完成变到完成
+          //首先是数据库要改变，其次是调用setTodayTask方法。(unfinishtasks删除该项，finishtasks增加该项)
+          db.collection('t_task').doc(task._id).update({
+            data:{
+              fFinish:true
+            }
+          }).then(res=>{
+            that.setTodayTask()
+          })
         }
       }
     })
   },
 
   // 从完成到未完成
-  toUnFinish(){
-    console.log("toUnFinish")
+  toUnFinish(e){
+    var index = e.currentTarget.dataset.index
+    var task = this.data.finishtasks[index]
+    const that = this
     wx.showModal({
       title:"请确认该任务是否仍未完成",
       confirmColor:"#34D0BA",
       success(res){
         if (res.confirm){
-
-        }
-        else{
-          
+          db.collection('t_task').doc(task._id).update({
+            data:{
+              fFinish:false
+            }
+          }).then(res=>{
+            that.setTodayTask()
+          })
         }
       }
     })

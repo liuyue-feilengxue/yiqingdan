@@ -62,8 +62,9 @@ Page({
   },
   //修改优先级
   bindPicker1Change: function(e) {
+    var value = Number(e.detail.value)
     this.setData({
-        value1: e.detail.value
+        value1: value
     })
   },
   //点击确定

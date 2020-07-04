@@ -69,3 +69,6 @@ image{
   margin-bottom: 20rpx;
 }
 
+.nopages{
+  margin-top: 200rpx;
+}

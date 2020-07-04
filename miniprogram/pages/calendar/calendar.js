@@ -178,6 +178,7 @@ Page({
         'current': false,
         'selected': false
       })
+      this.setTodayTask()
     }
 
     // 当月显示的日期

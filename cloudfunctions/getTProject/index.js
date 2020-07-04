@@ -6,12 +6,8 @@ const db = cloud.database();
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
-  var projectname = event.projectname
-  return await{
-    openid: wxContext.OPENID,
-    projectname:db.collection("t_project").where({
-      fProject:projectname
-    }).get()
-  }
+  var openid = event.openid
+  return await db.collection("t_project").where({
+    openid:openid
+  }).get()
 }

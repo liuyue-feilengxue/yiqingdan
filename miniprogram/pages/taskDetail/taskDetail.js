@@ -106,7 +106,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var task = JSON.parse(options.taskjson)
+    var task = JSON.parse(options.alljson)
     //把ddl和warn分开，分为date和time
     var ddl = task.fDeadline.split(' ')
     var warn = task.fWarnTime.split(' ')

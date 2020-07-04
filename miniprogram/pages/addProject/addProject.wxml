@@ -1,7 +1,16 @@
 <!--pages/addProject/addProject.wxml-->
 <!-- 论文模板 -->
 <view wx:if="{{name=='paper'}}">
-<!-- 描述 -->
+  <!-- 输入项目名 -->
+  <view class="weui-cells__title">项目名</view>
+  <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_active">
+          <view class="weui-cell__bd">
+              <input class="weui-input" bindinput="projectinput" placeholder="项目名称" />
+          </view>
+      </view>
+  </view>
+  <!-- 描述 -->
   <view class="weui-cells">
     <view class="weui-cell">
       <view class="weui-cell__bd">
@@ -26,7 +35,16 @@
 
 <!-- 读书计划模板 -->
 <view wx:elif="{{name=='book'}}">
-<!-- 描述 -->
+  <!-- 输入项目名 -->
+  <view class="weui-cells__title">项目名</view>
+  <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_active">
+          <view class="weui-cell__bd">
+              <input class="weui-input" bindinput="projectinput" placeholder="项目名称" />
+          </view>
+      </view>
+  </view>
+  <!-- 描述 -->
   <view class="weui-cells">
     <view class="weui-cell">
       <view class="weui-cell__bd">
@@ -56,7 +74,7 @@
   <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell weui-cell_active">
           <view class="weui-cell__bd">
-              <input class="weui-input" placeholder="项目名称" />
+              <input class="weui-input" bindinput="projectinput" placeholder="项目名称" />
           </view>
       </view>
   </view>

@@ -4,7 +4,7 @@
   <view class='titletext'>待做清单</view>
 </view>
 
-<view class="weui-form-preview weui-cell_active" wx:for='{{tasks}}' wx:key='index'
+<view class="weui-form-preview weui-cell_active" wx:for='{{all}}' wx:key='index'
   bindtap="toTaskDetail" 
   data-index='{{index}}'
   >
@@ -12,15 +12,30 @@
   <view class="weui-form-preview__bd">
     <view class="weui-form-preview__item">
       <label class="weui-form-preview__label">任务</label>
-      <text class="weui-form-preview__value">{{item.fTask}}</text>
+      <view wx:if ='{{item.identity=="task"}}'>
+        <text class="weui-form-preview__value">{{item.fTask}}</text>
+      </view>
+      <view wx:elif='{{item.identity=="project"}}'>
+        <text class="weui-form-preview__value">{{item.fProject}}</text>
+      </view>
     </view>
     <view class="weui-form-preview__item">
       <label class="weui-form-preview__label">截止日期</label>
-      <text class="weui-form-preview__value">{{item.fDeadline}}</text>
+      <view wx:if ='{{item.identity=="task"}}'>
+        <text class="weui-form-preview__value">{{item.fDeadline}}</text>
+      </view>
+      <view wx:elif='{{item.identity=="project"}}'>
+        <text class="weui-form-preview__value">{{item.fDeadline[item.fTaskNum]}}</text>
+      </view>
     </view>
     <view class="weui-form-preview__item">
       <label class="weui-form-preview__label">提醒日期</label>
-      <text class="weui-form-preview__value">{{item.fWarnTime}}</text>
+      <view wx:if ='{{item.identity=="task"}}'>
+        <text class="weui-form-preview__value">{{item.fWarnTime}}</text>
+      </view>
+      <view wx:elif='{{item.identity=="project"}}'>
+        <text class="weui-form-preview__value">{{item.fWarnTime[item.fTaskNum]}}</text>
+      </view>
     </view>
   </view>
 </view>

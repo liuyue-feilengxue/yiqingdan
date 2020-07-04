@@ -6,15 +6,17 @@ Page({
    */
   data: {
     //存任务
-    tasks:[]
+    tasks:[],
+    projects:[],
+    all:[],
   },
   //转到任务详情
   toTaskDetail(e){
-    var tasks = this.data.tasks
+    var all = this.data.all
     var index = e.currentTarget.dataset.index
-    var taskjson = JSON.stringify(tasks[index])
+    var alljson = JSON.stringify(all[index])
     wx.navigateTo({
-      url: '/pages/taskDetail/taskDetail?taskjson='+taskjson,
+      url: '/pages/taskDetail/taskDetail?alljson='+alljson,
     })
   },
   /**
@@ -28,6 +30,7 @@ Page({
       wx.showModal({
         //到时候把取消给删掉，必须要登录才能使用我们小程序
         title:"您尚未登录",
+        
         success(res){
           if (res.confirm){
             wx.switchTab({
@@ -55,6 +58,10 @@ Page({
     const that = this
     //任务
     var tasks=[]
+    //项目
+    var projects = []
+    //全部
+    var all=[]
     if (ui){
       //如果已经登录
       wx.cloud.callFunction({
@@ -68,46 +75,50 @@ Page({
         for(var i=0;i<res.result.data.length;i++){
           //未完成
           if (!res.result.data[i].fFinish){
-            tasks.push(res.result.data[i])
+            //加入身份，区分是task还是project
+            var task = res.result.data[i]
+            task['identity'] = 'task'
+            tasks.push(task)
           }
         }
-        //排序函数
-        var compare = function(obj1,obj2){
-          var value1 = obj1.fUrgency
-          var value2 = obj2.fUrgency
-          if (value1<value2){
-            return -1;
+        //查找project
+        wx.cloud.callFunction({
+          name:'getTProject',
+          data:{
+            openid:ui.openid
           }
-          else if (value1>value2){
-            return 1;
-          }
-          else{
-            var ddl1 = obj1.fDeadline
-            var ddl2 = obj2.fDeadline
-            if (ddl1 < ddl2) {
-              return -1;
-            } else if (ddl1 > ddl2) {
-                return 1;
-            } else {
-                var warn1 = obj1.fWarnTime
-                var warn2 = obj2.fWarnTime
-                if (warn1<warn2){
-                  return -1;
-                }
-                else if (warn1>warn2){
-                  return 1;
-                }
-                else{
-                  return 0;
-                }
+        }).then(res=>{
+          for(var i=0;i<res.result.data.length;i++){
+            //未完成
+            var finish = res.result.data[i].fFinish
+            var flag = 0
+            //是否所有项目中的任务都完成
+            for (var j=0;j<finish.length;j++){
+              //如果该任务完成，flag+1
+              if (finish[i]){
+                flag++
               }
-          }   
-        }
-        console.log(tasks.sort(compare))
-        that.setData({
-          tasks:tasks
+            }
+            //有没做完的
+            if (flag!=finish.length){
+              var project = res.result.data[i]
+              //身份
+              project['identity'] = 'project'
+              projects.push(project)
+            }
+          }
+          //把project和tasks合并起来(concat(project))
+          all=tasks.concat(projects)
+          //排序
+          all.sort(this.compare)
+          that.setData({
+            tasks:tasks,
+            projects:projects,
+            all:all
+          })
         })
       })
+      
     }
     //未登录
     else{
@@ -127,7 +138,38 @@ Page({
       })
     }
   },
-
+  //排序函数
+  compare:function(obj1,obj2){
+    var value1 = obj1.fUrgency
+    var value2 = obj2.fUrgency
+    if (value1<value2){
+      return -1;
+    }
+    else if (value1>value2){
+      return 1;
+    }
+    else{
+      var ddl1 = obj1.fDeadline
+      var ddl2 = obj2.fDeadline
+      if (ddl1 < ddl2) {
+        return -1;
+      } else if (ddl1 > ddl2) {
+          return 1;
+      } else {
+          var warn1 = obj1.fWarnTime
+          var warn2 = obj2.fWarnTime
+          if (warn1<warn2){
+            return -1;
+          }
+          else if (warn1>warn2){
+            return 1;
+          }
+          else{
+            return 0;
+          }
+        }
+    }   
+  },
   /**
    * 生命周期函数--监听页面隐藏
    */

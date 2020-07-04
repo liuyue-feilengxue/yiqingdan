@@ -1,18 +1,31 @@
 // pages/addProject/addProject.js
+const db = wx.cloud.database()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    //哪个模板
     name:'',
-    tasks:[],
-    time:[],
     // 是不是第一次跳转页面（防止把数据清空）
     isFirst : true,
     
     array1: ['高优先级', '中优先级', '低优先级','无优先级'],
     value1: 0,
+    //项目名
+    projectname:'',
+    //任务名
+    tasks:[],
+    //ddl与warn的两个时间数组
+    time:[],
+
+  },
+  //projectname输入
+  projectinput(e){
+    this.setData({
+      projectname:e.detail.value
+    })
   },
   //选择ddltime和warntime
   toSelectDate(e){
@@ -61,28 +74,59 @@ Page({
     var time = this.data.time;
     //数组为空
     if (time.length == 0){
-      return false;
+      return -1;
     }
     // 里面有对象为空
     for (var i=0;i<time.length;i++){
       if (Object.keys(time[i]).length == 0){
-        return false;
+        return -1;
       }
     }
-    return true
+    if (this.data.projectname==''){
+      return 1;
+    }
+    return 0
   },
   finish(){
-    //如果没填好
-    console.log(this.data.time)
-    if(!this.isFillIn()){
+    //如果时间没设置好
+    if(this.isFillIn()==-1){
       wx.showModal({
         showCancel: false,
         title : '你仍有任务未设置提醒时间或截止时间'
       })
     }
+    //项目名没写
+    else if(this.isFillIn()==1){
+      wx.showModal({
+        showCancel: false,
+        title : '你仍未设置项目名'
+      })
+    }
     else{
       // 传递到数据库中
-
+      //把time中的ddl和warn分离开
+      var ddl=[]
+      var warn=[]
+      var finish=[]
+      for(var i=0;i<this.data.time.length;i++){
+        ddl.push(this.data.time[i].ddl)
+        warn.push(this.data.time[i].warn)
+        finish.push(false)
+      }
+      //数据库
+      db.collection("t_project").add({
+        data:{
+          fProject:this.data.projectname,
+          fDeadline:ddl,
+          fWarnTime:warn,
+          fTaskNum:0,
+          fTask:this.data.tasks,
+          fUrgency:this.data.value1,
+          fFinish:finish,
+          //系统自带openid无法查找
+          openid:wx.getStorageSync('userinfo').openid
+        }
+      })
       wx.navigateBack()//关闭当前页面，返回主页，实际不要用back，现在暂时用
     }
     

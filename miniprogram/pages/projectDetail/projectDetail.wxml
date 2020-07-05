@@ -1,0 +1,51 @@
+<!--pages/projectDetail/projectDetail.wxml-->
+<view class="weui-cells__title">项目名</view>
+<view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_active">
+        <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="项目名称" bindinput="projectinput" value='{{projectname}}'/>
+        </view>
+    </view>
+</view>
+
+<view wx:if="{{allunfinish}}" class="unfinishtitle">
+  <view class='unfinishtitletext'>未完成</view>
+</view>
+
+<view wx:if="{{allunfinish}}" class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_example weui-cell_active" bindtap="UnFinishTask"
+    wx:for='{{unfinishtasks}}' wx:key='index' data-index="{{index}}" 
+    >
+        <view class="weui-cell__hd">
+          <image src="../../image/unfinished.png" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+        </view>
+        <view class="weui-cell__bd">{{item.fTask}}</view>
+        <view class="weui-cell__ft">{{item.fDeadline}}</view>
+    </view>
+</view>
+
+<view wx:if="{{allfinish}}" class="finishtitle">
+  <view class='finishtitletext'>已完成</view>
+</view>
+
+<view wx:if="{{allfinish}}" class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_example weui-cell_active" bindtap="FinishTask"
+    wx:for='{{finishtasks}}' data-index="{{index}}"  wx:key='index'
+    >
+    
+        <view class="weui-cell__hd">
+          <image src="../../image/finished.png" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+        </view>
+        <view class="weui-cell__bd" style="color:#c9c9c9">{{item.fTask}}</view>
+        <view class="weui-cell__ft" style="color:#c9c9c9">{{item.fDeadline}}</view>
+    </view>
+</view>
+
+<view class="weui-flex">
+  <view class="weui-flex__item">
+    <button class="weui-btn weui-btn_primary" bindtap="finish">确定</button>
+  </view>
+  <view class="weui-flex__item">
+    <button class="weui-btn weui-btn_primary" style="background-color:red" bindtap="delete">删除</button>
+  </view>
+</view>

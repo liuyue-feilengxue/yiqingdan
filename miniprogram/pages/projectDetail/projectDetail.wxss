@@ -1,0 +1,64 @@
+/* pages/projectDetail/projectDetail.wxss */
+@import '../../wxss/style/weui.wxss';
+
+.weui-cells__title{
+  color: #34D0BA;
+  font-size: large;
+}
+
+.unfinishtitle{
+  height: 80rpx;
+  background-color: white;
+}
+
+.unfinishtitletext{
+  color: #34D0BA;
+  display: flex;
+  align-items: center;
+  margin-left: 40rpx;
+  margin-top: 15rpx;
+  font-size: large;
+}
+
+.finishtitle{
+  height: 80rpx;
+  background-color: #34D0BA;
+}
+
+.finishtitletext{
+  color: white;
+  display: flex;
+  align-items: center;
+  margin-left: 40rpx;
+  margin-top: 15rpx;
+  font-size: large;
+}
+
+.weui-cells{
+  margin-bottom: 20rpx;
+}
+
+.nopages{
+  margin-top: 200rpx;
+}
+
+.selectdate{
+  display: flex;
+}
+
+.weui-btn{
+  background-color: #34D0BA;
+  margin-right: 10rpx;
+  margin-left: 10rpx;
+  color: white;
+}
+
+.weui-form__opr-area{
+  display: block;
+  margin: 0 auto;
+  margin-top: 50rpx;
+}
+
+.weui-flex{
+  margin-block: 50rpx;
+}

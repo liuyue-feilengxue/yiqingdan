@@ -82,6 +82,14 @@
 					"id": -1,
 					"name": "pages/taskDetail/taskDetail",
 					"pathName": "pages/taskDetail/taskDetail",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/projectDetail/projectDetail",
+					"pathName": "pages/projectDetail/projectDetail",
+					"query": "",
 					"scene": null
 				}
 			]

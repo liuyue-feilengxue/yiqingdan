@@ -10,14 +10,23 @@ Page({
     projects:[],
     all:[],
   },
-  //转到任务详情
+  //转到任务（项目）详情
   toTaskDetail(e){
     var all = this.data.all
     var index = e.currentTarget.dataset.index
     var alljson = JSON.stringify(all[index])
-    wx.navigateTo({
-      url: '/pages/taskDetail/taskDetail?alljson='+alljson,
-    })
+    //任务详情
+    if (all[index].identity=='task'){
+      wx.navigateTo({
+        url: '/pages/taskDetail/taskDetail?alljson='+alljson,
+      })
+    }
+    //项目详情
+    else if(all[index].identity=='project'){
+      wx.navigateTo({
+        url: '/pages/projectDetail/projectDetail?alljson='+alljson,
+      })
+    }
   },
   /**
    * 生命周期函数--监听页面加载
@@ -30,7 +39,7 @@ Page({
       wx.showModal({
         //到时候把取消给删掉，必须要登录才能使用我们小程序
         title:"您尚未登录",
-        
+        showCancel:false,
         success(res){
           if (res.confirm){
             wx.switchTab({
@@ -95,7 +104,7 @@ Page({
             //是否所有项目中的任务都完成
             for (var j=0;j<finish.length;j++){
               //如果该任务完成，flag+1
-              if (finish[i]){
+              if (finish[j]){
                 flag++
               }
             }
@@ -128,6 +137,7 @@ Page({
       wx.showModal({
         //到时候把取消给删掉，必须要登录才能使用我们小程序
         title:"您尚未登录",
+        showCancel:false,
         success(res){
           if (res.confirm){
             wx.switchTab({

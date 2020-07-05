@@ -92,5 +92,3 @@
     <button class="weui-btn weui-btn_primary" style="background-color:red" bindtap="delete">删除</button>
   </view>
 </view>
-
-

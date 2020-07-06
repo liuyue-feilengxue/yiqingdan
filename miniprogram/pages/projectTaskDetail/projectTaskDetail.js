@@ -13,7 +13,10 @@ Page({
     warntime:'',
     warn:'',
     isFinish:false,
-    
+    //这个index是unfinishtask或者finishtask排在哪个位置
+    index:0,
+    //是未完成任务的还是完成任务的
+    father:''
   },
 
   //任务名修改
@@ -58,11 +61,20 @@ Page({
   },
   //完成
   finish(){
+    wx.showLoading({
+      title: '加载中',
+    })
     this.setData({
       ddl:this.data.ddldate+' '+this.data.ddltime,
       warn:this.data.warndate+' '+this.data.warntime,
     })
+    const pages = getCurrentPages()
+    const lastpage = pages[pages.length - 2]
+    lastpage.setData({
 
+    })
+    wx.hideLoading()
+    wx.navigateBack()
   },
   /**
    * 生命周期函数--监听页面加载
@@ -78,7 +90,8 @@ Page({
       ddltime:ddl[1],
       warndate:warn[0],
       warntime:warn[1],
-      isFinish:task.fFinish
+      isFinish:task.fFinish,
+      index:options.index
     })
   },
   

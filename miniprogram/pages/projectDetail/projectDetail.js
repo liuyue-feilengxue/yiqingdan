@@ -25,16 +25,51 @@ Page({
   },
   //完成的任务修改（想搞一个projectTaskDetail）*
   FinishTask(e){
-
+    var index = e.currentTarget.dataset.index
+    const that = this
+    // console.log(this.data.finishtasks[index])
+    wx.showModal({
+      title:'该任务是否尚未完成',
+      success(res){
+        if (res.confirm){
+          // 总队列里的位置
+          var i = that.data.finishtasks[index].index
+          var project = that.data.project
+          project.fFinish[i] = false
+          that.setData({
+            project:project
+          })
+          that.refresh(project)
+          // console.log(that.data.project)
+        }
+      }
+    })
   },
-  //未完成的任务修改*
+  //未完成的任务修改
   UnFinishTask(e){
     var index = e.currentTarget.dataset.index
-    console.log(this.data.unfinishtasks[index])
-    var taskjson = JSON.stringify(this.data.unfinishtasks[index])
-    wx.navigateTo({
-      url: '/pages/projectTaskDetail/projectTaskDetail?taskjson=' + taskjson+'index='+index,
+    const that = this
+    // console.log(this.data.unfinishtasks[index])
+    wx.showModal({
+      title:'该任务是否完成',
+      success(res){
+        if (res.confirm){
+          // 总队列里的位置
+          var i = that.data.unfinishtasks[index].index
+          var project = that.data.project
+          project.fFinish[i] = true
+          that.setData({
+            project:project
+          })
+          that.refresh(project)
+          // console.log(that.data.project)
+        }
+      }
     })
+    // var taskjson = JSON.stringify(this.data.unfinishtasks[index])
+    // wx.navigateTo({
+    //   url: '/pages/projectTaskDetail/projectTaskDetail?taskjson=' + taskjson+'&index='+index+'&father=unfinish',
+    // })
   },
   //删除项目
   delete(){
@@ -55,16 +90,12 @@ Page({
   finish(){
 
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    var project = JSON.parse(options.alljson)
+  //刷新
+  refresh(project){
     //未完成任务
     var unfinishtasks = []
     //完成任务
     var finishtasks = []
-    console.log(project)
     //把项目内的任务分为完成与未完成
     for (var i=0;i<project.fTask.length;i++){
       //如果未完成
@@ -74,6 +105,8 @@ Page({
         obj['fFinish'] = project.fFinish[i]
         obj['fTask'] = project.fTask[i]
         obj['fWarnTime'] = project.fWarnTime[i]
+        //加一个编号
+        obj['index'] = i
         unfinishtasks.push(obj)
       }
       //完成
@@ -83,9 +116,12 @@ Page({
         obj['fFinish'] = project.fFinish[i]
         obj['fTask'] = project.fTask[i]
         obj['fWarnTime'] = project.fWarnTime[i]
+        obj['index'] = i
         finishtasks.push(obj)
       }
     }
+    console.log(finishtasks)
+    console.log(unfinishtasks)
     //没有 完成任务的
     if (finishtasks.length==0){
       this.setData({
@@ -93,17 +129,26 @@ Page({
       })
     }
     //没有 没完成任务
-    else if (finishtasks.length==0){
+    else if (unfinishtasks.length==0){
       this.setData({
         allunfinish : false
       })
     }
+    //存数据
     this.setData({
       projectname:project.fProject,
       finishtasks:finishtasks,
       unfinishtasks:unfinishtasks,
       project:project
     })
+
+  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    var project = JSON.parse(options.alljson)
+    this.refresh(project)
   },
 
   /**

@@ -262,6 +262,10 @@ Page({
       confirmColor:"#34D0BA",
       success(res){
         if (res.confirm){
+          wx.showLoading({
+            title: '加载中',
+            mask:true
+          })
           //点击确定键，就把该项从未完成变到完成
           //首先是数据库要改变，其次是调用setTodayTask方法。(unfinishtasks删除该项，finishtasks增加该项)
           db.collection('t_task').doc(task._id).update({
@@ -270,6 +274,7 @@ Page({
             }
           }).then(res=>{
             that.setTodayTask()
+            wx.hideLoading()
           })
         }
       }
@@ -286,12 +291,17 @@ Page({
       confirmColor:"#34D0BA",
       success(res){
         if (res.confirm){
+          wx.showLoading({
+            title: '加载中',
+            mask:true
+          })
           db.collection('t_task').doc(task._id).update({
             data:{
               fFinish:false
             }
           }).then(res=>{
             that.setTodayTask()
+            wx.hideLoading()
           })
         }
       }

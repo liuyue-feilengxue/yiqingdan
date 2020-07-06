@@ -16,6 +16,8 @@ Page({
     unfinishtasks:[],
     //完成任务
     finishtasks:[],
+    array1: ['高优先级', '中优先级', '低优先级','无优先级'],
+    value1: 0,
   },
   //修改项目名
   projectinput(e){
@@ -23,7 +25,7 @@ Page({
       projectname:e.detail.value
     })
   },
-  //完成的任务修改（想搞一个projectTaskDetail）*
+  //完成的任务修改（想搞一个projectTaskDetail，用于修改每个任务的详细情况）
   FinishTask(e){
     var index = e.currentTarget.dataset.index
     const that = this
@@ -62,7 +64,6 @@ Page({
             project:project
           })
           that.refresh(project)
-          // console.log(that.data.project)
         }
       }
     })
@@ -71,24 +72,71 @@ Page({
     //   url: '/pages/projectTaskDetail/projectTaskDetail?taskjson=' + taskjson+'&index='+index+'&father=unfinish',
     // })
   },
+  //修改优先级
+  bindPicker1Change: function(e) {
+    var value = Number(e.detail.value)
+    var project = this.data.project
+    project.fUrgency = value
+    this.setData({
+        value1: value,
+        project:project
+    })
+  },
   //删除项目
   delete(){
     const that = this
     wx.showModal({
       title:"是否确定要删除该项目",
       success(res){
+        wx.showLoading({
+          title: '加载中',
+          mask:true
+        })
         if (res.confirm){
           var project = that.data.project
           db.collection("t_project").doc(project._id).remove().then(res=>{
+            wx.hideLoading()
             wx.navigateBack()
           })
         }
       }
     })
   },
-  //确定*
+  //确定
   finish(){
-
+    const that = this
+    const project = that.data.project
+    //修改fTaskNum，
+    for (var i = 0;i<project.fTask.length;i++){
+      if (project.fFinish[i]==false){
+        project.fTaskNum = i
+        that.setData({
+          project:project
+        })
+      }
+    }
+    wx.showModal({
+      title:"请问是否确定需要修改",
+      success(res){
+        if (res.confirm){
+          wx.showLoading({
+            title: '加载中',
+            mask:true
+          })
+          console.log(that.data.project)
+          db.collection("t_project").doc(that.data.project._id).update({
+            data:{
+              fFinish:that.data.project.fFinish,
+              fTaskNum:that.data.project.fTaskNum,
+              fUrgency:that.data.project.fUrgency
+            }
+          }).then(res=>{
+            wx.hideLoading()
+            wx.navigateBack()
+          })
+        }
+      }
+    })
   },
   //刷新
   refresh(project){
@@ -120,8 +168,11 @@ Page({
         finishtasks.push(obj)
       }
     }
-    console.log(finishtasks)
-    console.log(unfinishtasks)
+    //**关键（把这两项初始化）**//
+    this.setData({
+      allfinish:true,
+      allunfinish:true
+    })
     //没有 完成任务的
     if (finishtasks.length==0){
       this.setData({
@@ -129,7 +180,7 @@ Page({
       })
     }
     //没有 没完成任务
-    else if (unfinishtasks.length==0){
+    if (unfinishtasks.length==0){
       this.setData({
         allunfinish : false
       })
@@ -139,9 +190,9 @@ Page({
       projectname:project.fProject,
       finishtasks:finishtasks,
       unfinishtasks:unfinishtasks,
+      value1:project.fUrgency,
       project:project
     })
-
   },
   /**
    * 生命周期函数--监听页面加载

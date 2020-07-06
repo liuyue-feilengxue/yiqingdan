@@ -11,7 +11,12 @@
 
   <view class="weui-form-preview__bd">
     <view class="weui-form-preview__item">
-      <label class="weui-form-preview__label">任务</label>
+      <view wx:if='{{item.identity=="task"}}'>
+        <label class="weui-form-preview__label">任务</label>
+      </view>
+      <view wx:elif = '{{item.identity=="project"}}'>
+        <label class="weui-form-preview__label">项目</label>
+      </view>
       <view wx:if ='{{item.identity=="task"}}'>
         <text class="weui-form-preview__value">{{item.fTask}}</text>
       </view>

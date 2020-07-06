@@ -69,6 +69,10 @@ Page({
   },
   //点击确定
   finish(){
+    wx.showLoading({
+      title: '加载中',
+      mask:true
+    })
     this.setData({
       ddl:this.data.ddldate+' '+this.data.ddltime,
       warn:this.data.warndate+' '+this.data.warntime,
@@ -84,6 +88,7 @@ Page({
       }
     }).then(res=>{
       console.log(res)
+      wx.hideLoading()
       wx.navigateBack()
     })
   },
@@ -93,9 +98,14 @@ Page({
     wx.showModal({
       title:"确定要删除本任务吗？",
       success(res){
+        wx.showLoading({
+          title: '加载中',
+          mask:true
+        })
         if (res.confirm){
           db.collection("t_task").doc(that.data._id).remove().then(res=>{
             console.log(res)
+            wx.hideLoading()
             wx.navigateBack()
           })
         }

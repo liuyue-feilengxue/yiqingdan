@@ -1,4 +1,5 @@
 // pages/projectDetail/projectDetail.js
+const db = wx.cloud.database()
 Page({
 
   /**
@@ -7,6 +8,8 @@ Page({
   data: {
     allunfinish:true,
     allfinish:true,
+    //整个项目
+    project:{},
     //项目名
     projectname:'',
     //未完成任务
@@ -20,12 +23,36 @@ Page({
       projectname:e.detail.value
     })
   },
-  //完成的任务修改（想搞一个projectTaskDetail）
+  //完成的任务修改（想搞一个projectTaskDetail）*
   FinishTask(e){
 
   },
-  //未完成的任务修改
-  UnFinishTask(){
+  //未完成的任务修改*
+  UnFinishTask(e){
+    var index = e.currentTarget.dataset.index
+    console.log(this.data.unfinishtasks[index])
+    var taskjson = JSON.stringify(this.data.unfinishtasks[index])
+    wx.navigateTo({
+      url: '/pages/projectTaskDetail/projectTaskDetail?taskjson=' + taskjson+'index='+index,
+    })
+  },
+  //删除项目
+  delete(){
+    const that = this
+    wx.showModal({
+      title:"是否确定要删除该项目",
+      success(res){
+        if (res.confirm){
+          var project = that.data.project
+          db.collection("t_project").doc(project._id).remove().then(res=>{
+            wx.navigateBack()
+          })
+        }
+      }
+    })
+  },
+  //确定*
+  finish(){
 
   },
   /**
@@ -75,6 +102,7 @@ Page({
       projectname:project.fProject,
       finishtasks:finishtasks,
       unfinishtasks:unfinishtasks,
+      project:project
     })
   },
 

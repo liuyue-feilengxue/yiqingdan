@@ -12,7 +12,8 @@
     "pages/addProject/addProject",
     "pages/projectTimeSelect/projectTimeSelect",
     "pages/taskDetail/taskDetail",
-    "pages/projectDetail/projectDetail"
+    "pages/projectDetail/projectDetail",
+    "pages/projectTaskDetail/projectTaskDetail"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

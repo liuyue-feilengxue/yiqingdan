@@ -89,6 +89,7 @@ Page({
   },
   finish(){
     //如果时间没设置好
+    const that = this
     if(this.isFillIn()==-1){
       wx.showModal({
         showCancel: false,
@@ -103,31 +104,42 @@ Page({
       })
     }
     else{
-      // 传递到数据库中
-      //把time中的ddl和warn分离开
-      var ddl=[]
-      var warn=[]
-      var finish=[]
-      for(var i=0;i<this.data.time.length;i++){
-        ddl.push(this.data.time[i].ddl)
-        warn.push(this.data.time[i].warn)
-        finish.push(false)
-      }
-      //数据库
-      db.collection("t_project").add({
-        data:{
-          fProject:this.data.projectname,
-          fDeadline:ddl,
-          fWarnTime:warn,
-          fTaskNum:0,
-          fTask:this.data.tasks,
-          fUrgency:this.data.value1,
-          fFinish:finish,
-          //系统自带openid无法查找
-          openid:wx.getStorageSync('userinfo').openid
+      wx.showModal({
+        title:"项目创建后任务不可增加，请确定",
+        success(res){
+          if (res.confirm){
+            // 传递到数据库中
+            //把time中的ddl和warn分离开
+            var ddl=[]
+            var warn=[]
+            var finish=[]
+            for(var i=0;i<that.data.time.length;i++){
+              ddl.push(that.data.time[i].ddl)
+              warn.push(that.data.time[i].warn)
+              finish.push(false)
+            }
+            //数据库
+            db.collection("t_project").add({
+              data:{
+                fProject:that.data.projectname,
+                fDeadline:ddl,
+                fWarnTime:warn,
+                fTaskNum:0,
+                fTask:that.data.tasks,
+                fUrgency:that.data.value1,
+                fFinish:finish,
+                //系统自带openid无法查找
+                openid:wx.getStorageSync('userinfo').openid
+              }
+            })
+            //关闭当前页面，返回主页
+            wx.switchTab({
+              url: '/pages/main/main',
+            })
+          }
         }
       })
-      wx.navigateBack()//关闭当前页面，返回主页，实际不要用back，现在暂时用
+      
     }
     
   },

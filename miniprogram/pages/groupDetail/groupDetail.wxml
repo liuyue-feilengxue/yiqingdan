@@ -1,64 +1,67 @@
 <!--pages/groupDetail/groupDetail.wxml-->
-<view class="weui-cells">
+
+<view class="weui-cells" bindtap="changeGroupAvatar">
   <view class="weui-cell weui-cell_active">
     <view class="weui-cell__hd" style="position: relative; margin-right: 10px;">
-      <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
+    <!-- image地址可改 -->
+      <view wx:if='{{!fileID}}'> 
+        <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
+      </view>
+      <view wx:else>
+        <image src="{{fileID}}" style="width: 80rpx; display: block;"></image>
+      </view>
     </view>
-
     <view class="weui-cell__bd">
       <view style="font-size:36rpx;margin-left:30rpx;">群名称</view>
     </view>
-
   </view>
 </view>
 
-<view class="weui-cells groupmember">
-  <view class="weui-cell weui-cell_active weui-cell_access">
+<view class="weui-cells groupmember  weui-cell_active">
+  <view class="weui-cell weui-cell_access">
     <view class="weui-cell__bd">群成员</view>
     <view class="weui-cell__ft" style="font-size: 0;">
       <text style="vertical-align: middle; font-size: 17px;">共30人</text>
     </view>
   </view>
-  <!-- 群成员头像 -->
-  <view class="weui-flex">
+  <!-- 群成员头像与名字(只取前3个字) -->
+  <view class="weui-flex" style="margin-left:40rpx;">
     <view class="weui-flex__item">
       <view class="placeholder">
         <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
+        <view>成员1</view>
       </view>
     </view>
     <view class="weui-flex__item">
       <view class="placeholder">
         <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
+        <view>成员2</view>
       </view>
     </view>
     <view class="weui-flex__item">
       <view class="placeholder">
         <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
+        <view>成员3</view>
       </view>
     </view>
     <view class="weui-flex__item">
       <view class="placeholder">
         <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
+        <view>成员4</view>
       </view>
     </view>
     <view class="weui-flex__item">
       <view class="placeholder">
         <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
+        <view>成员5</view>
       </view>
     </view>
     <view class="weui-flex__item">
       <view class="placeholder">
         <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
+        <view>成员6</view>
       </view>
     </view>
-	</view>
-  <view class="weui-flex">
-    <view class="weui-flex__item"><view class="placeholder">weui</view></view>
-    <view class="weui-flex__item"><view class="placeholder">weui</view></view>
-    <view class="weui-flex__item"><view class="placeholder">weui</view></view>
-    <view class="weui-flex__item"><view class="placeholder">weui</view></view>
-    <view class="weui-flex__item"><view class="placeholder">weui</view></view>
-    <view class="weui-flex__item"><view class="placeholder">weui</view></view>
 	</view>
 </view>
 

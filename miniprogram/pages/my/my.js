@@ -9,6 +9,7 @@ Page({
     userinfo:{},
     openid:""
   },
+  //登录
   onGotUserInfo(e){
     const that = this
     wx.showModal({
@@ -26,23 +27,25 @@ Page({
               //保存在缓存中
               that.data.userinfo.openid = that.data.openid
               wx.setStorageSync('userinfo', that.data.userinfo)
-              //在数据库中查找是否有userinfo（即查一下有没有这个用户）
+              //在数据库中 查找 是否有userinfo（即查一下有没有这个用户）
               wx.cloud.callFunction({
                 name:"getUserInfo",
                 //把userinfo传过去，如果有，就不用存入，没有就存入
                 data:{
-                  userInfo:that.data.userinfo
+                  userInfo:that.data.userinfo,
                 }
               }).then(res=>{
-                // console.log(res.errMsg)
-                if (res.errMsg=='cloud.callFunction:ok'){
+                console.log(res)
+                if (res.result.data.length==1){
                   //在数据库内存在这个人的信息
                 }else{
                   //数据库中没有这个人的信息
                   // 存入数据库
+                  var fGroup = []
                   db.collection("t_user").add({
                     data:{
-                      userInfo:that.data.userinfo
+                      userInfo:that.data.userinfo,
+                      fGroup:fGroup
                     }
                   }).then(res=>{
                     console.log(res)
@@ -59,7 +62,7 @@ Page({
     })
     
   },
-
+  //退出登录
   clearLogin(){
     const that = this;
     wx.showModal({

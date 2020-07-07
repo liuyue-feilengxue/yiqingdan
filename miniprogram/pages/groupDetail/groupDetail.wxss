@@ -1,0 +1,60 @@
+/* pages/groupDetail/groupDetail.wxss */
+@import '../../wxss/style/weui.wxss';
+
+image{
+  height: 80rpx;
+}
+.title{
+  background-color: white;
+  height: 80rpx;
+}
+
+.icon{
+  width: 50rpx;
+  height: 50rpx;
+  /* display: inline; */
+  margin-right: 30rpx;
+  margin-top: 15rpx;
+  float: right;
+}
+
+.plus{
+  width: 120rpx;
+  height: 120rpx;
+  position: fixed;
+  left: 600rpx;
+  bottom: 150rpx;
+}
+
+.weui-footer{
+  margin-top: 50rpx;
+}
+
+.weui-cells{
+  margin-top: 0;
+}
+
+.groupmember{
+  margin-top: 40rpx;
+}
+
+.other{
+  margin-top: 40rpx;
+}
+
+.weui-btn{
+  background-color: red;
+  margin-right: 10rpx;
+  margin-left: 10rpx;
+  color: white;
+}
+
+.weui-form__opr-area{
+  display: block;
+  margin: 0 auto;
+  margin-top: 50rpx;
+}
+
+.group-member-avatar{
+  
+}

@@ -1,0 +1,92 @@
+<!--pages/groupDetail/groupDetail.wxml-->
+<view class="weui-cells">
+  <view class="weui-cell weui-cell_active">
+    <view class="weui-cell__hd" style="position: relative; margin-right: 10px;">
+      <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
+    </view>
+
+    <view class="weui-cell__bd">
+      <view style="font-size:36rpx;margin-left:30rpx;">群名称</view>
+    </view>
+
+  </view>
+</view>
+
+<view class="weui-cells groupmember">
+  <view class="weui-cell weui-cell_active weui-cell_access">
+    <view class="weui-cell__bd">群成员</view>
+    <view class="weui-cell__ft" style="font-size: 0;">
+      <text style="vertical-align: middle; font-size: 17px;">共30人</text>
+    </view>
+  </view>
+  <!-- 群成员头像 -->
+  <view class="weui-flex">
+    <view class="weui-flex__item">
+      <view class="placeholder">
+        <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
+      </view>
+    </view>
+    <view class="weui-flex__item">
+      <view class="placeholder">
+        <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
+      </view>
+    </view>
+    <view class="weui-flex__item">
+      <view class="placeholder">
+        <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
+      </view>
+    </view>
+    <view class="weui-flex__item">
+      <view class="placeholder">
+        <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
+      </view>
+    </view>
+    <view class="weui-flex__item">
+      <view class="placeholder">
+        <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
+      </view>
+    </view>
+    <view class="weui-flex__item">
+      <view class="placeholder">
+        <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
+      </view>
+    </view>
+	</view>
+  <view class="weui-flex">
+    <view class="weui-flex__item"><view class="placeholder">weui</view></view>
+    <view class="weui-flex__item"><view class="placeholder">weui</view></view>
+    <view class="weui-flex__item"><view class="placeholder">weui</view></view>
+    <view class="weui-flex__item"><view class="placeholder">weui</view></view>
+    <view class="weui-flex__item"><view class="placeholder">weui</view></view>
+    <view class="weui-flex__item"><view class="placeholder">weui</view></view>
+	</view>
+</view>
+
+<view class="weui-cells other">
+  <view class="weui-cell weui-cell_active weui-cell_access">
+    <view class="weui-cell__bd">群名称</view>
+    <view class="weui-cell__ft" style="font-size: 0;">
+      <text style="vertical-align: middle; font-size: 17px;">群名</text>
+    </view>
+  </view>
+  <view class="weui-cell weui-cell_active weui-cell_access">
+    <view class="weui-cell__bd">群号</view>
+    <view class="weui-cell__ft" style="font-size: 0;">
+      <text style="vertical-align: middle; font-size: 17px;">123</text>
+    </view>
+  </view>
+  <view class="weui-cell weui-cell_active weui-cell_access">
+    <view class="weui-cell__bd">新建群任务</view>
+    <view class="weui-cell__ft" style="font-size: 0;">
+    </view>
+  </view>
+  <view class="weui-cell weui-cell_active weui-cell_access">
+    <view class="weui-cell__bd">查看群任务</view>
+    <view class="weui-cell__ft" style="font-size: 0;">
+    </view>
+  </view>
+</view>
+
+<view class="weui-form__opr-area ">
+	<button class="weui-btn weui-btn_primary" bindtap="finish">退出本群</button>
+</view>

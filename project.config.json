@@ -91,6 +91,12 @@
 					"pathName": "pages/projectDetail/projectDetail",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/groupDetail/groupDetail",
+					"pathName": "pages/groupDetail/groupDetail",
+					"scene": null
 				}
 			]
 		}

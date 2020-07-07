@@ -1,33 +1,18 @@
-// pages/group/group.js
+// pages/groupDetail/groupDetail.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    inputShowed: false,
-    inputVal: "",
-    showDialog: false,
+
   },
-  //搜索框
-  search(){
-    wx.navigateTo({
-      url: '/pages/searchGroup/searchGroup',
-    })
-  },
-  //点击群，前往群详情
-  toGroupDetail(e){
-    //点击的是第几个
-    var index = e.currentTarget.dataset.index
-    wx.navigateTo({
-      url: '/pages/groupDetail/groupDetail?index='+index,
-    })
-  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-   
+
   },
 
   /**
@@ -41,7 +26,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+
   },
 
   /**

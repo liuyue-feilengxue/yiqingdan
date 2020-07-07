@@ -4,7 +4,8 @@
   <image src="../../image/search.png" class="icon" bindtap="search"></image>
 </view>
 
-<view class="weui-cells" wx:for='{{10}}' wx:key='index'>
+<view class="weui-cells" wx:for='{{10}}' wx:key='index' 
+  bindtap="toGroupDetail" data-index="{{index}}">
   <view class="weui-cell weui-cell_active">
     <view class="weui-cell__hd" style="position: relative; margin-right: 10px;">
       <image src="../../image/group.png" style="width: 50px; display: block;"></image>

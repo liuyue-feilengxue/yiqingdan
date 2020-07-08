@@ -1,0 +1,66 @@
+<!--pages/groupMember/groupMember.wxml-->
+<view class="title">
+  <view class='titletext'>群管理</view>
+</view>
+
+<view class="weui-cells">
+  <view class="weui-cell weui-cell_active">
+    <view class="weui-cell__hd" style="position: relative; margin-right: 10px;">
+      <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
+    </view>
+    <view class="weui-cell__bd">
+      <view>群管理1</view>
+    </view>
+  </view>
+</view>
+
+<view class="title1">
+  <view class='titletext'>群成员</view>
+</view>
+
+<view class="weui-cells">
+  <view class="weui-cell" wx:for='{{5}}'>
+    <view class="weui-cell__hd" style="position: relative; margin-right: 10px;">
+      <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
+    </view>
+    <view class="weui-cell__bd">
+      <view>群成员{{index+1}}</view>
+    </view>
+    <button class="weui-btn weui-btn_primary" style="width:200rpx;">修改</button>
+    <!-- 下拉框 -->
+    <!-- <view class="weui-cells__group weui-cells__group_form">
+      <view class="weui-cells">
+        <view class="weui-cell weui-cell_active weui-cell_select">
+          <view class="weui-cell__bd pickcolor">
+            <picker bindchange="bindPicker1Change" range="{{array1}}">
+                <view class="weui-select">{{array1[value1]}}</view>
+            </picker>
+          </view>
+        </view>
+      </view>
+    </view> -->
+  </view>
+</view>
+
+<!-- <view class="page__bd">
+        <view class="weui-btn-area">
+            <a class="weui-btn weui-btn_default" bindtap="openIOS">iOS ActionSheet</a>
+            <a class="weui-btn weui-btn_default" bindtap="openAndroid">Android ActionSheet</a>
+        </view>
+    </view>
+    <view wx:if="{{showIOSDialog}}" class="fadeIn" bindtap="close">
+        <view class="weui-mask"></view>
+        <view class="weui-actionsheet weui-actionsheet_toggle">
+            <view class="weui-actionsheet__title">
+                <view class="weui-actionsheet__title-text">这是一个标题，可以为一行或者两行。</view>
+            </view>
+            <view class="weui-actionsheet__menu">
+                <view class="weui-actionsheet__cell">示例菜单</view>
+                <view class="weui-actionsheet__cell">示例菜单</view>
+                <view class="weui-actionsheet__cell weui-actionsheet__cell_warn">负向菜单</view>
+            </view>
+            <view class="weui-actionsheet__action">
+                <view class="weui-actionsheet__cell">取消</view>
+            </view>
+        </view>
+    </view> -->

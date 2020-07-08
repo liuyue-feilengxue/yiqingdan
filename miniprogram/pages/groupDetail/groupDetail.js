@@ -43,6 +43,12 @@ Page({
       }
     })
   },
+  //去群成员页面
+  toGroupMember(){
+    wx.navigateTo({
+      url: '/pages/groupMember/groupMember',
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

@@ -5,29 +5,177 @@ Page({
    * 页面的初始数据
    */
   data: {
-    unfinish:[{name:'历史作业',time:'20:00'}],
-    finish:[{name:'吃饭',time:'9:00'}]
+    //存任务
+    tasks:[],
+    projects:[],
+    all:[],
+    //是否有未完成的
+    unfinish:false,
+    //是否有完成的
+    finish:false
   },
-
+  //转到任务（项目）详情
+  toTaskDetail(e){
+    var all = this.data.all
+    var index = e.currentTarget.dataset.index
+    var alljson = JSON.stringify(all[index])
+    //任务详情
+    if (all[index].identity=='task'){
+      wx.navigateTo({
+        url: '/pages/taskDetail/taskDetail?alljson='+alljson,
+      })
+    }
+    //项目详情
+    else if(all[index].identity=='project'){
+      wx.navigateTo({
+        url: '/pages/projectDetail/projectDetail?alljson='+alljson,
+      })
+    }
+  },
   /**
    * 生命周期函数--监听页面加载
+   * 
    */
   onLoad: function (options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+    const ui=wx.getStorageSync('userinfo')
+    //如果没有登录
+    if(!ui){
+      wx.showModal({
+        //到时候把取消给删掉，必须要登录才能使用我们小程序
+        title:"您尚未登录",
+        showCancel:false,
+        success(res){
+          if (res.confirm){
+            wx.switchTab({
+              url: '/pages/my/my',
+            })
+          }
+        }
+      })
+    }
   },
 
   /**
    * 生命周期函数--监听页面显示
+   * 要到数据库取数据
    */
   onShow: function () {
-
+    const ui=wx.getStorageSync('userinfo')
+    const that = this
+    //任务
+    var tasks=[]
+    //项目
+    var projects = []
+    //全部
+    var all=[]
+    if (ui){
+      //如果已经登录
+      wx.cloud.callFunction({
+        name:"getTTask",
+        data:{
+          openid:ui.openid
+        }
+      }).then(res=>{
+        //data是数组，存的是整个数据库的东西
+        //看一下里面有没有已经完成的任务，若已经完成就不用出现
+        for(var i=0;i<res.result.data.length;i++){
+          //未完成
+          if (!res.result.data[i].fFinish){
+            //加入身份，区分是task还是project
+            var task = res.result.data[i]
+            task['identity'] = 'task'
+            tasks.push(task)
+          }
+        }
+        //查找project
+        wx.cloud.callFunction({
+          name:'getTProject',
+          data:{
+            openid:ui.openid
+          }
+        }).then(res=>{
+          for(var i=0;i<res.result.data.length;i++){
+            //未完成
+            var finish = res.result.data[i].fFinish
+            var flag = 0
+            //是否所有项目中的任务都完成
+            for (var j=0;j<finish.length;j++){
+              //如果该任务完成，flag+1
+              if (finish[j]){
+                flag++
+              }
+            }
+            //有没做完的
+            if (flag!=finish.length){
+              var project = res.result.data[i]
+              //身份
+              project['identity'] = 'project'
+              projects.push(project)
+            }
+          }
+          //把project和tasks合并起来(concat(project))
+          all=tasks.concat(projects)
+          //排序
+          all.sort(this.compare)
+          that.setData({
+            tasks:tasks,
+            projects:projects,
+            all:all
+          })
+        })
+      })
+      
+    }
+    //未登录
+    else{
+      that.setData({
+        tasks:[]
+      })
+      wx.showModal({
+        //到时候把取消给删掉，必须要登录才能使用我们小程序
+        title:"您尚未登录",
+        showCancel:false,
+        success(res){
+          if (res.confirm){
+            wx.switchTab({
+              url: '/pages/my/my',
+            })
+          }
+        }
+      })
+    }
+  },
+  //排序函数
+  compare:function(obj1,obj2){
+    var value1 = obj1.fUrgency
+    var value2 = obj2.fUrgency
+    if (value1<value2){
+      return -1;
+    }
+    else if (value1>value2){
+      return 1;
+    }
+    else{
+      var ddl1 = obj1.fDeadline
+      var ddl2 = obj2.fDeadline
+      if (ddl1 < ddl2) {
+        return -1;
+      } else if (ddl1 > ddl2) {
+          return 1;
+      } else {
+          var warn1 = obj1.fWarnTime
+          var warn2 = obj2.fWarnTime
+          if (warn1<warn2){
+            return -1;
+          }
+          else if (warn1>warn2){
+            return 1;
+          }
+          else{
+            return 0;
+          }
+        }
+    }   
   },
 
   /**

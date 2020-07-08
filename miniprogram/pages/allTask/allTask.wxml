@@ -1,31 +1,56 @@
 <!--pages/allTask/allTask.wxml-->
-<!-- 任务栏 -->
-<view wx:if="!{{allfinish}}" class="unfinishtitle">
-  <view class='unfinishtitletext'>未完成</view>
+
+<view class="title">
+  <view class='titletext'>未完成</view>
 </view>
 
-<view class="weui-cells weui-cells_after-title">
-    <view class="weui-cell weui-cell_example weui-cell_active"
-     wx:for='{{unfinish}}' wx:key='index'>
-        <view class="weui-cell__hd">
-            <image src="../../image/unfinished.png" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
-        </view>
-        <view class="weui-cell__bd">{{item.name}}</view>
-        <view class="weui-cell__ft">{{item.time}}</view>
+<view class="weui-form-preview weui-cell_active" wx:for='{{all}}' wx:key='index'
+  bindtap="toTaskDetail" 
+  data-index='{{index}}'
+  >
+
+  <view class="weui-form-preview__bd">
+    <view class="weui-form-preview__item">
+      <view wx:if='{{item.identity=="task"}}'>
+        <label class="weui-form-preview__label">任务</label>
+      </view>
+      <view wx:elif = '{{item.identity=="project"}}'>
+        <label class="weui-form-preview__label">项目</label>
+      </view>
+      <view wx:if ='{{item.identity=="task"}}'>
+        <text class="weui-form-preview__value">{{item.fTask}}</text>
+      </view>
+      <view wx:elif='{{item.identity=="project"}}'>
+        <text class="weui-form-preview__value">{{item.fProject}}</text>
+      </view>
     </view>
-</view>
-
-<view wx:if="!{{allunfinish}}" class="finishtitle">
-  <view class='finishtitletext'>已完成</view>
-</view>
-
-<view class="weui-cells weui-cells_after-title">
-    <view class="weui-cell weui-cell_example weui-cell_active" 
-    wx:for='{{finish}}' wx:key='index'>
-        <view class="weui-cell__hd">
-            <image src="../../image/finished.png" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
-        </view>
-        <view class="weui-cell__bd" style="color:#c9c9c9">{{item.name}}</view>
-        <view class="weui-cell__ft" style="color:#c9c9c9">{{item.time}}</view>
+    <view class="weui-form-preview__item">
+      <label class="weui-form-preview__label">截止日期</label>
+      <view wx:if ='{{item.identity=="task"}}'>
+        <text class="weui-form-preview__value">{{item.fDeadline}}</text>
+      </view>
+      <view wx:elif='{{item.identity=="project"}}'>
+        <text class="weui-form-preview__value">{{item.fDeadline[item.fTaskNum]}}</text>
+      </view>
     </view>
+    <view class="weui-form-preview__item">
+      <label class="weui-form-preview__label">提醒日期</label>
+      <view wx:if ='{{item.identity=="task"}}'>
+        <text class="weui-form-preview__value">{{item.fWarnTime}}</text>
+      </view>
+      <view wx:elif='{{item.identity=="project"}}'>
+        <text class="weui-form-preview__value">{{item.fWarnTime[item.fTaskNum]}}</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="weui-footer" wx:if='{{tasks.length>0}}'>
+  <view class="weui-footer__text">别拉啦~到底啦~再拉我疼~</view>
+</view>
+
+<!-- 暂定若首页没任务时页面 -->
+<view wx:else class="weui-footer">
+  <view class="weui-footer__text nopages">( っ`-´c)ﾏｯ</view>
+  <view class="weui-footer__text">当前没有待办任务，点击右下角 + 号创建一个吧</view>
 </view>

@@ -15,7 +15,8 @@
     "pages/projectDetail/projectDetail",
     "pages/projectTaskDetail/projectTaskDetail",
     "pages/groupDetail/groupDetail",
-    "pages/groupMember/groupMember"
+    "pages/groupMember/groupMember",
+    "pages/addGroup/addGroup"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

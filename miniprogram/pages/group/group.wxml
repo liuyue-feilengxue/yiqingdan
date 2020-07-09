@@ -4,7 +4,7 @@
   <image src="../../image/search.png" class="icon" bindtap="search"></image>
 </view>
 
-<view class="weui-cells" wx:for='{{10}}' wx:key='index' 
+<view class="weui-cells" wx:for='{{fGroup}}' wx:key='index' 
   bindtap="toGroupDetail" data-index="{{index}}">
   <view class="weui-cell weui-cell_active">
     <view class="weui-cell__hd" style="position: relative; margin-right: 10px;">
@@ -14,8 +14,8 @@
     </view>
 
     <view class="weui-cell__bd">
-      <view>群名称</view>
-      <view style="font-size: 13px; color: #888;">群号</view>
+      <view>{{item.fGroupName}}</view>
+      <view style="font-size: 13px; color: #888;">{{item.fGroupNum}}</view>
     </view>
 
   </view>
@@ -31,7 +31,7 @@
   <view class="weui-mask"></view>
   <view class="weui-actionsheet">
       <view class="weui-actionsheet__menu">
-          <view class="weui-actionsheet__cell">创建群聊</view>
+          <view class="weui-actionsheet__cell" bindtap="toAddGroup">创建群聊</view>
           <view class="weui-actionsheet__cell">加入群聊</view>
       </view>
   </view>

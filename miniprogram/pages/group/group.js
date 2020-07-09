@@ -1,6 +1,6 @@
 // pages/group/group.js
 Page({
-
+  
   /**
    * 页面的初始数据
    */
@@ -36,6 +36,12 @@ Page({
       url: '/pages/groupDetail/groupDetail?index='+index,
     })
   },
+  // 前往创建群
+  toAddGroup(){
+    wx.navigateTo({
+      url: '/pages/addGroup/addGroup',
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -55,7 +61,8 @@ Page({
    */
   onShow: function () {
     const ui = wx.getStorageSync('userinfo')
-    // console.log(ui)
+    const that = this
+    // 获取用户加入的群
     wx.cloud.callFunction({
       name:"getUserInfo",
       data:{
@@ -64,6 +71,9 @@ Page({
     }).then(res=>{
       var fGroup = res.result.data[0].fGroup
       console.log(fGroup)
+      that.setData({
+        fGroup:fGroup
+      })
     })
   },
 

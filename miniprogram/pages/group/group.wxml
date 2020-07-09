@@ -8,7 +8,12 @@
   bindtap="toGroupDetail" data-index="{{index}}">
   <view class="weui-cell weui-cell_active">
     <view class="weui-cell__hd" style="position: relative; margin-right: 10px;">
+    <view wx:if ="{{!item.fPicture}}">
       <image src="../../image/group.png" style="width: 50px; display: block;"></image>
+    </view>
+    <view wx:else>
+      <image src="{{item.fPicture}}" style="width: 50px; display: block;"></image>
+    </view>
       <!-- 角标 -->
       <!-- <text class="weui-badge" style="position: absolute; top: -0.4em; right: -0.4em;">1</text> -->
     </view>
@@ -21,8 +26,13 @@
   </view>
 </view>
 
-<view class="weui-footer">
+<view wx:if="{{fGroup.length!=0}}" class="weui-footer">
   <view class="weui-footer__text">别拉啦~到底啦~再拉我疼~</view>
+</view>
+
+<view wx:else class="weui-footer">
+  <view class="weui-footer__text nopages">( っ`-´c)ﾏｯ</view>
+  <view class="weui-footer__text">当前没有加入群聊哦，点击右上角 + 号创建一个吧</view>
 </view>
 
 <!-- 加号（创建群聊，加入群聊） -->
@@ -32,7 +42,7 @@
   <view class="weui-actionsheet">
       <view class="weui-actionsheet__menu">
           <view class="weui-actionsheet__cell" bindtap="toAddGroup">创建群聊</view>
-          <view class="weui-actionsheet__cell">加入群聊</view>
+          <view class="weui-actionsheet__cell" bindtap="toJoinGroup">加入群聊</view>
       </view>
   </view>
 </view>

@@ -29,3 +29,7 @@ image{
 .weui-footer{
   margin-top: 50rpx;
 }
+
+.nopages{
+  margin-top: 200px;
+}

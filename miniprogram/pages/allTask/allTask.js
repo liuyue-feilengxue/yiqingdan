@@ -5,10 +5,14 @@ Page({
    * 页面的初始数据
    */
   data: {
-    //存任务
+    //存未完成的任务
     tasks:[],
     projects:[],
     all:[],
+    //存已经完成的任务
+    finishtasks:[],
+    finishproject:[],
+    finishall:[],
     //是否有未完成的
     unfinish:false,
     //是否有完成的
@@ -16,7 +20,15 @@ Page({
   },
   //转到任务（项目）详情
   toTaskDetail(e){
-    var all = this.data.all
+    var isFinish = e.currentTarget.dataset.isfinish
+    //未完成的
+    if (isFinish=='false'){
+      var all = this.data.all
+    }
+    //完成了的
+    else{
+      var all = this.data.finishall
+    }
     var index = e.currentTarget.dataset.index
     var alljson = JSON.stringify(all[index])
     //任务详情
@@ -68,6 +80,12 @@ Page({
     var projects = []
     //全部
     var all=[]
+
+    //完成了的
+    var finishtasks=[]
+    var finishprojects = []
+    var finishall = []
+
     if (ui){
       //如果已经登录
       wx.cloud.callFunction({
@@ -85,6 +103,12 @@ Page({
             var task = res.result.data[i]
             task['identity'] = 'task'
             tasks.push(task)
+          }
+          //完成
+          else{
+            var finishtask = res.result.data[i]
+            finishtask['identity'] = 'task'
+            finishtasks.push(finishtask)
           }
         }
         //查找project
@@ -112,16 +136,48 @@ Page({
               project['identity'] = 'project'
               projects.push(project)
             }
+            //全做完的
+            else{
+              var finishproject = res.result.data[i]
+              //身份
+              finishproject['identity'] = 'project'
+              finishprojects.push(finishproject)
+            }
           }
           //把project和tasks合并起来(concat(project))
           all=tasks.concat(projects)
+          finishall=finishtasks.concat(finishprojects)
           //排序
           all.sort(this.compare)
+          finishall.sort(this.compare)
           that.setData({
             tasks:tasks,
             projects:projects,
-            all:all
+            all:all,
+            finishtasks:finishtasks,
+            finishprojects:finishprojects,
+            finishall:finishall
           })
+          //未完成的
+          if (all.length>0){
+            that.setData({
+              unfinish:true
+            })
+          }
+          //完成了的
+          if (finishall.length>0){
+            that.setData({
+              finish:true
+            })
+          }
+          //其他
+          if(all.length==0&&finishall.length==0) {
+            that.setData({
+              unfinish:false,
+              finish:false
+            })
+          }
+
         })
       })
       

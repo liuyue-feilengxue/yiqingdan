@@ -5,15 +5,28 @@ Page({
    * 页面的初始数据
    */
   data: {
-    inputShowed: false,
-    inputVal: "",
+    //显示菜单
     showDialog: false,
+    //加入的群聊
+    fGroup:[]
   },
   //搜索框
   search(){
     wx.navigateTo({
       url: '/pages/searchGroup/searchGroup',
     })
+  },
+  //加号
+  openDialog(){
+    this.setData({
+      showDialog: true
+    });
+  },
+  //退出显示菜单（创建群聊，加入群聊）
+  close(){
+    this.setData({
+      showDialog: false
+    });
   },
   //点击群，前往群详情
   toGroupDetail(e){
@@ -41,7 +54,17 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+    const ui = wx.getStorageSync('userinfo')
+    // console.log(ui)
+    wx.cloud.callFunction({
+      name:"getUserInfo",
+      data:{
+        userInfo:ui
+      }
+    }).then(res=>{
+      var fGroup = res.result.data[0].fGroup
+      console.log(fGroup)
+    })
   },
 
   /**

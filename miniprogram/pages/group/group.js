@@ -32,9 +32,19 @@ Page({
   toGroupDetail(e){
     //点击的是第几个
     var index = e.currentTarget.dataset.index
-    wx.navigateTo({
-      url: '/pages/groupDetail/groupDetail?index='+index,
+    wx.cloud.callFunction({
+      name:"getTGroup",
+      data:{
+        fGroupNum:this.data.fGroup[index].fGroupNum
+      }
+    }).then(res=>{
+      var fGroup = res.result.data[0]
+      var fGroupjson = JSON.stringify(fGroup)
+      wx.navigateTo({
+        url: '/pages/groupDetail/groupDetail?fGroupjson='+fGroupjson,
+      })
     })
+
   },
   // 前往创建群
   toAddGroup(){
@@ -69,6 +79,7 @@ Page({
         userInfo:ui
       }
     }).then(res=>{
+      console.log(res)
       var fGroup = res.result.data[0].fGroup
       console.log(fGroup)
       that.setData({

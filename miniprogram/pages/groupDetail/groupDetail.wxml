@@ -12,7 +12,7 @@
       </view>
     </view>
     <view class="weui-cell__bd">
-      <view style="font-size:36rpx;margin-left:30rpx;">群名称</view>
+      <view style="font-size:36rpx;margin-left:30rpx;">{{fGroup.fGroupName}}</view>
     </view>
   </view>
 </view>
@@ -21,7 +21,7 @@
   <view class="weui-cell weui-cell_access">
     <view class="weui-cell__bd">群成员</view>
     <view class="weui-cell__ft" style="font-size: 0;">
-      <text style="vertical-align: middle; font-size: 17px;">共30人</text>
+      <text style="vertical-align: middle; font-size: 17px;">共{{fGroup.fMember.length+fGroup.fAdministrator.length}}人</text>
     </view>
   </view>
   <!-- 群成员头像与名字(只取前3个字) -->
@@ -69,13 +69,13 @@
   <view class="weui-cell weui-cell_active weui-cell_access">
     <view class="weui-cell__bd">群名称</view>
     <view class="weui-cell__ft" style="font-size: 0;">
-      <text style="vertical-align: middle; font-size: 17px;">群名</text>
+      <text style="vertical-align: middle; font-size: 17px;">{{fGroup.fGroupName}}</text>
     </view>
   </view>
   <view class="weui-cell weui-cell_active weui-cell_access">
     <view class="weui-cell__bd">群号</view>
     <view class="weui-cell__ft" style="font-size: 0;">
-      <text style="vertical-align: middle; font-size: 17px;">123</text>
+      <text style="vertical-align: middle; font-size: 17px;">{{fGroup.fGroupNum}}</text>
     </view>
   </view>
   <view class="weui-cell weui-cell_active weui-cell_access">
@@ -90,6 +90,10 @@
   </view>
 </view>
 
-<view class="weui-form__opr-area ">
-	<button class="weui-btn weui-btn_primary" bindtap="finish">退出本群</button>
+<view class="weui-form__opr-area " wx:if="{{!isAdministrator}}">
+	<button class="weui-btn weui-btn_primary" bindtap="exit">退出本群</button>
+</view>
+
+<view class="weui-form__opr-area " wx:else>
+	<button class="weui-btn weui-btn_primary" bindtap="disband">解散本群</button>
 </view>

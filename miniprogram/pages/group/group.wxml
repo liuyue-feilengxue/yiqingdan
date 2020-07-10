@@ -12,7 +12,7 @@
       <image src="../../image/group.png" style="width: 50px; display: block;"></image>
     </view>
     <view wx:else>
-      <image src="{{item.fPicture}}" style="width: 50px; display: block;"></image>
+      <image src="{{item.fPicture}}" lazy-load="true" style="width: 50px; display: block;"></image>
     </view>
       <!-- 角标 -->
       <!-- <text class="weui-badge" style="position: absolute; top: -0.4em; right: -0.4em;">1</text> -->

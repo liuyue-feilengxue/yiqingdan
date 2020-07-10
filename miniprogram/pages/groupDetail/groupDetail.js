@@ -1,4 +1,5 @@
 // pages/groupDetail/groupDetail.js
+const db = wx.cloud.database()
 Page({
 
   /**
@@ -6,7 +7,11 @@ Page({
    */
   data: {
     //群头像位置
-    fileID:''
+    fileID:'',
+    //群对象
+    fGroup:{},
+    //该用户是否为群管理
+    isAdministrator:false
   },
   //更换群头像
   changeGroupAvatar(){
@@ -16,6 +21,12 @@ Page({
       success(res){
         //确定要换
         if (res.confirm){
+          //删除原来的图
+          wx.cloud.deleteFile({
+            fileList:[that.data.fileID]
+          }).then(res=>{
+            console.log(res)
+          })
           //选图
           wx.chooseImage({
             success(res){
@@ -31,8 +42,11 @@ Page({
                 filePath:path
               }).then(res=>{
                 console.log(res)
+                var fGroup = that.data.fGroup
+                fGroup["fGroup"] = res.fileID
                 that.setData({
-                  fileID:res.fileID
+                  fileID:res.fileID,
+                  fGroup:fGroup
                 })
                 wx.hideLoading()
               })
@@ -49,11 +63,31 @@ Page({
       url: '/pages/groupMember/groupMember',
     })
   },
+  //解散本群
+  disband(){
+    
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    var fGroup = JSON.parse(options.fGroupjson)
+    console.log(fGroup)
+    const ui = wx.getStorageSync('userinfo')
+    const openid = ui.openid
+    var isAdministrator  = false
+    //是否为群管理
+    for (var i=0;i<fGroup.fAdministrator.length;i++){
+      if (fGroup.fAdministrator[i]==openid){
+        isAdministrator=true
+        break
+      }
+    }
+    this.setData({
+      fGroup:fGroup,
+      fileID:fGroup.fPicture,
+      isAdministrator:isAdministrator
+    })
   },
 
   /**
@@ -79,9 +113,38 @@ Page({
 
   /**
    * 生命周期函数--监听页面卸载
+   * 更新头像
    */
   onUnload: function () {
-
+    const that = this
+    //先在Group表改，再到user表改
+    db.collection("t_group").doc(this.data.fGroup._id).update({
+      data:{
+        fPicture:this.data.fileID
+      }
+    }).then(res=>{
+      const ui = wx.getStorageSync('userinfo')
+      //获取_id
+      wx.cloud.callFunction({
+        name:"getUserInfo",
+        data:{
+          userInfo:ui
+        }
+      }).then(res=>{
+        var fGroup = res.result.data[0].fGroup
+        for (var i=0;i<fGroup.length;i++){
+          //群号相同（同一个群）
+          if (fGroup.fGroupNum==that.data.fGroup.fGroupNum){
+            fGroup[i].fPicture = that.data.fileID
+          }
+        }
+        db.collection("t_user").doc(res.result.data[0]._id).update({
+          data:{
+            fGroup:fGroup
+          }
+        })
+      })
+    })
   },
 
   /**

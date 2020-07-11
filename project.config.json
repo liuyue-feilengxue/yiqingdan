@@ -110,6 +110,7 @@
 					"id": -1,
 					"name": "pages/addGroup/addGroup",
 					"pathName": "pages/addGroup/addGroup",
+					"query": "",
 					"scene": null
 				}
 			]

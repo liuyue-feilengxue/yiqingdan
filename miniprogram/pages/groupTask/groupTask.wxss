@@ -1,0 +1,56 @@
+/* pages/groupTask/groupTask.wxss */
+@import '../../wxss/style/weui.wxss';
+
+.nopages{
+  margin-top: 200px;
+}
+
+.title{
+  height: 80rpx;
+  background-color: white;
+}
+
+.titletext{
+  color: #34D0BA;
+  display: flex;
+  align-items: center;
+  margin-left: 40rpx;
+  margin-top: 15rpx;
+  font-size: large;
+}
+
+.line{
+  width:100%;
+  height:2rpx;
+  background:#000;
+}
+
+.plus{
+  width: 80rpx;
+  height: 80rpx;
+  position: fixed;
+  right: 50rpx;
+  bottom: 50rpx;
+}
+
+.weui-form-preview{
+  margin-top: 20rpx;
+}
+
+.weui-footer{
+  margin-top: 50rpx;
+}
+
+.finishtitle{
+  height: 80rpx;
+  background-color: #34D0BA;
+}
+
+.finishtitletext{
+  color: white;
+  display: flex;
+  align-items: center;
+  margin-left: 40rpx;
+  margin-top: 15rpx;
+  font-size: large;
+}

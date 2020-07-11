@@ -83,7 +83,7 @@
     <view class="weui-cell__ft" style="font-size: 0;">
     </view>
   </view>
-  <view class="weui-cell weui-cell_active weui-cell_access">
+  <view class="weui-cell weui-cell_active weui-cell_access" bindtap="toGroupTask">
     <view class="weui-cell__bd">查看群任务</view>
     <view class="weui-cell__ft" style="font-size: 0;">
     </view>

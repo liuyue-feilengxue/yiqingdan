@@ -63,6 +63,14 @@ Page({
       url: '/pages/groupMember/groupMember',
     })
   },
+  //去查看群任务页面
+  toGroupTask(){
+    var fTaskjson = JSON.stringify(this.data.fGroup.fTask)
+    var fProjectjson = JSON.stringify(this.data.fGroup.fProject)
+    wx.navigateTo({
+      url: '/pages/groupTask/groupTask?fTask='+fTaskjson+"&fProject="+fProjectjson,
+    })
+  },
   //解散本群
   disband(){
     

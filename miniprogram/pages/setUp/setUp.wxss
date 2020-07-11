@@ -1,1 +1,95 @@
 /* pages/setUp/setUp.wxss */
+@import '../../wxss/style/weui.wxss';
+
+.image{
+  width: 150rpx;
+  height: 150rpx;
+  margin-left: 300rpx;
+  margin-top: 40rpx;
+}
+
+.name{
+  text-align: center;
+  margin-top: 50rpx;
+  margin-bottom: 50rpx;
+  font-size: 50rpx;
+}
+
+.uploader-container{
+  background-color: #ffffff;
+}
+
+.login{
+  background-color: #ffffff;
+}
+
+.login-button{
+  margin-top: 50rpx;
+  margin-bottom: 50rpx;
+  color: #ffffff;
+  background-color: #34D0BA;
+}
+
+.login image{
+  width: 150rpx;
+  height: 150rpx;
+  margin-left: 300rpx;
+  margin-top: 40rpx;
+}
+
+.menu{
+  margin-top: 30rpx;
+  background-color: #ffffff;
+}
+
+.menu .message{
+  /* margin-block: 40rpx; */
+  height: 100rpx;
+  display:flex;
+  margin-left:5px;
+  text-align: center;
+  align-items:center;
+}
+
+.menu .setup{
+  /* margin-block: 40rpx; */
+  height: 100rpx;
+  display:flex;
+  margin-left:5px;
+  text-align: center;
+  align-items:center;
+}
+
+.menu .share{
+  /* margin-block: 40rpx; */
+  height: 100rpx;
+  display:flex;
+  margin-left:5px;
+  text-align: center;
+  align-items:center;
+}
+
+.right1{
+  margin-left: 438rpx;
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.right2{
+  margin-left: 500rpx;
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.menu .icon{
+  margin-right: 40rpx;
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.outlogin{
+  margin-top : 100rpx;
+  display: flex;
+  justify-content: center;
+  color: #34D0BA;
+}

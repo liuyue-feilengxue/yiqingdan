@@ -7,7 +7,22 @@ Page({
   data: {
 
   },
-
+  //复制开发者微信
+  getDevelopWechat(){
+    wx.setClipboardData({
+      data: "tangxuexi288268015",
+      success(res){
+        wx.getClipboardData({
+          success(res){
+            console.log(res)
+          }
+        })
+        wx.showToast({
+          title: '已复制微信号',
+        })
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

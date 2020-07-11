@@ -5,6 +5,11 @@ Page({
    * 页面的初始数据
    */
   data: {
+    fGroup:[],
+    //管理员
+    fAdministrator:[],
+    //群成员
+    fMember:[],
     array1: ['添加为群管理', '删除群成员'],
     value1: 0,
     //是否为群管理
@@ -32,7 +37,23 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    var fGroup = JSON.parse(options.fGroup)
+    var isAdmin = false
+    const ui = wx.getStorageSync('userinfo')
+    const openid = ui.openid
+    for (var i=0;i<fGroup.fAdministrator.length;i++){
+      //如果在管理员名单找到你，那么你就是管理员
+      if (fGroup.fAdministrator[i].openid==openid){
+        isAdmin = true
+      }
+    }
+    this.setData({
+      fGroup:fGroup,
+      isAdmin:isAdmin,
+      fAdministrator:fGroup.fAdministrator,
+      fMember:fGroup.fMember,
+    })
+    console.log(this.data.fGroup)
   },
 
   /**

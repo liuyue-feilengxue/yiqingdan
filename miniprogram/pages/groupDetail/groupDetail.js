@@ -59,11 +59,28 @@ Page({
   },
   //去群成员页面
   toGroupMember(){
+    var fGroupjson = JSON.stringify(this.data.fGroup)
     wx.navigateTo({
-      url: '/pages/groupMember/groupMember',
+      url: '/pages/groupMember/groupMember?fGroup='+fGroupjson,
     })
   },
-  //去查看群任务页面
+  //复制群号
+  copyGroupNum(){
+    wx.setClipboardData({
+      data: JSON.stringify(this.data.fGroup.fGroupNum),
+      success(res){
+        wx.getClipboardData({
+          success(res){
+            console.log(res)
+          }
+        })
+        wx.showToast({
+          title: '复制成功',
+        })
+      }
+    })
+  },
+  //去查看群任务页面*
   toGroupTask(){
     var fTaskjson = JSON.stringify(this.data.fGroup.fTask)
     var fProjectjson = JSON.stringify(this.data.fGroup.fProject)
@@ -71,7 +88,7 @@ Page({
       url: '/pages/groupTask/groupTask?fTask='+fTaskjson+"&fProject="+fProjectjson,
     })
   },
-  //解散本群
+  //解散本群*
   disband(){
     
   },
@@ -86,11 +103,14 @@ Page({
     var isAdministrator  = false
     //是否为群管理
     for (var i=0;i<fGroup.fAdministrator.length;i++){
-      if (fGroup.fAdministrator[i]==openid){
+      // console.log(fGroup.fAdministrator[i])
+      if (fGroup.fAdministrator[i].openid==openid){
         isAdministrator=true
         break
       }
     }
+    // 获取所有群成员头像与昵称（avatar和nickname）
+    
     this.setData({
       fGroup:fGroup,
       fileID:fGroup.fPicture,

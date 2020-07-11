@@ -39,12 +39,6 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "db guide",
-					"pathName": "pages/databaseGuide/databaseGuide",
-					"query": ""
-				},
-				{
-					"id": -1,
 					"name": "pages/my/my",
 					"pathName": "pages/my/my",
 					"query": "",
@@ -103,13 +97,6 @@
 					"id": -1,
 					"name": "pages/groupMember/groupMember",
 					"pathName": "pages/groupMember/groupMember",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/addGroup/addGroup",
-					"pathName": "pages/addGroup/addGroup",
 					"query": "",
 					"scene": null
 				}

@@ -83,7 +83,7 @@ Page({
     //管理员
     const ui = wx.getStorageSync('userinfo')
     var fAdministrator= []
-    fAdministrator.push(ui.openid)
+    fAdministrator.push(ui)
     this.setData({
       fGroupNum:timestamp,
       fAdministrator:fAdministrator,

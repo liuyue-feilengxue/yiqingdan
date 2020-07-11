@@ -4,27 +4,27 @@
 </view>
 
 <view class="weui-cells">
-  <view class="weui-cell weui-cell_active">
+  <view class="weui-cell weui-cell_active" wx:for="{{fAdministrator}}">
     <view class="weui-cell__hd" style="position: relative; margin-right: 10px;">
-      <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
+      <image src="{{item.avatarUrl}}" style="width: 80rpx; display: block;"></image>
     </view>
     <view class="weui-cell__bd">
-      <view>群管理1</view>
+      <view>{{item.nickName}}</view>
     </view>
   </view>
 </view>
 
-<view class="title1">
+<view class="title1" wx:if ="{{fMember.length!=0}}">
   <view class='titletext'>群成员</view>
 </view>
 
-<view class="weui-cells">
-  <view class="weui-cell" wx:for='{{5}}'>
+<view class="weui-cells" wx:if ="{{fMember.length!=0}}">
+  <view class="weui-cell" wx:for='{{fMember}}'>
     <view class="weui-cell__hd" style="position: relative; margin-right: 10px;">
-      <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
+      <image src="{{item.avatarUrl}}" style="width: 80rpx; display: block;"></image>
     </view>
     <view class="weui-cell__bd">
-      <view>群成员{{index+1}}</view>
+      <view>{{item.nickName}}</view>
     </view>
     <view wx:if='{{isAdmin}}'>
       <button class="weui-btn weui-btn_primary" style="width:200rpx;" bindtap="openMenu" data-index="{{index}}">修改</button>

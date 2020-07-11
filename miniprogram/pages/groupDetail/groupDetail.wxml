@@ -72,7 +72,7 @@
       <text style="vertical-align: middle; font-size: 17px;">{{fGroup.fGroupName}}</text>
     </view>
   </view>
-  <view class="weui-cell weui-cell_active weui-cell_access">
+  <view class="weui-cell weui-cell_active weui-cell_access" bindtap="copyGroupNum">
     <view class="weui-cell__bd">群号</view>
     <view class="weui-cell__ft" style="font-size: 0;">
       <text style="vertical-align: middle; font-size: 17px;">{{fGroup.fGroupNum}}</text>

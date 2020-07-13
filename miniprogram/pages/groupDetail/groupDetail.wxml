@@ -25,41 +25,13 @@
     </view>
   </view>
   <!-- 群成员头像与名字(只取前3个字) -->
-  <view class="weui-flex" style="margin-left:40rpx;">
-    <view class="weui-flex__item">
+  <view class="weui-flex" style="margin-left:5rpx;">
+    <view class="weui-flex__item" wx:for="{{6}}" wx:for-item="i">
       <view class="placeholder">
-        <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
-        <view>成员1</view>
-      </view>
-    </view>
-    <view class="weui-flex__item">
-      <view class="placeholder">
-        <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
-        <view>成员2</view>
-      </view>
-    </view>
-    <view class="weui-flex__item">
-      <view class="placeholder">
-        <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
-        <view>成员3</view>
-      </view>
-    </view>
-    <view class="weui-flex__item">
-      <view class="placeholder">
-        <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
-        <view>成员4</view>
-      </view>
-    </view>
-    <view class="weui-flex__item">
-      <view class="placeholder">
-        <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
-        <view>成员5</view>
-      </view>
-    </view>
-    <view class="weui-flex__item">
-      <view class="placeholder">
-        <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
-        <view>成员6</view>
+        <view wx:if="{{i < member.length}}">
+          <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
+        </view> 
+        <view class="text1" wx:if="{{i < member.length}}">{{member[i]}}</view>
       </view>
     </view>
 	</view>

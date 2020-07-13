@@ -10,6 +10,8 @@ Page({
     fileID:'',
     //群对象
     fGroup:{},
+    //所有群成员
+    member:["a","b"],
     //该用户是否为群管理
     isAdministrator:false
   },

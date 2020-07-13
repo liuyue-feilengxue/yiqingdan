@@ -55,3 +55,14 @@ image{
   margin-top: 50rpx;
 }
 
+.text1{
+  font-size: 26.7rpx;
+}
+
+.placeholder{
+    margin:0px;
+    padding:0 10px;
+    text-align:center;
+    height:4em;
+    line-height:1.8em;
+  }

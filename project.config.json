@@ -99,6 +99,19 @@
 					"pathName": "pages/groupMember/groupMember",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/joinGroup/joinGroup",
+					"pathName": "pages/joinGroup/joinGroup",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/postTask/postTask",
+					"pathName": "pages/postTask/postTask",
+					"scene": null
 				}
 			]
 		}

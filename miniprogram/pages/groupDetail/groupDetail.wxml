@@ -26,12 +26,12 @@
   </view>
   <!-- 群成员头像与名字(只取前3个字) -->
   <view class="weui-flex" style="margin-left:5rpx;">
-    <view class="weui-flex__item" wx:for="{{6}}" wx:for-item="i">
+    <view class="weui-flex__item" wx:for="{{6}}" wx:for-item="i" wx:key="index">
       <view class="placeholder">
         <view wx:if="{{i < member.length}}">
-          <image src="../../image/group.png" style="width: 80rpx; display: block;"></image>
+          <image src="{{member[i].avatarUrl}}" style="width: 80rpx; display: block;"></image>
         </view> 
-        <view class="text1" wx:if="{{i < member.length}}">{{member[i]}}</view>
+        <view class="text1" wx:if="{{i < member.length}}">{{member[i].nickName}}</view>
       </view>
     </view>
 	</view>

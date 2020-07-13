@@ -1,0 +1,27 @@
+<!--pages/joinGroup/joinGroup.wxml-->
+<view class="weui-cells__title">群号</view>
+<view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_active">
+        <view class="weui-cell__bd">
+            <input class="weui-input" placeholder="请输入群号" bindinput="groupNum"/>
+        </view>
+    </view>
+</view> 
+
+<!-- 开了群密码再显示 -->
+<view wx:if="{{checked}}">
+  <view class="weui-cells__title">密码</view>
+  <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_active">
+          <view class="weui-cell__bd">
+              <input class="weui-input" placeholder="请输入群密码" bindinput="groupPassword"/>
+          </view>
+      </view>
+  </view> 
+</view>
+
+<view class="weui-flex">
+  <view class="weui-flex__item">
+    <button class="weui-btn weui-btn_primary" bindtap="finish">确定</button>
+  </view>
+</view>

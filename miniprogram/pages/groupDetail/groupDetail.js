@@ -11,7 +11,7 @@ Page({
     //群对象
     fGroup:{},
     //所有群成员
-    member:["a","b"],
+    member:[],
     //该用户是否为群管理
     isAdministrator:false
   },
@@ -111,12 +111,28 @@ Page({
         break
       }
     }
-    // 获取所有群成员头像与昵称（avatar和nickname）
-    
+    // 把群成员的情况放入member中
+    var member = fGroup.fAdministrator.concat(fGroup.fMember)
+    console.log(member)
+    //改变前6个的昵称(如果长度比6大，就改前6个，如果小于6就全改)
+    var temp = member.length>6?6:member.length
+    for (var i=0;i<temp;i++){
+      //改名
+      if (member[i].nickName.length<=3){
+
+      }
+      else{
+        //取前两个字符，第三个字符为"..."
+        var nickName = member[i].nickName.substring(0,2)+"..."
+        // console.log(nickName)
+        member[i].nickName = nickName
+      }
+    }
     this.setData({
       fGroup:fGroup,
       fileID:fGroup.fPicture,
-      isAdministrator:isAdministrator
+      isAdministrator:isAdministrator,
+      member:member
     })
   },
 

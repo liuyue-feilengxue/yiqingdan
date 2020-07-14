@@ -66,6 +66,12 @@ Page({
       url: '/pages/groupMember/groupMember?fGroup='+fGroupjson,
     })
   },
+  // 去修改群名页面*
+  toGroupRename(){
+    wx.navigateTo({
+      url: '/pages/groupRename/groupRename',
+    })
+  },
   //复制群号
   copyGroupNum(){
     wx.setClipboardData({
@@ -80,6 +86,12 @@ Page({
           title: '复制成功',
         })
       }
+    })
+  },
+  //新建群任务*
+  toPostTask(){
+    wx.navigateTo({
+      url: '/pages/postTask/postTask',
     })
   },
   //去查看群任务页面*

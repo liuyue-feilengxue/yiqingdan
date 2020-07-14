@@ -38,7 +38,7 @@
 </view>
 
 <view class="weui-cells other">
-  <view class="weui-cell weui-cell_active weui-cell_access">
+  <view class="weui-cell weui-cell_active weui-cell_access" bindtap="toGroupRename">
     <view class="weui-cell__bd">群名称</view>
     <view class="weui-cell__ft" style="font-size: 0;">
       <text style="vertical-align: middle; font-size: 17px;">{{fGroup.fGroupName}}</text>
@@ -50,7 +50,7 @@
       <text style="vertical-align: middle; font-size: 17px;">{{fGroup.fGroupNum}}</text>
     </view>
   </view>
-  <view class="weui-cell weui-cell_active weui-cell_access">
+  <view class="weui-cell weui-cell_active weui-cell_access" bindtap="toPostTask">
     <view class="weui-cell__bd">新建群任务</view>
     <view class="weui-cell__ft" style="font-size: 0;">
     </view>

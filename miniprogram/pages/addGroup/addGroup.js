@@ -88,7 +88,7 @@ Page({
       fGroupNum:timestamp,
       fAdministrator:fAdministrator,
     })
-    //存到group表里
+    //存到group表里，这里加一个判断语句，看看群图片之类的有没有填好
     db.collection("t_group").add({
       data:{
           //群号

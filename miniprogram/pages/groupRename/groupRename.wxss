@@ -1,0 +1,18 @@
+/* miniprogram/pages/groupRename/groupRename.wxss */
+@import '../../wxss/style/weui.wxss';
+
+.weui-cells__title{
+  color: #34D0BA;
+  font-size: large;
+}
+.weui-form__opr-area{
+  display: block;
+  margin: 0 auto;
+  margin-top: 50rpx;
+}
+.weui-btn{
+  background-color: #34D0BA;
+  margin-right: 10rpx;
+  margin-left: 10rpx;
+  color: white;
+}

@@ -52,6 +52,12 @@ Page({
       url: '/pages/addGroup/addGroup',
     })
   },
+  // 前往加入群
+  toJoinGroup(){
+    wx.navigateTo({
+      url: '/pages/joinGroup/joinGroup',
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

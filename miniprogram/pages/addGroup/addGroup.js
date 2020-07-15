@@ -74,9 +74,6 @@ Page({
   },
   //确定*
   finish(){
-    wx.showLoading({
-      title: '创建群中',
-    })
     // 设置群号=>时间戳，精确到毫秒，重复概率小
     var timestamp = new Date().getTime();
     const that = this
@@ -88,58 +85,77 @@ Page({
       fGroupNum:timestamp,
       fAdministrator:fAdministrator,
     })
-    //存到group表里，这里加一个判断语句，看看群图片之类的有没有填好
-    db.collection("t_group").add({
-      data:{
-          //群号
-          fGroupNum:that.data.fGroupNum,
-          //群名
-          fGroupName:that.data.fGroupName,
-          //图片地址
-          fPicture:that.data.fPicture,
-          //群密码
-          fPassword:that.data.fPassword,
-          //管理员名单
-          fAdministrator:that.data.fAdministrator,
-          //成员名单
-          fMember:that.data.fMember,
-          //群组项目
-          fProject:that.data.fProject,
-          //群组任务
-          fTask:that.data.fTask,
-      }
-    }).then(res=>{
-      //获取_id 用于更新user表
-      wx.cloud.callFunction({
-        name:"getUserInfo",
-        //传递userinfo
+    //群名为空
+    if (this.data.fGroupName==""){
+      wx.showModal({
+        showCancel: false,
+        title : '您的群组名尚未填写，请重新检查'
+      })
+    }
+    else if (this.data.fPicture==""){
+      wx.showModal({
+        showCancel: false,
+        title : '您的群头像名尚未选择，请重新检查'
+      })
+    }
+    //存到group表里
+    else{
+      wx.showLoading({
+        title: '创建群中',
+      })
+      db.collection("t_group").add({
         data:{
-          userInfo:ui
+            //群号
+            fGroupNum:that.data.fGroupNum,
+            //群名
+            fGroupName:that.data.fGroupName,
+            //图片地址
+            fPicture:that.data.fPicture,
+            //群密码
+            fPassword:that.data.fPassword,
+            //管理员名单
+            fAdministrator:that.data.fAdministrator,
+            //成员名单
+            fMember:that.data.fMember,
+            //群组项目
+            fProject:that.data.fProject,
+            //群组任务
+            fTask:that.data.fTask,
         }
       }).then(res=>{
-        var _id = res.result.data[0]._id
-        //group对象，用于存进fGroup
-        var group = {}
-        //原有的群
-        var fGroup = res.result.data[0].fGroup
-        group["fGroupNum"] = that.data.fGroupNum
-        group["fGroupName"] = that.data.fGroupName
-        group["fPicture"] = that.data.fPicture
-        fGroup.push(group)
-        //存到user表里
-        db.collection("t_user").doc(_id).update({
+        //获取_id 用于更新user表
+        wx.cloud.callFunction({
+          name:"getUserInfo",
+          //传递userinfo
           data:{
-            fGroup:fGroup
+            userInfo:ui
           }
         }).then(res=>{
-          wx.hideLoading()
-          wx.switchTab({
-            url: '/pages/group/group',
+          var _id = res.result.data[0]._id
+          //group对象，用于存进fGroup
+          var group = {}
+          //原有的群
+          var fGroup = res.result.data[0].fGroup
+          group["fGroupNum"] = that.data.fGroupNum
+          group["fGroupName"] = that.data.fGroupName
+          group["fPicture"] = that.data.fPicture
+          fGroup.push(group)
+          //存到user表里
+          db.collection("t_user").doc(_id).update({
+            data:{
+              fGroup:fGroup
+            }
+          }).then(res=>{
+            wx.hideLoading()
+            wx.switchTab({
+              url: '/pages/group/group',
+            })
           })
         })
+        
       })
-      
-    })
+    }
+    
   },
   /**
    * 生命周期函数--监听页面加载

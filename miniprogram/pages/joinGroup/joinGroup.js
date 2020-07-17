@@ -10,15 +10,13 @@ Page({
     checked:false,
     //群号
     fGroupNum:-1,
-    //群名
-    fGroupName:"",
     //群密码
     fPassword:"",
   },
-  //群名
+  //群号
   groupNum(e){
     this.setData({
-      fGroupName:e.detail.value
+      fGroupNum:e.detail.value
     })
   },
   //群密码
@@ -29,7 +27,55 @@ Page({
   },
   //确定* 
   finish(){
-    
+    const that = this
+    var fGroupNum = Number(that.data.fGroupNum)
+    wx.cloud.callFunction({
+      name:"getTGroup",
+      data:{
+        fGroupNum:fGroupNum
+      }
+    }).then(res=>{
+      console.log(res)
+      //输入有问题
+      if (res.result.data.length == 0 ){
+        wx.showModal({
+          title : "查无该群",
+          showCancel:false
+        })
+      }
+      else{
+        //查一下有没有密码
+        var group = res.result.data[0]
+        // console.log(group)
+        // 是不是有密码
+        var havePassword = false
+        // 没有密码
+        if (group.fPassword == ""){
+          havePassword = false
+        }
+        //有密码
+        else{
+          havePassword = true
+        }
+        // 查一下密码对不对（包括没写密码的时候）
+        if (havePassword){
+          //密码正确
+          if (that.data.fPassword==group.fPassword){
+
+          }
+          // 密码错误(有可能是没写密码,所以要把check改为true)
+          else{
+            that.setData({
+              checked:true
+            })
+            wx.showModal({
+              title : "密码错误",
+              showCancel:false
+            })
+          }
+        }
+      }
+    })
   },
   /**
    * 生命周期函数--监听页面加载

@@ -12,6 +12,10 @@ Page({
     fGroupNum:-1,
     //群密码
     fPassword:"",
+    //用户表的id
+    userid : "",
+    //用户表里的组
+    fGroup:{}
   },
   //群号
   groupNum(e){
@@ -28,6 +32,7 @@ Page({
   //确定* 
   finish(){
     const that = this
+    const ui = wx.getStorageSync('userinfo')
     var fGroupNum = Number(that.data.fGroupNum)
     wx.cloud.callFunction({
       name:"getTGroup",
@@ -44,35 +49,71 @@ Page({
         })
       }
       else{
-        //查一下有没有密码
         var group = res.result.data[0]
         // console.log(group)
-        // 是不是有密码
-        var havePassword = false
-        // 没有密码
-        if (group.fPassword == ""){
-          havePassword = false
-        }
-        //有密码
-        else{
-          havePassword = true
-        }
-        // 查一下密码对不对（包括没写密码的时候）
-        if (havePassword){
-          //密码正确
-          if (that.data.fPassword==group.fPassword){
-
+        //密码正确
+        if (that.data.fPassword==group.fPassword){
+          var isJoin = false
+          // 查看一下你是否在该群里，若不在则成功加入，否则加入失败
+          for (var i=0;i<group.fMember.length;i++){
+            if (ui.openid==group.fMember[i].openid){
+              isJoin=true
+              break
+            }
           }
-          // 密码错误(有可能是没写密码,所以要把check改为true)
-          else{
-            that.setData({
-              checked:true
-            })
+          for (var i=0;i<group.fAdministrator.length;i++){
+            if (ui.openid == group.fAdministrator[i].openid){
+              isJoin = true
+              break
+            }
+          }
+          // 已经加入该群
+          if (isJoin){
             wx.showModal({
-              title : "密码错误",
+              title : "您已加入该群，请勿重复添加",
               showCancel:false
             })
           }
+          // 没有加入该群，user表里加入该群，group表里加入ui
+          else{
+            // group表的成员
+            var fMember = group.fMember.push(ui)
+            var groupid = group._id
+            var userid = that.data.userid
+            var fGroupName = group.fGroupName
+            var fGroupNum = group.fGroupNum
+            var fPicture = group.fPicture
+            var obj = {fGroupName,fGroupNum,fPicture}
+            // user表的fGroup
+            var fGroup = that.data.fGroup.push(obj)
+            db.collection("t_user").doc(userid).update({
+              // 用户表
+              data:{
+                fGroup:fGroup
+              }
+            }).then(res=>{
+              db.collection("t_group").doc(groupid).update({
+                data:{
+                  fMember:fMember
+                }
+              })
+              wx.showModal({
+                title:"加入成功",
+                showCancel:false
+              })
+            })
+            
+          }
+        }
+        // 密码错误(有可能是没写密码,所以要把check改为true)
+        else{
+          that.setData({
+            checked:true
+          })
+          wx.showModal({
+            title : "密码错误",
+            showCancel:false
+          })
         }
       }
     })
@@ -95,9 +136,19 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // const that = this
+    const that = this
     const ui = wx.getStorageSync('userinfo')
-    
+    wx.cloud.callFunction({
+      name:"getUserInfo",
+      data : {
+        userInfo: ui
+      }
+    }).then(res=>{
+      that.setData({
+        userid:res.result.data[0]._id,
+        fGroup:res.result.data[0].fGroup
+      })
+    })
   },
 
   /**

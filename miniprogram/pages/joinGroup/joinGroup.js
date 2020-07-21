@@ -15,7 +15,7 @@ Page({
     //用户表的id
     userid : "",
     //用户表里的组
-    fGroup:{}
+    fGroup:[]
   },
   //群号
   groupNum(e){
@@ -77,7 +77,8 @@ Page({
           // 没有加入该群，user表里加入该群，group表里加入ui
           else{
             // group表的成员
-            var fMember = group.fMember.push(ui)
+            var fMember = group.fMember
+            fMember.push(ui)
             var groupid = group._id
             var userid = that.data.userid
             var fGroupName = group.fGroupName
@@ -85,21 +86,32 @@ Page({
             var fPicture = group.fPicture
             var obj = {fGroupName,fGroupNum,fPicture}
             // user表的fGroup
-            var fGroup = that.data.fGroup.push(obj)
-            db.collection("t_user").doc(userid).update({
-              // 用户表
+            var fGroup = that.data.fGroup
+            fGroup.push(obj)
+            //调用云函数修改group的数据，由于创建者的openid与加入者不同
+            wx.cloud.callFunction({
+              name:"updateGroupMember",
               data:{
-                fGroup:fGroup
+                fGroupNum:fGroupNum,
+                fMember:fMember
               }
             }).then(res=>{
-              db.collection("t_group").doc(groupid).update({
+              db.collection("t_user").doc(userid).update({
+                // 用户表
                 data:{
-                  fMember:fMember
+                  fGroup:fGroup
                 }
-              })
-              wx.showModal({
-                title:"加入成功",
-                showCancel:false
+              }).then(res=>{
+                wx.showModal({
+                  title:"加入成功",
+                  showCancel:false,
+                  success(res){
+                    //点击确定，返回上一页
+                    if (res.confirm){
+                      wx.navigateBack()
+                    }
+                  }
+                })
               })
             })
             

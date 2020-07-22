@@ -78,20 +78,36 @@ Page({
   onShow: function () {
     const ui = wx.getStorageSync('userinfo')
     const that = this
-    // 获取用户加入的群
-    wx.cloud.callFunction({
-      name:"getUserInfo",
-      data:{
-        userInfo:ui
-      }
-    }).then(res=>{
-      console.log(res)
-      var fGroup = res.result.data[0].fGroup
-      console.log(fGroup)
-      that.setData({
-        fGroup:fGroup
+    if (ui!=""){
+      // 获取用户加入的群
+      wx.cloud.callFunction({
+        name:"getUserInfo",
+        data:{
+          userInfo:ui
+        }
+      }).then(res=>{
+        console.log(res)
+        var fGroup = res.result.data[0].fGroup
+        console.log(fGroup)
+        that.setData({
+          fGroup:fGroup
+        })
       })
-    })
+    }
+    //没登录
+    else{
+      wx.showModal({
+        title:"当前尚未登录",
+        showCancel:false,
+        success(res){
+          if (res.confirm){
+            wx.switchTab({
+              url: '/pages/my/my',
+            })
+          }
+        }
+      })
+    } 
   },
 
   /**

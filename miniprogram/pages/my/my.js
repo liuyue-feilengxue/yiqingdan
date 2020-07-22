@@ -38,6 +38,50 @@ Page({
                 console.log(res)
                 if (res.result.data.length==1){
                   //在数据库内存在这个人的信息
+                  // 更新所加入群的信息。
+                  var fGroup = res.result.data[0].fGroup
+                  for (var i = 0;i<fGroup.length;i++){
+                    //根据群号搜索
+                    var fGroupNum = fGroup[i].fGroupNum
+                    wx.cloud.callFunction({
+                      name:"getTGroup",
+                      data:{
+                        fGroupNum:fGroupNum
+                      }
+                    }).then(res=>{
+                      var fAdministrator = res.result.data[0].fAdministrator
+                      var fMember = res.result.data[0].fMember
+                      var breakflag = false
+                      // 管理员
+                      for (var j = 0; j<fAdministrator.length ; j++){
+                        //openid一样，但ui不一样
+                        if ((fAdministrator[j].openid === that.data.openid)&&(fAdministrator[j]!=that.data.userinfo)){
+                          fAdministrator[j] = that.data.userinfo
+                          breakflag = true
+                          break
+                        }
+                      }
+                      // 普通成员
+                      for (var j = 0;j<fMember.length;j++){
+                        if (breakflag){
+                          break
+                        }
+                        if ((fMember[j].openid === that.data.openid)&&(fMember[j]!=that.data.userinfo)){
+                          fMember[j] = that.data.userinfo
+                          break
+                        }
+                      }
+                      //调用云函数修改
+                      wx.cloud.callFunction({
+                        name:"updateGroupUserInfo",
+                        data:{
+                          fGroupNum:res.result.data[0].fGroupNum,
+                          fAdministrator:fAdministrator,
+                          fMember:fMember
+                        }
+                      })
+                    })
+                  }
                 }else{
                   //数据库中没有这个人的信息
                   // 存入数据库

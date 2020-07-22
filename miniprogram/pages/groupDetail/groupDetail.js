@@ -110,6 +110,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    //group页面传递过来的信息
     var fGroup = JSON.parse(options.fGroupjson)
     console.log(fGroup)
     const ui = wx.getStorageSync('userinfo')
@@ -159,7 +160,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
   },
 
   /**

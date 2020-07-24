@@ -119,14 +119,52 @@ Page({
       title:"请问你是否确定退出本群",
       success(res){
         if (res.confirm){
+          wx.showLoading({
+            title: '加载中',
+            mask:true
+          })
           //删除fGroup中fMember的（因为管理员是解散群聊）
           for(var i=0;i<fGroup.fMember.length;i++){
             if (ui.openid==fGroup.fMember[i].openid){
-              fGroup.fMember.splice(i,1)
+              // fGroup.fMember.splice(i,1)
             }
           }
           //上传数据库（group），然后删除user库的
-          wx.navigateBack()
+          wx.cloud.callFunction({
+            name:"updateGroupMember",
+            data:{
+              fMember:fGroup.fMember,
+              fGroupNum:that.data.fGroupNum
+            }
+          }).then(res=>{
+            wx.cloud.callFunction({
+              name:"getUserInfo",
+              data:{
+                userInfo:ui
+              }
+            }).then(res=>{
+              //用户表的fGroup
+              var UserfGroup = res.result.data[0].fGroup
+              for(var j = 0;j<UserfGroup.length;j++){
+                if (UserfGroup[j].fGroupNum == that.data.fGroupNum){
+                  UserfGroup.splice(j,1)
+                }
+              }
+              console.log(UserfGroup)
+              //暂时改不成功，是my那里没有把userinfo改好
+              wx.cloud.callFunction({
+                name:"updateTUserGroup",
+                data:{
+                  userInfo:ui,
+                  fGroup:UserfGroup
+                }
+              }).then(res=>{
+                wx.hideLoading()
+                wx.navigateBack()
+              })
+            })
+
+          })
         }
       }
     })
@@ -153,6 +191,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    wx.showLoading({
+      title: '加载中',
+      mask:true
+    })
     const that = this
     const ui = wx.getStorageSync('userinfo')
     const openid = ui.openid
@@ -196,7 +238,8 @@ Page({
         fileID:fGroup.fPicture,
         isAdministrator:isAdministrator,
         member:member
-      })
+      })    
+      wx.hideLoading()
     })
   },
 

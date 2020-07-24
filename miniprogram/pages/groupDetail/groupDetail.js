@@ -10,6 +10,10 @@ Page({
     fileID:'',
     //群对象
     fGroup:{},
+    //群对象，没有修改的(因为fGroup的名字都改过了，这个可以用于)
+    fGroup1:{},
+    //群号
+    fGroupNum:0,
     //所有群成员
     member:[],
     //该用户是否为群管理
@@ -106,46 +110,35 @@ Page({
   disband(){
     
   },
+  //退出本群*
+  exit(){
+    var fGroup = this.data.fGroup1
+    var that = this
+    var ui = wx.getStorageSync('userinfo')
+    wx.showModal({
+      title:"请问你是否确定退出本群",
+      success(res){
+        if (res.confirm){
+          //删除fGroup中fMember的（因为管理员是解散群聊）
+          for(var i=0;i<fGroup.fMember.length;i++){
+            if (ui.openid==fGroup.fMember[i].openid){
+              fGroup.fMember.splice(i,1)
+            }
+          }
+          //上传数据库（group），然后删除user库的
+          wx.navigateBack()
+        }
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    //group页面传递过来的信息
-    var fGroup = JSON.parse(options.fGroupjson)
-    console.log(fGroup)
-    const ui = wx.getStorageSync('userinfo')
-    const openid = ui.openid
-    var isAdministrator  = false
-    //是否为群管理
-    for (var i=0;i<fGroup.fAdministrator.length;i++){
-      // console.log(fGroup.fAdministrator[i])
-      if (fGroup.fAdministrator[i].openid==openid){
-        isAdministrator=true
-        break
-      }
-    }
-    // 把群成员的情况放入member中
-    var member = fGroup.fAdministrator.concat(fGroup.fMember)
-    console.log(member)
-    //改变前6个的昵称(如果长度比6大，就改前6个，如果小于6就全改)
-    var temp = member.length>6?6:member.length
-    for (var i=0;i<temp;i++){
-      //改名
-      if (member[i].nickName.length<=3){
-
-      }
-      else{
-        //取前两个字符，第三个字符为"..."
-        var nickName = member[i].nickName.substring(0,2)+"..."
-        // console.log(nickName)
-        member[i].nickName = nickName
-      }
-    }
+    //group页面传递过来的群号
+    var fGroupNum =Number(options.fGroupNum)
     this.setData({
-      fGroup:fGroup,
-      fileID:fGroup.fPicture,
-      isAdministrator:isAdministrator,
-      member:member
+      fGroupNum:fGroupNum,
     })
   },
 
@@ -160,6 +153,51 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    const that = this
+    const ui = wx.getStorageSync('userinfo')
+    const openid = ui.openid
+    var isAdministrator  = false
+    //云函数确定信息
+    wx.cloud.callFunction({
+      name:"getTGroup",
+      data:{
+        fGroupNum:that.data.fGroupNum
+      }
+    }).then(res=>{
+      var fGroup = res.result.data[0]
+      var fGroup1 = res.result.data[0]
+      //是否为群管理
+      for (var i=0;i<fGroup.fAdministrator.length;i++){
+        if (fGroup.fAdministrator[i].openid==openid){
+          isAdministrator=true
+          break
+        }
+      }
+      // 把群成员的情况放入member中
+      var member = fGroup.fAdministrator.concat(fGroup.fMember)
+      console.log(member)
+      //改变前6个的昵称(如果长度比6大，就改前6个，如果小于6就全改)
+      var temp = member.length>6?6:member.length
+      for (var i=0;i<temp;i++){
+        //改名
+        if (member[i].nickName.length<=3){
+
+        }
+        //取前两个字符，第三个字符为"..."
+        else{
+          var nickName = member[i].nickName.substring(0,2)+"..."
+          // console.log(nickName)
+          member[i].nickName = nickName
+        }
+      }
+      this.setData({
+        fGroup:fGroup,
+        fGroup1:fGroup1,
+        fileID:fGroup.fPicture,
+        isAdministrator:isAdministrator,
+        member:member
+      })
+    })
   },
 
   /**

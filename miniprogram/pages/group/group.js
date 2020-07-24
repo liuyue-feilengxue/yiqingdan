@@ -28,21 +28,13 @@ Page({
       showDialog: false
     });
   },
-  //点击群，前往群详情
+  //点击群，前往群详情（传递群号而已）
   toGroupDetail(e){
     //点击的是第几个
     var index = e.currentTarget.dataset.index
-    wx.cloud.callFunction({
-      name:"getTGroup",
-      data:{
-        fGroupNum:this.data.fGroup[index].fGroupNum
-      }
-    }).then(res=>{
-      var fGroup = res.result.data[0]
-      var fGroupjson = JSON.stringify(fGroup)
-      wx.navigateTo({
-        url: '/pages/groupDetail/groupDetail?fGroupjson='+fGroupjson,
-      })
+    var fGroupNum = this.data.fGroup[index].fGroupNum
+    wx.navigateTo({
+      url: '/pages/groupDetail/groupDetail?fGroupNum='+fGroupNum,
     })
 
   },

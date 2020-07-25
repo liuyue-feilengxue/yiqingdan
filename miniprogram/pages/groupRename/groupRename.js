@@ -5,12 +5,31 @@ Page({
    * 页面的初始数据
    */
   data: {
-    fGroupName:""
+    fGroupName:"",
+    fGroupNum:-1
   },
-
+  //填空
   groupName(e){
     this.setData({
       fGroupName:e.detail.value
+    })
+  },
+  // 完成*
+  finish(){
+    wx.showLoading({
+      title: '加载中',
+    })
+    const that = this
+    wx.cloud.callFunction({
+      name:"updateGroupName",
+      data:{
+        fGroupNum:that.data.fGroupNum,
+        fGroupName:that.data.fGroupName
+      }
+    }).then(res=>{
+      //user表没解决，建议底层修改
+      wx.hideLoading()
+      wx.navigateBack()
     })
   },
 
@@ -18,7 +37,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    var fGroupName = options.fGroupName
+    var fGroupNum = Number(options.fGroupNum)
+    this.setData({
+      fGroupName:fGroupName,
+      fGroupNum:fGroupNum
+    })
   },
 
   /**

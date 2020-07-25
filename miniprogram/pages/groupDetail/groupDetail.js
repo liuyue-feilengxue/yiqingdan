@@ -72,9 +72,14 @@ Page({
   },
   // 去修改群名页面*
   toGroupRename(){
-    wx.navigateTo({
-      url: '/pages/groupRename/groupRename',
-    })
+    //是管理员才能操作
+    if(this.data.isAdministrator){
+      var fGroupName = this.data.fGroup.fGroupName
+      var fGroupNum = this.data.fGroupNum
+      wx.navigateTo({
+        url: '/pages/groupRename/groupRename?fGroupName='+fGroupName+"&fGroupNum="+fGroupNum,
+      })
+    }
   },
   //复制群号
   copyGroupNum(){
@@ -110,7 +115,7 @@ Page({
   disband(){
     
   },
-  //退出本群*
+  //退出本群
   exit(){
     var fGroup = this.data.fGroup1
     var that = this

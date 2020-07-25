@@ -5,11 +5,11 @@
 <view class="weui-cells weui-cells_after-title">
     <view class="weui-cell weui-cell_active">
         <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入新群名" bindinput="projectinput" value='{{projectname}}' type="text"/>
+            <input class="weui-input" placeholder="请输入新群名" bindinput="groupName" value='{{fGroupName}}' type="text"/>
         </view>
     </view>
 </view>
 
 <view class="weui-form__opr-area ">
-	<button class="weui-btn weui-btn_primary" bindtap="groupName">确定</button>
+	<button class="weui-btn weui-btn_primary" bindtap="finish">确定</button>
 </view>

@@ -39,7 +39,12 @@ Page({
                 console.log(res)
                 if (res.result.data.length==1){
                   //在数据库内存在这个人的信息
-                  
+                  // 更新一下用户表的userinfo
+                  db.collection("t_user").doc(res.result.data[0]._id).update({
+                    data:{
+                      userInfo:that.data.userinfo
+                    }
+                  })
                   // 更新所加入群的信息。
                   var fGroup = res.result.data[0].fGroup
                   for (var i = 0;i<fGroup.length;i++){

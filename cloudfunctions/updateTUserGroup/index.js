@@ -9,7 +9,7 @@ exports.main = async (event, context) => {
   var userInfo = event.userInfo
   var fGroup = event.fGroup
   return await db.collection("t_user").where({
-    userInfo:userInfo
+    _openid:userInfo.openid
   }).update({
     data:{
       fGroup:fGroup

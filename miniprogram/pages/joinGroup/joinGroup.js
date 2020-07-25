@@ -29,8 +29,12 @@ Page({
       fPassword:e.detail.value
     })
   },
-  //确定* 
+  //确定
   finish(){
+    wx.showLoading({
+      title: '加载中',
+      mask:true
+    })
     const that = this
     const ui = wx.getStorageSync('userinfo')
     var fGroupNum = Number(that.data.fGroupNum)
@@ -43,6 +47,7 @@ Page({
       console.log(res)
       //输入有问题
       if (res.result.data.length == 0 ){
+        wx.hideLoading()
         wx.showModal({
           title : "查无该群",
           showCancel:false
@@ -50,7 +55,6 @@ Page({
       }
       else{
         var group = res.result.data[0]
-        // console.log(group)
         //密码正确
         if (that.data.fPassword==group.fPassword){
           var isJoin = false
@@ -69,6 +73,7 @@ Page({
           }
           // 已经加入该群
           if (isJoin){
+            wx.hideLoading()
             wx.showModal({
               title : "您已加入该群，请勿重复添加",
               showCancel:false
@@ -102,6 +107,7 @@ Page({
                   fGroup:fGroup
                 }
               }).then(res=>{
+                wx.hideLoading()
                 wx.showModal({
                   title:"加入成功",
                   showCancel:false,

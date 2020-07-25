@@ -126,7 +126,7 @@ Page({
           //删除fGroup中fMember的（因为管理员是解散群聊）
           for(var i=0;i<fGroup.fMember.length;i++){
             if (ui.openid==fGroup.fMember[i].openid){
-              // fGroup.fMember.splice(i,1)
+              fGroup.fMember.splice(i,1)
             }
           }
           //上传数据库（group），然后删除user库的
@@ -151,7 +151,6 @@ Page({
                 }
               }
               console.log(UserfGroup)
-              //暂时改不成功，是my那里没有把userinfo改好
               wx.cloud.callFunction({
                 name:"updateTUserGroup",
                 data:{

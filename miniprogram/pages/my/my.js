@@ -10,13 +10,14 @@ Page({
     openid:""
   },
   //登录
-  onGotUserInfo(e){
+  onGotUserInfo(e){ 
     const that = this
     wx.showModal({
       title:"是否同意获取本机授权",
       confirmColor:"#34D0BA",
       success(res){
         if (res.confirm){
+          //openid一样
           wx.cloud.callFunction({
             name:"login",
             success:res=>{
@@ -27,7 +28,7 @@ Page({
               //保存在缓存中
               that.data.userinfo.openid = that.data.openid
               wx.setStorageSync('userinfo', that.data.userinfo)
-              //在数据库中 查找 是否有userinfo（即查一下有没有这个用户）
+              //在数据库中 查找 是否有userinfo（即查一下有没有这个用户）（查的也是openid）
               wx.cloud.callFunction({
                 name:"getUserInfo",
                 //把userinfo传过去，如果有，就不用存入，没有就存入
@@ -38,6 +39,7 @@ Page({
                 console.log(res)
                 if (res.result.data.length==1){
                   //在数据库内存在这个人的信息
+                  
                   // 更新所加入群的信息。
                   var fGroup = res.result.data[0].fGroup
                   for (var i = 0;i<fGroup.length;i++){

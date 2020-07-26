@@ -27,7 +27,7 @@ Page({
         fGroupName:that.data.fGroupName
       }
     }).then(res=>{
-      //user表没解决，建议底层修改
+      
       wx.hideLoading()
       wx.navigateBack()
     })

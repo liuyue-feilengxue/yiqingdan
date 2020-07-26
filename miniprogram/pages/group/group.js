@@ -1,4 +1,5 @@
 // pages/group/group.js
+const db = wx.cloud.database()
 Page({
   
   /**
@@ -78,9 +79,9 @@ Page({
           userInfo:ui
         }
       }).then(res=>{
-        console.log(res)
         var fGroup = res.result.data[0].fGroup
-        console.log(fGroup)
+        // console.log(fGroup)
+        // 更新加入的群的情况
         that.setData({
           fGroup:fGroup
         })

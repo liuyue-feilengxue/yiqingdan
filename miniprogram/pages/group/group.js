@@ -82,6 +82,14 @@ Page({
         var fGroup = res.result.data[0].fGroup
         // console.log(fGroup)
         // 更新加入的群的情况
+        wx.cloud.callFunction({
+          name:"updateJoinGroup",
+          data:{
+            fGroup:fGroup
+          }
+        }).then(res=>{
+          console.log(res)
+        })
         that.setData({
           fGroup:fGroup
         })

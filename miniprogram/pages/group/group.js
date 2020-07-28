@@ -80,18 +80,39 @@ Page({
         }
       }).then(res=>{
         var fGroup = res.result.data[0].fGroup
-        // console.log(fGroup)
         // 更新加入的群的情况
+        //先获取所有加入的群的消息
         wx.cloud.callFunction({
-          name:"updateJoinGroup",
+          name:"getAllJoinGroup",
           data:{
             fGroup:fGroup
           }
         }).then(res=>{
-          console.log(res)
-        })
-        that.setData({
-          fGroup:fGroup
+          var allgroup = res.result.data
+          for(var i = 0; i<allgroup.length;i++){
+            for (var j=0;j<fGroup.length;j++){
+              if (allgroup[i].fGroupNum == fGroup[j].fGroupNum){4
+                //群名不同或者群头像不同
+                if (allgroup[i].fGroupName != fGroup[j].fGroupName || allgroup[i].fPicture != fGroup[j].fPicture){
+                  fGroup[j].fPicture = allgroup[i].fPicture
+                  fGroup[j].fGroupName = allgroup[i].fGroupName
+                }
+              }
+            }
+          }
+          // 群名群头像改好了，上传
+          wx.cloud.callFunction({
+            name:"updateJoinGroup",
+            data:{
+              userInfo:ui,
+              fGroup:fGroup
+            }
+          }).then(res=>{
+            console.log(res)
+            that.setData({
+              fGroup:fGroup
+            })
+          })
         })
       })
     }

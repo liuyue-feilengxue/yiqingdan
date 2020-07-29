@@ -128,6 +128,7 @@ Page({
           that.setData({
             checked:true
           })
+          wx.hideLoading()
           wx.showModal({
             title : "密码错误",
             showCancel:false

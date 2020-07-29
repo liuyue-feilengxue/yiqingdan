@@ -5,7 +5,12 @@ Page({
    * 页面的初始数据
    */
   data: {
-    fGroup:[],
+    // fGroup 改过昵称的group表
+    fGroup:{},
+    // fGroup1 原装的group表，更新的时候用这个
+    fGroup1:{},
+    //群号
+    fGroupNum:-1,
     //管理员
     fAdministrator:[],
     //群成员
@@ -32,12 +37,41 @@ Page({
         index:e.currentTarget.dataset.index
     });
   },
-
+  //踢出群成员*
+  deleteMember(){
+    const that = this
+    var fGroupNum = that.data.fGroupNum
+    wx.showModal({
+      title:"请问你是否要删除该成员",
+      success(res){
+        if (res.confirm){
+          wx.showLoading({
+            title: '加载中',
+          })
+          var index = that.data.index
+          var fMember = that.data.fMember
+          fMember.splice(index,1)
+          //调用云函数
+          wx.cloud.callFunction({
+            name:"updateGroupMember",
+            data:{
+              fMember:fMember,
+              fGroupNum:fGroupNum
+            }
+          }).then(res=>{
+            wx.hideLoading()
+          })
+        }
+      }
+    })
+    
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     var fGroup = JSON.parse(options.fGroup)
+    var fGroup1 = JSON.parse(options.fGroup)
     var isAdmin = false
     const ui = wx.getStorageSync('userinfo')
     const openid = ui.openid
@@ -47,13 +81,40 @@ Page({
         isAdmin = true
       }
     }
+    //改管理员昵称
+    var temp = fGroup.fAdministrator.length
+    for (var i=0;i<temp;i++){
+      //改名
+      if (fGroup.fAdministrator[i].nickName.length<=8){
+      }
+      //取前8个字符，第9个字符为"..."
+      else{
+        var nickName = fGroup.fAdministrator[i].nickName.substring(0,7)+"..."
+        console.log(nickName)
+        fGroup.fAdministrator[i].nickName = nickName
+      }
+    }
+    //改群员
+    temp = fGroup.fMember.length
+    for (var i=0;i<temp;i++){
+      //改名
+      if (fGroup.fMember[i].nickName.length<=8){
+      }
+      //取前8个字符，第9个字符为"..."
+      else{
+        var nickName = fGroup.fMember[i].nickName.substring(0,7)+"..."
+        console.log(nickName)
+        fGroup.fMember[i].nickName = nickName
+      }
+    }
     this.setData({
       fGroup:fGroup,
+      fGroup1:fGroup1,
+      fGroupNum:fGroup.fGroupNum,
       isAdmin:isAdmin,
-      fAdministrator:fGroup.fAdministrator,
-      fMember:fGroup.fMember,
+      fAdministrator:fGroup1.fAdministrator,
+      fMember:fGroup1.fMember,
     })
-    console.log(this.data.fGroup)
   },
 
   /**

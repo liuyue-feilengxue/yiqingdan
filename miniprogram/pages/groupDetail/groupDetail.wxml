@@ -1,5 +1,5 @@
 <!--pages/groupDetail/groupDetail.wxml-->
-
+<!-- 群头像 -->
 <view class="weui-cells" bindtap="changeGroupAvatar">
   <view class="weui-cell weui-cell_active">
     <view class="weui-cell__hd" style="position: relative; margin-right: 10px;">
@@ -16,7 +16,7 @@
     </view>
   </view>
 </view>
-
+<!-- 群成员 -->
 <view class="weui-cells groupmember  weui-cell_active" bindtap="toGroupMember">
   <view class="weui-cell weui-cell_access">
     <view class="weui-cell__bd">群成员</view>
@@ -50,7 +50,7 @@
       <text style="vertical-align: middle; font-size: 17px;">{{fGroup.fGroupNum}}</text>
     </view>
   </view>
-  <view class="weui-cell weui-cell_active weui-cell_access" bindtap="toPostTask">
+  <view class="weui-cell weui-cell_active weui-cell_access" bindtap="toPostTask" wx:if="{{isAdministrator}}">
     <view class="weui-cell__bd">新建群任务</view>
     <view class="weui-cell__ft" style="font-size: 0;">
     </view>

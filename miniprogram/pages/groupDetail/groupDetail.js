@@ -10,8 +10,6 @@ Page({
     fileID:'',
     //群对象
     fGroup:{},
-    //群对象，没有修改的(因为fGroup的名字都改过了，这个可以用于)
-    fGroup1:{},
     //群号
     fGroupNum:0,
     //所有群成员
@@ -21,7 +19,9 @@ Page({
   },
   //更换群头像
   changeGroupAvatar(){
-    const that = this
+    //是管理员才能换头像
+    if (this.data.isAdministrator){
+      const that = this
     wx.showModal({
       title:'是否需要更换群头像',
       success(res){
@@ -37,7 +37,7 @@ Page({
           wx.chooseImage({
             success(res){
               wx.showLoading({
-                title: '加载中',
+                title: '加载中，请不要退出小程序',
               })
               var path = res.tempFilePaths[0]
               //文件后缀名
@@ -62,15 +62,17 @@ Page({
         }
       }
     })
+    }
   },
   //去群成员页面
   toGroupMember(){
     var fGroupjson = JSON.stringify(this.data.fGroup)
+    console.log(this.data.fGroup)
     wx.navigateTo({
       url: '/pages/groupMember/groupMember?fGroup='+fGroupjson,
     })
   },
-  // 去修改群名页面*
+  // 去修改群名页面
   toGroupRename(){
     //是管理员才能操作
     if(this.data.isAdministrator){
@@ -211,7 +213,6 @@ Page({
       }
     }).then(res=>{
       var fGroup = res.result.data[0]
-      var fGroup1 = res.result.data[0]
       //是否为群管理
       for (var i=0;i<fGroup.fAdministrator.length;i++){
         if (fGroup.fAdministrator[i].openid==openid){
@@ -221,24 +222,8 @@ Page({
       }
       // 把群成员的情况放入member中
       var member = fGroup.fAdministrator.concat(fGroup.fMember)
-      console.log(member)
-      //改变前6个的昵称(如果长度比6大，就改前6个，如果小于6就全改)
-      var temp = member.length>6?6:member.length
-      for (var i=0;i<temp;i++){
-        //改名
-        if (member[i].nickName.length<=3){
-
-        }
-        //取前两个字符，第三个字符为"..."
-        else{
-          var nickName = member[i].nickName.substring(0,2)+"..."
-          // console.log(nickName)
-          member[i].nickName = nickName
-        }
-      }
-      this.setData({
+      that.setData({
         fGroup:fGroup,
-        fGroup1:fGroup1,
         fileID:fGroup.fPicture,
         isAdministrator:isAdministrator,
         member:member
@@ -251,7 +236,35 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
+    const that = this
+    //先在Group表改，再到user表改
+    db.collection("t_group").doc(this.data.fGroup._id).update({
+      data:{
+        fPicture:this.data.fileID
+      }
+    }).then(res=>{
+      const ui = wx.getStorageSync('userinfo')
+      //获取_id
+      wx.cloud.callFunction({
+        name:"getUserInfo",
+        data:{
+          userInfo:ui
+        }
+      }).then(res=>{
+        var fGroup = res.result.data[0].fGroup
+        for (var i=0;i<fGroup.length;i++){
+          //群号相同（同一个群）
+          if (fGroup.fGroupNum==that.data.fGroup.fGroupNum){
+            fGroup[i].fPicture = that.data.fileID
+          }
+        }
+        db.collection("t_user").doc(res.result.data[0]._id).update({
+          data:{
+            fGroup:fGroup
+          }
+        })
+      })
+    })
   },
 
   /**

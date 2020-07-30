@@ -87,15 +87,37 @@ Page({
           data:{
             fGroup:fGroup
           }
-        }).then(res=>{
+        }).then(res=>{ 
           var allgroup = res.result.data
           for(var i = 0; i<allgroup.length;i++){
+            //所有成员
+            var member = allgroup[i].fMember.concat(allgroup[i].fAdministrator)
+            //是否被踢
+            var flag = false
+            for (var j= 0;j<member.length;j++){
+              if (member[j].openid == ui.openid){
+                // 还在这个群里
+                flag = true
+                break
+              }
+            }
+            // 如果已经被踢了，就在user表里把这个群删了
+            if (flag == false){
+              var fGroupNum = allgroup[i].fGroupNum
+              for (var j=0;j<fGroup.length;j++){
+                if (fGroup[j].fGroupNum == fGroupNum){
+                  fGroup.splice(j,1)
+                }
+              }
+              continue
+            }
             for (var j=0;j<fGroup.length;j++){
-              if (allgroup[i].fGroupNum == fGroup[j].fGroupNum){4
+              if (allgroup[i].fGroupNum == fGroup[j].fGroupNum){
                 //群名不同或者群头像不同
                 if (allgroup[i].fGroupName != fGroup[j].fGroupName || allgroup[i].fPicture != fGroup[j].fPicture){
                   fGroup[j].fPicture = allgroup[i].fPicture
                   fGroup[j].fGroupName = allgroup[i].fGroupName
+                  break
                 }
               }
             }

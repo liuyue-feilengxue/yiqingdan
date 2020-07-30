@@ -37,7 +37,7 @@ Page({
         index:e.currentTarget.dataset.index
     });
   },
-  //踢出群成员*
+  //踢出群成员
   deleteMember(){
     const that = this
     var fGroupNum = that.data.fGroupNum
@@ -60,11 +60,21 @@ Page({
             }
           }).then(res=>{
             wx.hideLoading()
+            wx.showToast({
+              title: '删除成功',
+            })
+            that.setData({
+              fMember:fMember
+            })
           })
         }
       }
     })
     
+  },
+  //添加为群管理*
+  toAdmin(){
+
   },
   /**
    * 生命周期函数--监听页面加载

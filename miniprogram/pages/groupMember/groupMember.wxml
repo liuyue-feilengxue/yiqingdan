@@ -37,7 +37,7 @@
     <view class="weui-mask"></view>
     <view class="weui-actionsheet weui-actionsheet_toggle">
         <view class="weui-actionsheet__menu">
-            <view class="weui-actionsheet__cell">添加为群管理</view>
+            <view class="weui-actionsheet__cell" bindtap="toAdmin">添加为群管理</view>
             <view class="weui-actionsheet__cell weui-actionsheet__cell_warn" bindtap="deleteMember">删除群成员</view>
         </view>
         <view class="weui-actionsheet__action">

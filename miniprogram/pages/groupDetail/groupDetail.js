@@ -115,7 +115,24 @@ Page({
   },
   //解散本群*
   disband(){
-    
+    const that = this
+    wx.showModal({
+      title:"请问你是否确定解散本群",
+      success(res){
+        if(res.confirm){
+          wx.showLoading({
+            title: '加载中',
+            mask:true
+          })
+          var fGroup = that.data.fGroup
+          //删除群头像文件
+          // wx.cloud.deleteFile({
+          //   fileList:[that.data.fileID]
+          // })
+
+        }
+      }
+    })
   },
   //退出本群
   exit(){

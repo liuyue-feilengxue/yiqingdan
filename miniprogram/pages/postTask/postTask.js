@@ -15,8 +15,6 @@ Page({
     array1: ['高优先级', '中优先级', '低优先级','无优先级'],
     value1: 0,
     taskname:'',
-    // 父页面
-    father:'',
     //自定义页面用到
     time:[],
     tasks:[],
@@ -96,114 +94,48 @@ Page({
   //点击确定
   finish(){
     const that = this;
-    var warn = that.data.warndate+' '+that.data.warntime
-    var ddl = that.data.ddldate+' '+that.data.ddltime
+    var warn = new Date(that.data.warndate+' '+that.data.warntime)
+    var ddl = new Date(that.data.ddldate+' '+that.data.ddltime)
+    //错误提醒，提醒大于截止时间（不可能）
     if (warn>ddl){
-      //错误提醒，提醒大于截止时间（不可能）
       wx.showModal({
         showCancel: false,
         title : '您的提醒时间大于截止时间，请重新确认'
       })
     }
-    else{
-      if (this.data.father == 'addProject'){
-        //addProject
-        if (this.data.taskname==''){
-          wx.showModal({
-            showCancel: false,
-            title : '请设置任务名'
-          })
-        }else{
-        wx.showLoading({
-          title: '加载中',
-        })
-        const pages = getCurrentPages()
-        // 上一页
-        const lastPages = pages[pages.length - 2]
-        
-        // 自定义的time和index
-        var time = this.data.time;
-        // index为task的长度
-        var index = this.data.length;
-        console.log(index)
-        var ddl = this.data.ddldate+' '+this.data.ddltime;
-        var warn = this.data.warndate+ ' ' + this.data.warntime;
-        var obj = {ddl,warn}
-        var time1 = time.concat(obj)
-  
-        var tasks = this.data.tasks.concat(this.data.taskname)
-        // 数据传递
-        lastPages.setData({
-          tasks:tasks,
-          time:time1,
-          isFirst:false
-        })
-        wx.hideLoading()
-        wx.navigateBack({
-          success(){
-            console.log('success')
-          },
-          fail(){
-            console.log('fail')
-          }
-        })
-        }
-         
-      }
-      else{
-        //addTask
-        //存入数据库
-        db.collection("t_task").add({
-          data:{
-            //任务名
-            fTask:that.data.taskname,
-            //提醒时间
-            fWarnTime:that.data.warndate+' '+that.data.warntime,
-            //截止时间
-            fDeadline:that.data.ddldate+' '+that.data.ddltime,
-            //紧急程度（存0-3）
-            fUrgency:that.data.value1,
-            //是否完成
-            fFinish:false,
-            //系统自带openid无法查找
-            openid:wx.getStorageSync('userinfo').openid
-          }
-        })
-        wx.navigateBack({
-          success(){
-            console.log('success')
-          },
-          fail(){
-            console.log('fail')
-          }
-        })
-      }
+    else if (that.data.taskname == ""){
+      wx.showModal({
+        showCancel: false,
+        title : '请设置任务名'
+      })
     }
-    
+    else{
+      //存入数据库
+      // db.collection("t_task").add({
+      //   data:{
+      //     //任务名
+      //     fTask:that.data.taskname,
+      //     //提醒时间
+      //     fWarnTime:that.data.warndate+' '+that.data.warntime,
+      //     //截止时间
+      //     fDeadline:that.data.ddldate+' '+that.data.ddltime,
+      //     //紧急程度（存0-3）
+      //     fUrgency:that.data.value1,
+      //     //是否完成
+      //     fFinish:false,
+      //     //系统自带openid无法查找
+      //     openid:wx.getStorageSync('userinfo').openid
+      //   }
+      // })
+      // wx.navigateBack()
+    }
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     this.getNowTime()
-    if (options.father=='addProject'){
-      var tasksjson = options.tasksjson
-      var tasks = JSON.parse(tasksjson)
-      var timejson = options.time
-      var time = JSON.parse(timejson)
-      this.setData({
-        father:options.father,
-        tasks:tasks,
-        time:time,
-        // tasks长度
-        length:Number(options.length)
-      })
-    }
-    else{
-      this.setData({
-        father:options.father,
-      })
-    }
+    
   },
 
   /**

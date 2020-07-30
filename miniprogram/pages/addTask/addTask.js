@@ -96,8 +96,8 @@ Page({
   //点击确定
   finish(){
     const that = this;
-    var warn = that.data.warndate+' '+that.data.warntime
-    var ddl = that.data.ddldate+' '+that.data.ddltime
+    var warn = new Date(that.data.warndate+' '+that.data.warntime)
+    var ddl = new Date(that.data.ddldate+' '+that.data.ddltime)
     if (warn>ddl){
       //错误提醒，提醒大于截止时间（不可能）
       wx.showModal({

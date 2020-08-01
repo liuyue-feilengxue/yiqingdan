@@ -102,7 +102,7 @@ Page({
   //新建群任务*
   toPostTask(){
     wx.navigateTo({
-      url: '/pages/postTask/postTask',
+      url: '/pages/postTask/postTask?fGroupNum='+this.data.fGroupNum,
     })
   },
   //去查看群任务页面*
@@ -113,7 +113,7 @@ Page({
       url: '/pages/groupTask/groupTask?fTask='+fTaskjson+"&fProject="+fProjectjson,
     })
   },
-  //解散本群*
+  //解散本群
   disband(){
     const that = this
     wx.showModal({
@@ -126,10 +126,19 @@ Page({
           })
           var fGroup = that.data.fGroup
           //删除群头像文件
-          // wx.cloud.deleteFile({
-          //   fileList:[that.data.fileID]
-          // })
-
+          wx.cloud.deleteFile({
+            fileList:[that.data.fileID]
+          })
+          wx.cloud.callFunction({
+            name:"deleteGroup",
+            data:{
+              fGroupNum : fGroup.fGroupNum
+            }
+          }).then(res=>{
+            console.log(res.result.data)
+            wx.hideLoading()
+            wx.navigateBack()
+          })
         }
       }
     })

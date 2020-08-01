@@ -79,6 +79,7 @@ Page({
           userInfo:ui
         }
       }).then(res=>{
+        // user表里的fGroup
         var fGroup = res.result.data[0].fGroup
         // 更新加入的群的情况
         //先获取所有加入的群的消息
@@ -89,6 +90,19 @@ Page({
           }
         }).then(res=>{ 
           var allgroup = res.result.data
+          //该群是否被解散
+          for (var i=0;i<fGroup.length;i++){
+            var flag1 = false
+            for (var j=0;j<allgroup.length;j++){
+              if (fGroup[i].fGroupNum == allgroup[j].fGroupNum){
+                flag1 = true
+                break
+              }
+            }
+            if (!flag1){
+              fGroup.splice(i,1)
+            }
+          }
           for(var i = 0; i<allgroup.length;i++){
             //所有成员
             var member = allgroup[i].fMember.concat(allgroup[i].fAdministrator)

@@ -15,10 +15,9 @@ Page({
     array1: ['高优先级', '中优先级', '低优先级','无优先级'],
     value1: 0,
     taskname:'',
-    //自定义页面用到
-    time:[],
-    tasks:[],
-    length:-1,
+    fGroup:{},
+    fGroupNum:-1,
+    fTask:[]
   },
   //获取优先级
   bindPicker1Change: function(e) {
@@ -94,8 +93,9 @@ Page({
   //点击确定
   finish(){
     const that = this;
-    var warn = new Date(that.data.warndate+' '+that.data.warntime)
-    var ddl = new Date(that.data.ddldate+' '+that.data.ddltime)
+    var fGroupNum = this.data.fGroupNum
+    var warn = that.data.warndate+' '+that.data.warntime
+    var ddl = that.data.ddldate+' '+that.data.ddltime
     //错误提醒，提醒大于截止时间（不可能）
     if (warn>ddl){
       wx.showModal({
@@ -110,24 +110,37 @@ Page({
       })
     }
     else{
-      //存入数据库
-      // db.collection("t_task").add({
-      //   data:{
-      //     //任务名
-      //     fTask:that.data.taskname,
-      //     //提醒时间
-      //     fWarnTime:that.data.warndate+' '+that.data.warntime,
-      //     //截止时间
-      //     fDeadline:that.data.ddldate+' '+that.data.ddltime,
-      //     //紧急程度（存0-3）
-      //     fUrgency:that.data.value1,
-      //     //是否完成
-      //     fFinish:false,
-      //     //系统自带openid无法查找
-      //     openid:wx.getStorageSync('userinfo').openid
-      //   }
-      // })
-      // wx.navigateBack()
+      wx.showModal({
+        title:"请问您是否确定要创建新的群任务",
+        success(res){
+          if (res.confirm){
+            wx.showLoading({
+              title: '加载中',
+              mask:true
+            })
+            // 任务对象，存到fTask里面的
+            var obj = {}
+            obj.fTaskname = that.data.taskname
+            obj.fUrgency = that.data.value1
+            obj.fNum = new Date().getTime()
+            obj.fWarnTime = warn
+            obj.fDeadline = ddl
+            var fTask = that.data.fTask
+            fTask.push(obj)
+            wx.cloud.callFunction({
+              name:"updateGroupTask",
+              data:{
+                fGroupNum:fGroupNum,
+                fTask:fTask
+              }
+            }).then(res=>{
+              console.log(res)
+              wx.hideLoading()
+              wx.navigateBack()
+            })
+          }
+        }
+      })
     }
   },
   /**
@@ -135,7 +148,9 @@ Page({
    */
   onLoad: function (options) {
     this.getNowTime()
-    
+    this.setData({
+      fGroupNum:Number(options.fGroupNum)
+    })
   },
 
   /**
@@ -149,7 +164,19 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    var fGroupNum = this.data.fGroupNum
+    const that = this
+    wx.cloud.callFunction({
+      name:"getTGroup",
+      data:{
+        fGroupNum:fGroupNum
+      }
+    }).then(res=>{
+      that.setData({
+        fGroup:res.result.data[0],
+        fTask:res.result.data[0].fTask
+      })
+    })
   },
 
   /**

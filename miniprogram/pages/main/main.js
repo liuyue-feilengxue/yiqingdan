@@ -9,6 +9,8 @@ Page({
     tasks:[],
     projects:[],
     all:[],
+    // user表的fGroup
+    fGroup:[]
   },
   //转到任务（项目）详情
   toTaskDetail(e){
@@ -34,6 +36,7 @@ Page({
    */
   onLoad: function (options) {
     const ui=wx.getStorageSync('userinfo')
+    const that = this
     //如果没有登录
     if(!ui){
       wx.showModal({
@@ -45,6 +48,18 @@ Page({
             })
           }
         }
+      })
+    }
+    else{
+      wx.cloud.callFunction({
+        name:"getUserInfo",
+        data:{
+          userInfo:ui
+        }
+      }).then(res=>{
+        that.setData({
+          fGroup:res.result.data[0].fGroup
+        })
       })
     }
   },
@@ -71,6 +86,16 @@ Page({
     var all=[]
     if (ui){
       //如果已经登录
+      // 把group里发布的任务自己发布一次(可以是与下面为并发操作)
+      wx.cloud.callFunction({
+        name:"getAllJoinGroup",
+        data:{
+          fGroup:that.data.fGroup
+        }
+      }).then(res=>{
+        console.log(res.result.data)
+      })
+
       wx.cloud.callFunction({
         name:"getTTask",
         data:{
@@ -127,22 +152,6 @@ Page({
       })
       
     }
-    //未登录
-    // else{
-    //   that.setData({
-    //     tasks:[]
-    //   })
-    //   wx.showModal({
-    //     title:"您尚未登录",
-    //     success(res){
-    //       if (res.confirm){
-    //         wx.switchTab({
-    //           url: '/pages/my/my',
-    //         })
-    //       }
-    //     }
-    //   })
-    // }
   },
   //排序函数
   compare:function(obj1,obj2){

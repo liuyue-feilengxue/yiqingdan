@@ -9,7 +9,9 @@ Page({
     //显示菜单
     showDialog: false,
     //加入的群聊
-    fGroup:[]
+    fGroup:[],
+    //用户表的fGroup
+    UserfGroup:[]
   },
   //搜索框
   search(){
@@ -81,75 +83,52 @@ Page({
       }).then(res=>{
         // user表里的fGroup
         var fGroup = res.result.data[0].fGroup
+        that.setData({
+          UserfGroup:fGroup
+        })
         // 更新加入的群的情况
         //先获取所有加入的群的消息
-        wx.cloud.callFunction({
-          name:"getAllJoinGroup",
-          data:{
-            fGroup:fGroup
-          }
-        }).then(res=>{ 
-          var allgroup = res.result.data
-          //该群是否被解散
-          for (var i=0;i<fGroup.length;i++){
-            var flag1 = false
-            for (var j=0;j<allgroup.length;j++){
-              if (fGroup[i].fGroupNum == allgroup[j].fGroupNum){
-                flag1 = true
-                break
-              }
-            }
-            if (!flag1){
-              fGroup.splice(i,1)
-            }
-          }
-          for(var i = 0; i<allgroup.length;i++){
-            //所有成员
-            var member = allgroup[i].fMember.concat(allgroup[i].fAdministrator)
-            //是否被踢
-            var flag = false
-            for (var j= 0;j<member.length;j++){
-              if (member[j].openid == ui.openid){
-                // 还在这个群里
-                flag = true
-                break
-              }
-            }
-            // 如果已经被踢了，就在user表里把这个群删了
-            if (flag == false){
-              var fGroupNum = allgroup[i].fGroupNum
-              for (var j=0;j<fGroup.length;j++){
-                if (fGroup[j].fGroupNum == fGroupNum){
-                  fGroup.splice(j,1)
-                }
-              }
-              continue
-            }
-            for (var j=0;j<fGroup.length;j++){
-              if (allgroup[i].fGroupNum == fGroup[j].fGroupNum){
-                //群名不同或者群头像不同
-                if (allgroup[i].fGroupName != fGroup[j].fGroupName || allgroup[i].fPicture != fGroup[j].fPicture){
-                  fGroup[j].fPicture = allgroup[i].fPicture
-                  fGroup[j].fGroupName = allgroup[i].fGroupName
-                  break
-                }
-              }
-            }
-          }
-          // 群名群头像改好了，上传
-          wx.cloud.callFunction({
-            name:"updateJoinGroup",
-            data:{
-              userInfo:ui,
-              fGroup:fGroup
-            }
-          }).then(res=>{
-            console.log(res)
+        function getAllJoinGroup(i){
+          if (i == fGroup.length){
             that.setData({
               fGroup:fGroup
             })
+            // 群名群头像改好了，上传
+            wx.cloud.callFunction({
+              name:"updateJoinGroup",
+              data:{
+                userInfo:ui,
+                fGroup:fGroup
+              }
+            }).then(res=>{
+              console.log(res)
+              that.setData({
+                fGroup:fGroup
+              })
+            })
+            return;
+          } 
+          wx.cloud.callFunction({
+            name:"getAllJoinGroup",
+            data:{
+              fGroup:fGroup[i]
+            }
+          }).then(res=>{
+            //这个群没了
+            if (res.result.data.length == 0 ){
+              fGroup.splice(i,1)
+              console.log(i)
+              that.setData({
+                fGroup:fGroup
+              })
+              getAllJoinGroup(i+1)
+            }
+            // console.log(that.check(res)) 
+            getAllJoinGroup(i+1)
           })
-        })
+        }
+        getAllJoinGroup(0)
+          
       })
     }
     //没登录
@@ -166,6 +145,60 @@ Page({
         }
       })
     } 
+  },
+
+  //检查是否被删除提出之类的
+  check(res){
+    var group = res.result.data[0]
+    var UserfGroup = this.data.UserfGroup
+    const that = this
+    return group
+    // //该群是否被解散
+    // for (var i=0;i<fGroup.length;i++){
+    //   var flag1 = false
+    //   for (var j=0;j<allgroup.length;j++){
+    //     if (fGroup[i].fGroupNum == allgroup[j].fGroupNum){
+    //       flag1 = true
+    //       break
+    //     }
+    //   }
+    //   if (!flag1){
+    //     fGroup.splice(i,1)
+    //   }
+    // }
+    // for(var i = 0; i<allgroup.length;i++){
+    //   //所有成员
+    //   var member = allgroup[i].fMember.concat(allgroup[i].fAdministrator)
+    //   //是否被踢
+    //   var flag = false
+    //   for (var j= 0;j<member.length;j++){
+    //     if (member[j].openid == ui.openid){
+    //       // 还在这个群里
+    //       flag = true
+    //       break
+    //     }
+    //   }
+    //   // 如果已经被踢了，就在user表里把这个群删了
+    //   if (flag == false){
+    //     var fGroupNum = allgroup[i].fGroupNum
+    //     for (var j=0;j<fGroup.length;j++){
+    //       if (fGroup[j].fGroupNum == fGroupNum){
+    //         fGroup.splice(j,1)
+    //       }
+    //     }
+    //     continue
+    //   }
+    //   for (var j=0;j<fGroup.length;j++){
+    //     if (allgroup[i].fGroupNum == fGroup[j].fGroupNum){
+    //       //群名不同或者群头像不同
+    //       if (allgroup[i].fGroupName != fGroup[j].fGroupName || allgroup[i].fPicture != fGroup[j].fPicture){
+    //         fGroup[j].fPicture = allgroup[i].fPicture
+    //         fGroup[j].fGroupName = allgroup[i].fGroupName
+    //         break
+    //       }
+    //     }
+    //   }
+    // }
   },
 
   /**

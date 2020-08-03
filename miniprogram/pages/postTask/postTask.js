@@ -120,11 +120,18 @@ Page({
             })
             // 任务对象，存到fTask里面的
             var obj = {}
+            // 任务名称
             obj.fTaskname = that.data.taskname
+            // 任务紧急程度
             obj.fUrgency = that.data.value1
+            // 任务序号
             obj.fNum = new Date().getTime()
+            // 任务提醒时间
             obj.fWarnTime = warn
+            // 任务截止时间
             obj.fDeadline = ddl
+            // 任务完成人数
+            obj.fFinish = 0
             var fTask = that.data.fTask
             fTask.push(obj)
             wx.cloud.callFunction({

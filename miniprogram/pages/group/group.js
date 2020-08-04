@@ -74,6 +74,10 @@ Page({
     const ui = wx.getStorageSync('userinfo')
     const that = this
     if (ui!=""){
+      wx.showLoading({
+        title: '加载中',
+        mask:true
+      })
       // 获取用户加入的群
       wx.cloud.callFunction({
         name:"getUserInfo",
@@ -84,7 +88,6 @@ Page({
         // user表里的fGroup
         var fGroup = res.result.data[0].fGroup
         // 更新加入的群的情况
-        //先获取所有加入的群的消息
         function getAllJoinGroup(i){
           //因为有可能fGroup删除了以后短一点
           if (i >= fGroup.length){
@@ -102,6 +105,7 @@ Page({
               that.setData({
                 fGroup:fGroup
               })
+              wx.hideLoading()
             })
             return;
           } 
@@ -117,17 +121,21 @@ Page({
               that.setData({
                 fGroup:fGroup
               })
-              getAllJoinGroup(i+1)
+              getAllJoinGroup(i)
             }
             // 查看是不是被踢了
             if(!that.isInGroup(res)){
               fGroup.splice(i,1)
+              getAllJoinGroup(i)
             }
+            // 修改群名群头像
+            var group = res.result.data[0]
+            fGroup[i].fGroupName = group.fGroupName
+            fGroup[i].fPicture = group.fPicture
             getAllJoinGroup(i+1)
           })
         }
         getAllJoinGroup(0)
-          
       })
     }
     //没登录
@@ -162,21 +170,6 @@ Page({
       }
     }
     return false
-  },
-
-  //查看群头像或者群名是否有修改*
-  isChangeGroup(){
-    //   for (var j=0;j<fGroup.length;j++){
-    //     if (allgroup[i].fGroupNum == fGroup[j].fGroupNum){
-    //       //群名不同或者群头像不同
-    //       if (allgroup[i].fGroupName != fGroup[j].fGroupName || allgroup[i].fPicture != fGroup[j].fPicture){
-    //         fGroup[j].fPicture = allgroup[i].fPicture
-    //         fGroup[j].fGroupName = allgroup[i].fGroupName
-    //         break
-    //       }
-    //     }
-    //   }
-    // }
   },
 
   /**

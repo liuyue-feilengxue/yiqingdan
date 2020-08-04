@@ -56,7 +56,6 @@ Page({
     this.setData({
       currentdata:currentdata
     })
-    // console.log(this.data.currentdata)
   },
   //点击群，前往群详情
   toGroupDetail(e){
@@ -65,13 +64,12 @@ Page({
     wx.cloud.callFunction({
       name:"getTGroup",
       data:{
-        fGroupNum:this.data.fGroup[index].fGroupNum
+        fGroupNum:this.data.currentdata[index].fGroupNum
       }
     }).then(res=>{
-      var fGroup = res.result.data[0]
-      var fGroupjson = JSON.stringify(fGroup)
+      var fGroupNum = res.result.data[0].fGroupNum
       wx.navigateTo({
-        url: '/pages/groupDetail/groupDetail?fGroupjson='+fGroupjson,
+        url: '/pages/groupDetail/groupDetail?fGroupNum='+fGroupNum,
       })
     })
 

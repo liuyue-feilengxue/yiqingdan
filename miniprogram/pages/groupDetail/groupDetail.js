@@ -145,7 +145,7 @@ Page({
   },
   //退出本群
   exit(){
-    var fGroup = this.data.fGroup1
+    var fGroup = this.data.fGroup
     var that = this
     var ui = wx.getStorageSync('userinfo')
     wx.showModal({

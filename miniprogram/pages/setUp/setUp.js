@@ -23,6 +23,23 @@ Page({
       }
     })
   },
+  //订阅消息
+  subscribeMessageSend(){
+    // 若将来订阅消息变多了，可以改为跳转页面
+    // wx.navigateTo({
+    //   url: 'url',
+    // })
+    wx.requestSubscribeMessage({
+      tmplIds: ['n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ'],
+      success(res){
+        console.log(res)
+        wx.setStorageSync('dateWarnKey','n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ')
+      },
+      fail(err){
+        console.log(err)
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

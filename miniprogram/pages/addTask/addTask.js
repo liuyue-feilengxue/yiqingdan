@@ -96,18 +96,18 @@ Page({
   //点击确定
   finish(){
     const that = this;
-    var warn = new Date(that.data.warndate+' '+that.data.warntime)
-    var ddl = new Date(that.data.ddldate+' '+that.data.ddltime)
+    var warn = that.data.warndate+' '+that.data.warntime
+    var ddl = that.data.ddldate+' '+that.data.ddltime
+    //错误提醒，提醒大于截止时间（不可能）
     if (warn>ddl){
-      //错误提醒，提醒大于截止时间（不可能）
       wx.showModal({
         showCancel: false,
         title : '您的提醒时间大于截止时间，请重新确认'
       })
     }
     else{
+      //addProject
       if (this.data.father == 'addProject'){
-        //addProject
         if (this.data.taskname==''){
           wx.showModal({
             showCancel: false,
@@ -139,44 +139,51 @@ Page({
           isFirst:false
         })
         wx.hideLoading()
-        wx.navigateBack({
-          success(){
-            console.log('success')
-          },
-          fail(){
-            console.log('fail')
-          }
-        })
+        wx.navigateBack()
         }
          
       }
+      //addTask
       else{
-        //addTask
-        //存入数据库
-        db.collection("t_task").add({
+        // 获取订阅消息授权
+        var subId = wx.getStorageSync('dateWarnKey')
+        if (!subId){
+          wx.requestSubscribeMessage({
+            tmplIds: ['n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ'],
+            success(res){
+              wx.setStorageSync('dateWarnKey', "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ")
+              subId = "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ"
+            }
+          })
+        }
+        wx.cloud.callFunction({
+          name:"subscribeMessage",
           data:{
-            //任务名
-            fTask:that.data.taskname,
-            //提醒时间
-            fWarnTime:that.data.warndate+' '+that.data.warntime,
-            //截止时间
-            fDeadline:that.data.ddldate+' '+that.data.ddltime,
-            //紧急程度（存0-3）
-            fUrgency:that.data.value1,
-            //是否完成
-            fFinish:false,
-            //系统自带openid无法查找
-            openid:wx.getStorageSync('userinfo').openid
+            templateId:subId,
+            taskname:that.data.taskname,
+            ddl:that.data.ddldate+'~'+that.data.ddltime
           }
+        }).then(res=>{
+          console.log(res)
         })
-        wx.navigateBack({
-          success(){
-            console.log('success')
-          },
-          fail(){
-            console.log('fail')
-          }
-        })
+        //存入数据库
+        // db.collection("t_task").add({
+        //   data:{
+        //     //任务名
+        //     fTask:that.data.taskname,
+        //     //提醒时间
+        //     fWarnTime:that.data.warndate+' '+that.data.warntime,
+        //     //截止时间
+        //     fDeadline:that.data.ddldate+' '+that.data.ddltime,
+        //     //紧急程度（存0-3）
+        //     fUrgency:that.data.value1,
+        //     //是否完成
+        //     fFinish:false,
+        //     //系统自带openid无法查找
+        //     openid:wx.getStorageSync('userinfo').openid
+        //   }
+        // })
+        wx.navigateBack()
       }
     }
     

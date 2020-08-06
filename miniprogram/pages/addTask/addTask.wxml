@@ -14,7 +14,7 @@
       <a class="weui-btn weui-btn_default">日期选择</a>
   </picker>
 
-  <picker mode="time" value="{{ddltime}}" start='{{nowtime}}' bindchange="bindTimeChange" data-name="ddl">
+  <picker mode="time" value="{{ddltime}}"  bindchange="bindTimeChange" data-name="ddl">
       <a class="weui-btn weui-btn_default">时间选择</a>
   </picker>
 
@@ -37,7 +37,7 @@
       <a class="weui-btn weui-btn_default" >日期选择</a>
   </picker>
 
-  <picker mode="time" value="{{warntime}}" start='{{nowtime}}' bindchange="bindTimeChange" data-name="warn">
+  <picker mode="time" value="{{warntime}}" bindchange="bindTimeChange" data-name="warn">
       <a class="weui-btn weui-btn_default">时间选择</a>
   </picker>
 

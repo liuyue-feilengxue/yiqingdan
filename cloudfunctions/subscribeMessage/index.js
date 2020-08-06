@@ -7,7 +7,7 @@ cloud.init()
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   var openid = wxContext.OPENID
-  var templateId = event.subId
+  var templateId = event.templateId
   var taskname = event.taskname
   var ddl = event.ddl
 
@@ -15,12 +15,12 @@ exports.main = async (event, context) => {
     const result = await cloud.openapi.subscribeMessage.send({
       touser:openid,
       miniprogramState:"developer",
-      templateId:"n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ",
+      templateId:templateId,
       data:{
-        "thing1.DATA":{
+        "thing1":{
           "value":taskname
         },
-        "time2.DATA":{
+        "time2":{
           "value":ddl
         }
       }

@@ -156,33 +156,33 @@ Page({
             }
           })
         }
-        wx.cloud.callFunction({
-          name:"subscribeMessage",
-          data:{
-            templateId:subId,
-            taskname:that.data.taskname,
-            ddl:that.data.ddldate+'~'+that.data.ddltime
-          }
-        }).then(res=>{
-          console.log(res)
-        })
-        //存入数据库
-        // db.collection("t_task").add({
+        // wx.cloud.callFunction({
+        //   name:"subscribeMessage",
         //   data:{
-        //     //任务名
-        //     fTask:that.data.taskname,
-        //     //提醒时间
-        //     fWarnTime:that.data.warndate+' '+that.data.warntime,
-        //     //截止时间
-        //     fDeadline:that.data.ddldate+' '+that.data.ddltime,
-        //     //紧急程度（存0-3）
-        //     fUrgency:that.data.value1,
-        //     //是否完成
-        //     fFinish:false,
-        //     //系统自带openid无法查找
-        //     openid:wx.getStorageSync('userinfo').openid
+        //     templateId:subId,
+        //     taskname:that.data.taskname,
+        //     ddl:that.data.ddldate+' '+that.data.ddltime
         //   }
+        // }).then(res=>{
+        //   console.log(res)
         // })
+        //存入数据库
+        db.collection("t_task").add({
+          data:{
+            //任务名
+            fTask:that.data.taskname,
+            //提醒时间
+            fWarnTime:that.data.warndate+' '+that.data.warntime,
+            //截止时间
+            fDeadline:that.data.ddldate+' '+that.data.ddltime,
+            //紧急程度（存0-3）
+            fUrgency:that.data.value1,
+            //是否完成
+            fFinish:false,
+            //系统自带openid无法查找
+            openid:wx.getStorageSync('userinfo').openid
+          }
+        })
         wx.navigateBack()
       }
     }

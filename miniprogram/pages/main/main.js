@@ -77,10 +77,9 @@ Page({
    */
   onShow: function () {
     wx.cloud.callFunction({
-      name:"CheckWarnTime",
+      name:"checkTime"
     }).then(res=>{
       console.log(res)
-      
     })
 
     const ui=wx.getStorageSync('userinfo')

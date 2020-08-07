@@ -2,12 +2,5 @@
   "permissions": {
     "openapi": [
     ]
-  },
-  "triggers": [
-    {
-      "name": "checkTime",
-      "type": "timer",
-      "config": "0 */1 * * * * *"
-    }
-  ]
+  }
 }

@@ -6,9 +6,8 @@ const db = cloud.database()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
+  const wxContext = await cloud.getWXContext()
   var openid = wxContext.OPENID
-
   let dt = await db.collection("t_task").where({
     openid:openid,
     fFinish:false
@@ -25,23 +24,17 @@ exports.main = async (event, context) => {
 
   for(var i=0;i<dt.data.length;i++){
     if (now == dt.data[i].fWarnTime){
-      // cloud.callFunction({
-      //   name:"subscribeMessage",
-      //   data:{
-      //     templateId:"n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ",
-      //     taskname:dt.data[i].fTask,
-      //     ddl:dt.data[i].fDeadline
-      //   }
-      // })
+      const res = await cloud.callFunction({
+        name:"subscribeMessage",
+        data:{
+          openid:wxContext.OPENID,
+          templateId:"n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ",
+          taskname:dt.data[i].fTask,
+          ddl:dt.data[i].fDeadline
+        }
+      })
+      return res
     }
   }
+  return now
 }
-
-// ,
-//   "triggers": [
-//     {
-//       "name": "checkTime",
-//       "type": "timer",
-//       "config": "0 */1 * * * * *"
-//     }
-//   ]

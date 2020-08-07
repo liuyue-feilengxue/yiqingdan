@@ -76,11 +76,12 @@ Page({
    * 要到数据库取数据
    */
   onShow: function () {
-    // wx.cloud.callFunction({
-    //   name:"checkTime",
-    // }).then(res=>{
-    //   console.log(res)
-    // })
+    wx.cloud.callFunction({
+      name:"CheckWarnTime",
+    }).then(res=>{
+      console.log(res)
+      
+    })
 
     const ui=wx.getStorageSync('userinfo')
     const that = this

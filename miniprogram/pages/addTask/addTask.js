@@ -145,27 +145,15 @@ Page({
       }
       //addTask
       else{
+        var subId = ""
         // 获取订阅消息授权
-        var subId = wx.getStorageSync('dateWarnKey')
-        if (!subId){
-          wx.requestSubscribeMessage({
-            tmplIds: ['n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ'],
-            success(res){
-              wx.setStorageSync('dateWarnKey', "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ")
-              subId = "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ"
-            }
-          })
-        }
-        // wx.cloud.callFunction({
-        //   name:"subscribeMessage",
-        //   data:{
-        //     templateId:subId,
-        //     taskname:that.data.taskname,
-        //     ddl:that.data.ddldate+' '+that.data.ddltime
-        //   }
-        // }).then(res=>{
-        //   console.log(res)
-        // })
+        wx.requestSubscribeMessage({
+          tmplIds: ['n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ'],
+          success(res){
+            wx.setStorageSync('dateWarnKey', "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ")
+            subId = "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ"
+          }
+        })
         //存入数据库
         db.collection("t_task").add({
           data:{

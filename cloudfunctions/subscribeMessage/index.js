@@ -13,7 +13,7 @@ exports.main = async (event, context) => {
   try{
     const result = await cloud.openapi.subscribeMessage.send({
       touser:openid,
-      miniprogramState:"developer",
+      miniprogramState:"trial",
       templateId:templateId,
       data:{
         "thing1":{

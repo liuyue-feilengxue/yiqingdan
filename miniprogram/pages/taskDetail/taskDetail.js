@@ -69,28 +69,34 @@ Page({
   },
   //点击确定
   finish(){
-    wx.showLoading({
-      title: '加载中',
-      mask:true
-    })
+    const that = this
+    
     this.setData({
       ddl:this.data.ddldate+' '+this.data.ddltime,
       warn:this.data.warndate+' '+this.data.warntime,
     })
-    //传入数据库
-    db.collection("t_task").doc(this.data._id).update({
-      data:{
-        fFinish:this.data.isFinish,
-        fDeadline:this.data.ddl,
-        fWarnTime:this.data.warn,
-        fTask:this.data.taskname,
-        fUrgency:this.data.value1,
+    // 发送服务提醒
+    wx.requestSubscribeMessage({
+      tmplIds: ['n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ'],
+      success(res){
+        wx.setStorageSync('dateWarnKey', "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ")
+        var subId = "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ"
+        //传入数据库
+        db.collection("t_task").doc(that.data._id).update({
+          data:{
+            fFinish:that.data.isFinish,
+            fDeadline:that.data.ddl,
+            fWarnTime:that.data.warn,
+            fTask:that.data.taskname,
+            fUrgency:that.data.value1,
+          }
+        }).then(res=>{
+          console.log(res)
+          wx.navigateBack()
+        })
       }
-    }).then(res=>{
-      console.log(res)
-      wx.hideLoading()
-      wx.navigateBack()
     })
+    
   },
   //点击删除
   delete(){
@@ -146,7 +152,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    
   },
 
   /**

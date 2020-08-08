@@ -87,6 +87,8 @@ Page({
     }
     return 0
   },
+
+  // 确定
   finish(){
     //如果时间没设置好
     const that = this

@@ -152,26 +152,27 @@ Page({
           success(res){
             wx.setStorageSync('dateWarnKey', "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ")
             subId = "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ"
+            //存入数据库
+            db.collection("t_task").add({
+              data:{
+                //任务名
+                fTask:that.data.taskname,
+                //提醒时间
+                fWarnTime:that.data.warndate+' '+that.data.warntime,
+                //截止时间
+                fDeadline:that.data.ddldate+' '+that.data.ddltime,
+                //紧急程度（存0-3）
+                fUrgency:that.data.value1,
+                //是否完成
+                fFinish:false,
+                //系统自带openid无法查找
+                openid:wx.getStorageSync('userinfo').openid
+              }
+            }).then(res=>{
+              wx.navigateBack()
+            })
           }
         })
-        //存入数据库
-        db.collection("t_task").add({
-          data:{
-            //任务名
-            fTask:that.data.taskname,
-            //提醒时间
-            fWarnTime:that.data.warndate+' '+that.data.warntime,
-            //截止时间
-            fDeadline:that.data.ddldate+' '+that.data.ddltime,
-            //紧急程度（存0-3）
-            fUrgency:that.data.value1,
-            //是否完成
-            fFinish:false,
-            //系统自带openid无法查找
-            openid:wx.getStorageSync('userinfo').openid
-          }
-        })
-        wx.navigateBack()
       }
     }
     

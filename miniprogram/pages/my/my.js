@@ -87,6 +87,14 @@ Page({
                           fMember:fMember
                         }
                       })
+                      // 订阅服务
+                      wx.requestSubscribeMessage({
+                        tmplIds: ['n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ'],
+                        success(res){
+                          wx.setStorageSync('dateWarnKey', "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ")
+                          var subId = "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ"
+                        }
+                      })
                     })
                   }
                 }else{

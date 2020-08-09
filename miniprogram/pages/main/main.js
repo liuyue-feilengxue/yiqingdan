@@ -35,33 +35,7 @@ Page({
    * 
    */
   onLoad: function (options) {
-    const ui=wx.getStorageSync('userinfo')
-    const that = this
-    //如果没有登录
-    if(!ui){
-      wx.showModal({
-        title:"您尚未登录",
-        success(res){
-          if (res.confirm){
-            wx.switchTab({
-              url: '/pages/my/my',
-            })
-          }
-        }
-      })
-    }
-    else{
-      wx.cloud.callFunction({
-        name:"getUserInfo",
-        data:{
-          userInfo:ui
-        }
-      }).then(res=>{
-        that.setData({
-          fGroup:res.result.data[0].fGroup
-        })
-      })
-    }
+    
   },
 
   /**
@@ -82,75 +56,106 @@ Page({
     var tasks=[]
     //项目
     var projects = []
+    //群组任务
+    var groupTasks = []
     //全部
     var all=[]
+    //已经登录
     if (ui){
-      //如果已经登录
-      // 把group里发布的任务自己发布一次(可以是与下面为并发操作)
+      //获取用户表的fGroup
       wx.cloud.callFunction({
-        name:"getAllJoinGroup",
+        name:"getUserInfo",
         data:{
-          fGroup:that.data.fGroup
+          userInfo:ui
         }
       }).then(res=>{
-        console.log(res.result.data)
-      })
-
-      wx.cloud.callFunction({
-        name:"getTTask",
-        data:{
-          openid:ui.openid
-        }
-      }).then(res=>{
-        //data是数组，存的是整个数据库的东西
-        //看一下里面有没有已经完成的任务，若已经完成就不用出现
-        for(var i=0;i<res.result.data.length;i++){
-          //未完成
-          if (!res.result.data[i].fFinish){
-            //加入身份，区分是task还是project
-            var task = res.result.data[i]
-            task['identity'] = 'task'
-            tasks.push(task)
-          }
-        }
-        //查找project
+        that.setData({
+          fGroup:res.result.data[0].fGroup
+        })
+        // 通过用户表的fGroup去搜索
         wx.cloud.callFunction({
-          name:'getTProject',
+          name:"getAllJoinGroup",
+          data:{
+            fGroup:that.data.fGroup
+          }
+        }).then(res=>{
+          //群组详情
+          var groupDetail = res.result
+          for (let i = 0;i<groupDetail.length;i++){
+            groupTasks.concat(groupDetail.fTask)
+          }
+          console.log(groupDetail)
+          console.log(groupTasks)
+        })
+        // 获取任务
+        wx.cloud.callFunction({
+          name:"getTTask",
           data:{
             openid:ui.openid
           }
         }).then(res=>{
+          //data是数组，存的是整个数据库的东西
+          //看一下里面有没有已经完成的任务，若已经完成就不用出现
           for(var i=0;i<res.result.data.length;i++){
             //未完成
-            var finish = res.result.data[i].fFinish
-            var flag = 0
-            //是否所有项目中的任务都完成
-            for (var j=0;j<finish.length;j++){
-              //如果该任务完成，flag+1
-              if (finish[j]){
-                flag++
-              }
-            }
-            //有没做完的
-            if (flag!=finish.length){
-              var project = res.result.data[i]
-              //身份
-              project['identity'] = 'project'
-              projects.push(project)
+            if (!res.result.data[i].fFinish){
+              //加入身份，区分是task还是project
+              var task = res.result.data[i]
+              task['identity'] = 'task'
+              tasks.push(task)
             }
           }
-          //把project和tasks合并起来(concat(project))
-          all=tasks.concat(projects)
-          //排序
-          all.sort(this.compare)
-          that.setData({
-            tasks:tasks,
-            projects:projects,
-            all:all
+          //查找project
+          wx.cloud.callFunction({
+            name:'getTProject',
+            data:{
+              openid:ui.openid
+            }
+          }).then(res=>{
+            for(var i=0;i<res.result.data.length;i++){
+              //未完成
+              var finish = res.result.data[i].fFinish
+              var flag = 0
+              //是否所有项目中的任务都完成
+              for (var j=0;j<finish.length;j++){
+                //如果该任务完成，flag+1
+                if (finish[j]){
+                  flag++
+                }
+              }
+              //有没做完的
+              if (flag!=finish.length){
+                var project = res.result.data[i]
+                //身份
+                project['identity'] = 'project'
+                projects.push(project)
+              }
+            }
+            //把project和tasks合并起来(concat(project))
+            all=tasks.concat(projects)
+            //排序
+            all.sort(that.compare)
+            that.setData({
+              tasks:tasks,
+              projects:projects,
+              all:all
+            })
           })
         })
       })
-      
+    }
+    // 未登录
+    else{
+      wx.showModal({
+        title:"您尚未登录",
+        success(res){
+          if (res.confirm){
+            wx.switchTab({
+              url: '/pages/my/my',
+            })
+          }
+        }
+      })
     }
   },
   //排序函数

@@ -134,6 +134,7 @@ Page({
             obj.fFinish = 0
             var fTask = that.data.fTask
             fTask.push(obj)
+            //云函数存入group里
             wx.cloud.callFunction({
               name:"updateGroupTask",
               data:{

@@ -1,4 +1,5 @@
 // pages/groupTask/groupTask.js
+// 查看群任务，是在群里面进去的那个
 Page({
 
   /**

@@ -16,13 +16,11 @@ exports.main = async (event, context) => {
     allGroupNum.push(UserGroup[i].fGroupNum)
   }
   for (let i = 0;i<allGroupNum.length;i++){
-    var res =await cloud.callFunction({
-      name:"getTGroup",
-      data:{
-        fGroupNum:allGroupNum[i]
-      }
-    })
-    fGroup.push(res.result.data[0])
+    let fGroupNum = allGroupNum[i]
+    var res = await db.collection("t_group").where({
+      fGroupNum:fGroupNum
+    }).get()
+    fGroup.push(res.data[0])
   }
   return fGroup
 }

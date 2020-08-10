@@ -29,6 +29,12 @@ Page({
         url: '/pages/projectDetail/projectDetail?alljson='+alljson,
       })
     }
+    //群任务
+    else{
+      wx.navigateTo({
+        url: "/pages/groupTaskDetail/groupTaskDetail?alljson="+alljson,
+      })
+    }
   },
   /**
    * 生命周期函数--监听页面加载
@@ -81,10 +87,16 @@ Page({
         }).then(res=>{
           //群组详情
           var groupDetail = res.result
+          // 获取群组任务
           for (let i = 0;i<groupDetail.length;i++){
-            groupTasks.concat(groupDetail.fTask)
+            if (groupDetail[i].fTask.length == 0 ){
+              continue
+            }
+            for (let j = 0;j<groupDetail[i].fTask.length;j++){
+              groupDetail[i].fTask[j]['identity'] = 'group'
+            }
+            groupTasks = groupTasks.concat(groupDetail[i].fTask)
           }
-          console.log(groupDetail)
           console.log(groupTasks)
         })
         // 获取任务
@@ -133,6 +145,7 @@ Page({
             }
             //把project和tasks合并起来(concat(project))
             all=tasks.concat(projects)
+            all=all.concat(groupTasks)
             //排序
             all.sort(that.compare)
             that.setData({

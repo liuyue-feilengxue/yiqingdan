@@ -17,11 +17,18 @@
       <view wx:elif = '{{item.identity=="project"}}'>
         <label class="weui-form-preview__label">项目</label>
       </view>
+      <view wx:elif = '{{item.identity=="group"}}'>
+        <label class="weui-form-preview__label">群任务</label>
+      </view>
       <view wx:if ='{{item.identity=="task"}}'>
         <text class="weui-form-preview__value">{{item.fTask}}</text>
       </view>
       <view wx:elif='{{item.identity=="project"}}'>
         <text class="weui-form-preview__value">{{item.fProject}}</text>
+      </view>
+      <!-- 群任务 -->
+      <view wx:elif = '{{item.identity=="group"}}'>
+        <text class="weui-form-preview__value">{{item.fTaskname}}</text>
       </view>
     </view>
     <view class="weui-form-preview__item">
@@ -32,6 +39,9 @@
       <view wx:elif='{{item.identity=="project"}}'>
         <text class="weui-form-preview__value">{{item.fDeadline[item.fTaskNum]}}</text>
       </view>
+      <view wx:elif = '{{item.identity=="group"}}'>
+        <text class="weui-form-preview__value">{{item.fDeadline}}</text>
+      </view>
     </view>
     <view class="weui-form-preview__item">
       <label class="weui-form-preview__label">提醒日期</label>
@@ -40,6 +50,9 @@
       </view>
       <view wx:elif='{{item.identity=="project"}}'>
         <text class="weui-form-preview__value">{{item.fWarnTime[item.fTaskNum]}}</text>
+      </view>
+      <view wx:elif = '{{item.identity=="group"}}'>
+        <text class="weui-form-preview__value">{{item.fWarnTime}}</text>
       </view>
     </view>
   </view>

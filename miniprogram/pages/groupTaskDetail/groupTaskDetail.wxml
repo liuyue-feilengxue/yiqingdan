@@ -1,24 +1,16 @@
 <!--pages/groupTaskDetail/groupTaskDetail.wxml-->
 <view class="weui-cells__title">任务名</view>
-<view class="weui-cells weui-cells_after-title">
-    <view class="weui-cell weui-cell_active">
+<view class="weui-cells__group weui-cells__group_form">
+  <view class="weui-cells weui-cells_form">
+    <view class="weui-cell ">
         <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="任务名称" bindinput="taskinput" value="{{taskname}}"/>
+            <input class="weui-input" value="{{taskname}}" disabled />
         </view>
     </view>
+  </view>
 </view>
+
 <view class="weui-cells__title">截止时间</view>
-<view class="selectdate">
-   <picker mode="date" value="{{ddldate}}" start='{{nowdate}}' bindchange="bindDateChange" data-name="ddl">
-      <a class="weui-btn weui-btn_default">日期选择</a>
-  </picker>
-
-  <picker mode="time" value="{{ddltime}}" start='{{nowtime}}' bindchange="bindTimeChange" data-name="ddl">
-      <a class="weui-btn weui-btn_default">时间选择</a>
-  </picker>
-
-</view>
-
 <view class="weui-cells__group weui-cells__group_form">
   <view class="weui-cells weui-cells_form">
     <view class="weui-cell weui-cell_active weui-cell_disabled">
@@ -30,18 +22,6 @@
 </view>
 
 <view class="weui-cells__title">提醒时间</view>
-<view class="selectdate">
-
-   <picker mode="date" value="{{warndate}}" start='{{nowdate}}' bindchange="bindDateChange" data-name="warn">
-      <a class="weui-btn weui-btn_default" >日期选择</a>
-  </picker>
-
-  <picker mode="time" value="{{warntime}}" start='{{nowtime}}' bindchange="bindTimeChange" data-name="warn">
-      <a class="weui-btn weui-btn_default">时间选择</a>
-  </picker>
-
-</view>
-
 <view class="weui-cells__group weui-cells__group_form">
   <view class="weui-cells weui-cells_form">
     <view class="weui-cell weui-cell_active weui-cell_disabled">
@@ -59,9 +39,9 @@
     <view class="weui-cells">
       <view class="weui-cell weui-cell_active weui-cell_select">
         <view class="weui-cell__bd">
-          <picker bindchange="bindPicker1Change" range="{{array1}}">
+          <view range="{{array1}}">
               <view class="weui-select">{{array1[value1]}}</view>
-          </picker>
+          </view>
         </view>
       </view>
     </view>
@@ -82,8 +62,5 @@
 <view class="weui-flex">
   <view class="weui-flex__item">
     <button class="weui-btn weui-btn_primary" bindtap="finish">确定</button>
-  </view>
-  <view class="weui-flex__item">
-    <button class="weui-btn weui-btn_primary" style="background-color:red" bindtap="delete">删除</button>
   </view>
 </view>

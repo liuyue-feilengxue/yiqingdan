@@ -98,8 +98,7 @@ Page({
             groupTasks = groupTasks.concat(groupDetail[i].fTask)
           }
           console.log(groupTasks)
-        })
-        // 获取任务
+          // 获取任务
         wx.cloud.callFunction({
           name:"getTTask",
           data:{
@@ -156,6 +155,7 @@ Page({
           })
         })
       })
+    })
     }
     // 未登录
     else{

@@ -31,11 +31,7 @@ Page({
   //点击确定*
   finish(){
     const that = this
-    
-    this.setData({
-      ddl:this.data.ddldate+' '+this.data.ddltime,
-      warn:this.data.warndate+' '+this.data.warntime,
-    })
+    const ui = wx.getStorageSync('userinfo')
     // 发送服务提醒
     // wx.requestSubscribeMessage({
     //   tmplIds: ['n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ'],
@@ -44,8 +40,20 @@ Page({
     //     var subId = "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ"
     //   }
     // })
-    // 传入数据库
     
+    // 如果是已完成
+    if(that.data.isFinish){
+      wx.showModal({
+        title:"请问你是否确定已经完成该任务",
+        success(res){
+          if (res.confirm){
+            // 传入数据库
+            that.data.task.fFinish.push(ui)
+            
+          }
+        }
+      })
+    }
   },
   
   /**
@@ -57,6 +65,7 @@ Page({
     console.log(task)
     var ddl = task.fDeadline.split(' ')
     var warn = task.fWarnTime.split(' ')
+    // 这里没有写isFinish，因为进来的都没完成任务
     this.setData({
       task:task,
       ddl:task.fDeadline,
@@ -67,7 +76,6 @@ Page({
       ddltime:ddl[1],
       warndate:warn[0],
       warntime:warn[1],
-      isFinish:task.fFinish,
     })
   },
 

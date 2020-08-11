@@ -87,15 +87,28 @@ Page({
         }).then(res=>{
           //群组详情
           var groupDetail = res.result
+          // 未完成的群任务
+          var unfinishGroupTask = []
           // 获取群组任务
           for (let i = 0;i<groupDetail.length;i++){
             if (groupDetail[i].fTask.length == 0 ){
               continue
             }
             for (let j = 0;j<groupDetail[i].fTask.length;j++){
-              groupDetail[i].fTask[j]['identity'] = 'group'
+              //你的userinfo不在完成任务的列表里面
+              // 这里要改
+              for (let k=0;k<groupDetail[i].fTask[j].fFinish.length;k++){
+                if (groupDetail[i].fTask[j].fFinish[k].openid == ui.openid){
+                  break
+                }
+              }
+              // 这里要加群号
+              if(groupDetail[i].fTask[j].fFinish.indexOf(ui) == -1){
+                groupDetail[i].fTask[j]['identity'] = 'group'
+                unfinishGroupTask.push(groupDetail[i].fTask[j])
+              }
             }
-            groupTasks = groupTasks.concat(groupDetail[i].fTask)
+            groupTasks = groupTasks.concat(unfinishGroupTask)
           }
           console.log(groupTasks)
           // 获取任务

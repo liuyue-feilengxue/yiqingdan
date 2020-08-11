@@ -130,8 +130,8 @@ Page({
             obj.fWarnTime = warn
             // 任务截止时间
             obj.fDeadline = ddl
-            // 任务完成人数
-            obj.fFinish = 0
+            // 任务完成的人的userinfo
+            obj.fFinish = []
             var fTask = that.data.fTask
             fTask.push(obj)
             //云函数存入group里

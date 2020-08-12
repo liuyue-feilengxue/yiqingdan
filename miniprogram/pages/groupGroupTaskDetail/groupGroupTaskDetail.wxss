@@ -1,1 +1,58 @@
 /* pages/groupGroupTaskDetail/groupGroupTaskDetail.wxss */
+@import '../../wxss/style/weui.wxss';
+
+.title{
+  height: 80rpx;
+  background-color: #34D0BA;
+}
+
+.title1{
+  height: 80rpx;
+  background-color: white;
+  margin-top: 20rpx;
+}
+
+.titletext{
+  color: white;
+  display: flex;
+  align-items: center;
+  margin-left: 40rpx;
+  margin-top: 15rpx;
+  font-size: large;
+}
+
+.titletext1{
+  color: #34D0BA;
+  display: flex;
+  align-items: center;
+  margin-left: 40rpx;
+  margin-top: 15rpx;
+  font-size: large;
+}
+
+.finishtitle{
+  height: 80rpx;
+  background-color: #34D0BA;
+}
+
+.finishtitletext{
+  color: white;
+  display: flex;
+  align-items: center;
+  margin-left: 40rpx;
+  margin-top: 15rpx;
+  font-size: large;
+}
+
+image{height:80rpx}
+
+.weui-btn{
+  background-color: #34D0BA;
+  margin-right: 10rpx;
+  margin-left: 10rpx;
+  color: white;
+}
+
+.pickcolor{
+  background-color: #34D0BA;
+}

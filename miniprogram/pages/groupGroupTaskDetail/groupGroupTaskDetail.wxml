@@ -1,2 +1,30 @@
 <!--pages/groupGroupTaskDetail/groupGroupTaskDetail.wxml-->
-<text>pages/groupGroupTaskDetail/groupGroupTaskDetail.wxml</text>
+<view class="title1" wx:if = '{{finish.length>0}}'>
+  <view class='titletext1'>已完成</view>
+</view>
+
+<view class="weui-cells">
+  <view class="weui-cell" wx:for="{{finish}}" wx:key = "index">
+    <view class="weui-cell__hd" style="position: relative; margin-right: 10px;">
+      <image src="{{item.avatarUrl}}" style="width: 80rpx; display: block;"></image>
+    </view>
+    <view class="weui-cell__bd">
+      <view>{{item.nickName}}</view>
+    </view>
+  </view>
+</view>
+
+<view class="title" wx:if ="{{unfinish.length>0}}">
+  <view class='titletext'>未完成</view>
+</view>
+
+<view class="weui-cells" wx:if ="{{fMember.length!=0}}">
+  <view class="weui-cell" wx:for='{{unfinish}}' wx:key = "index">
+    <view class="weui-cell__hd" style="position: relative; margin-right: 10px;">
+      <image src="{{item.avatarUrl}}" style="width: 80rpx; display: block;"></image>
+    </view>
+    <view class="weui-cell__bd">
+      <view>{{item.nickName}}</view>
+    </view>
+  </view>
+</view>

@@ -19,7 +19,12 @@ Page({
   // 去群任务详情
   toTaskDetail(e){
     var index = e.currentTarget.dataset.index
-    console.log(index)
+    var taskjson = JSON.stringify(this.data.task[index])
+    const that = this
+    wx.navigateTo({
+      url: '/pages/groupGroupTaskDetail/groupGroupTaskDetail?taskjson='+taskjson+
+      '&fGroupNum='+that.data.fGroupNum,
+    })
   },
 
   /**

@@ -1,100 +1,40 @@
 <!--pages/groupTask/groupTask.wxml-->
-<view class="title" wx:if="{{unfinish}}">
-  <view class='titletext'>未完成</view>
-</view>
 
-<view class="weui-form-preview weui-cell_active" wx:for='{{all}}' wx:key='index'
+<view class="weui-form-preview weui-cell_active" wx:for='{{task}}' wx:key='index'
   bindtap="toTaskDetail" 
-  data-index='{{index}}' data-isfinish="false"
+  data-index='{{index}}'
   >
 
   <view class="weui-form-preview__bd">
     <view class="weui-form-preview__item">
-      <view wx:if='{{item.identity=="task"}}'>
-        <label class="weui-form-preview__label">任务</label>
+      <view>
+        <label class="weui-form-preview__label">群任务</label>
       </view>
-      <view wx:elif = '{{item.identity=="project"}}'>
-        <label class="weui-form-preview__label">项目</label>
-      </view>
-      <view wx:if ='{{item.identity=="task"}}'>
-        <text class="weui-form-preview__value">{{item.fTask}}</text>
-      </view>
-      <view wx:elif='{{item.identity=="project"}}'>
-        <text class="weui-form-preview__value">{{item.fProject}}</text>
+      <view>
+        <text class="weui-form-preview__value">{{item.fTaskname}}</text>
       </view>
     </view>
     <view class="weui-form-preview__item">
       <label class="weui-form-preview__label">截止日期</label>
-      <view wx:if ='{{item.identity=="task"}}'>
+      <view>
         <text class="weui-form-preview__value">{{item.fDeadline}}</text>
-      </view>
-      <view wx:elif='{{item.identity=="project"}}'>
-        <text class="weui-form-preview__value">{{item.fDeadline[item.fTaskNum]}}</text>
       </view>
     </view>
     <view class="weui-form-preview__item">
       <label class="weui-form-preview__label">提醒日期</label>
-      <view wx:if ='{{item.identity=="task"}}'>
+      <view>
         <text class="weui-form-preview__value">{{item.fWarnTime}}</text>
-      </view>
-      <view wx:elif='{{item.identity=="project"}}'>
-        <text class="weui-form-preview__value">{{item.fWarnTime[item.fTaskNum]}}</text>
       </view>
     </view>
   </view>
 </view>
 
-<view wx:if="{{finish}}" class="finishtitle">
-  <view class='finishtitletext'>已完成</view>
-</view>
-
-<view class="weui-form-preview weui-cell_active" wx:for='{{finishall}}' wx:key='index'
-  bindtap="toTaskDetail" 
-  data-index='{{index}}' data-isfinish="true"
-  >
-
-  <view class="weui-form-preview__bd">
-    <view class="weui-form-preview__item">
-      <view wx:if='{{item.identity=="task"}}'>
-        <label class="weui-form-preview__label">任务</label>
-      </view>
-      <view wx:elif = '{{item.identity=="project"}}'>
-        <label class="weui-form-preview__label">项目</label>
-      </view>
-      <view wx:if ='{{item.identity=="task"}}'>
-        <text class="weui-form-preview__value">{{item.fTask}}</text>
-      </view>
-      <view wx:elif='{{item.identity=="project"}}'>
-        <text class="weui-form-preview__value">{{item.fProject}}</text>
-      </view>
-    </view>
-    <view class="weui-form-preview__item">
-      <label class="weui-form-preview__label">截止日期</label>
-      <view wx:if ='{{item.identity=="task"}}'>
-        <text class="weui-form-preview__value">{{item.fDeadline}}</text>
-      </view>
-      <view wx:elif='{{item.identity=="project"}}'>
-        <text class="weui-form-preview__value">{{item.fDeadline[item.fTaskNum]}}</text>
-      </view>
-    </view>
-    <view class="weui-form-preview__item">
-      <label class="weui-form-preview__label">提醒日期</label>
-      <view wx:if ='{{item.identity=="task"}}'>
-        <text class="weui-form-preview__value">{{item.fWarnTime}}</text>
-      </view>
-      <view wx:elif='{{item.identity=="project"}}'>
-        <text class="weui-form-preview__value">{{item.fWarnTime[item.fTaskNum]}}</text>
-      </view>
-    </view>
-  </view>
-</view>
-
-<view class="weui-footer" wx:if='{{unfinish==true||finish==true}}'>
+<view class="weui-footer" wx:if='{{haveGroupTask==true}}'>
   <view class="weui-footer__text">别拉啦~到底啦~再拉我疼~</view>
 </view>
 
 <!-- 暂定若首页没任务时页面 -->
-<view wx:if="{{unfinish==false&&finish==false}}" class="weui-footer">
+<view wx:if="{{haveGroupTask==false}}" class="weui-footer">
   <view class="weui-footer__text nopages">( っ`-´c)ﾏｯ</view>
   <view class="weui-footer__text">当前没有任务哦~可以返回上一页新建群任务</view>
 </view>

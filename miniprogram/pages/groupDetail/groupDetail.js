@@ -99,18 +99,17 @@ Page({
       }
     })
   },
-  //新建群任务*
+  //新建群任务
   toPostTask(){
     wx.navigateTo({
       url: '/pages/postTask/postTask?fGroupNum='+this.data.fGroupNum,
     })
   },
-  //去查看群任务页面*
+  //去查看群任务页面
   toGroupTask(){
     var fTaskjson = JSON.stringify(this.data.fGroup.fTask)
-    var fProjectjson = JSON.stringify(this.data.fGroup.fProject)
     wx.navigateTo({
-      url: '/pages/groupTask/groupTask?fTask='+fTaskjson+"&fProject="+fProjectjson,
+      url: '/pages/groupTask/groupTask?fTask='+fTaskjson+"&fGroupNum="+this.data.fGroup.fGroupNum,
     })
   },
   //解散本群

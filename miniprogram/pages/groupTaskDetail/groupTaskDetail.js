@@ -32,6 +32,7 @@ Page({
   finish(){
     const that = this
     const ui = wx.getStorageSync('userinfo')
+    var task = that.data.task
     // 发送服务提醒
     // wx.requestSubscribeMessage({
     //   tmplIds: ['n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ'],
@@ -47,9 +48,23 @@ Page({
         title:"请问你是否确定已经完成该任务",
         success(res){
           if (res.confirm){
+            wx.showLoading({
+              title: '加载中',
+              mask:true
+            })
             // 传入数据库
-            that.data.task.fFinish.push(ui)
-            
+            wx.cloud.callFunction({
+              name:"GroupTaskFinish",
+              data:{
+                ui:ui,
+                fGroupNum:task.fGroupNum,
+                fNum:task.fNum
+              }
+            }).then(res=>{
+              console.log(res)
+              wx.hideLoading()
+              wx.navigateBack()
+            })
           }
         }
       })

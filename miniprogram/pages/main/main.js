@@ -95,16 +95,20 @@ Page({
               continue
             }
             for (let j = 0;j<groupDetail[i].fTask.length;j++){
-              //你的userinfo不在完成任务的列表里面
               // 这里要改
+              let flag = false
+              // 遍历完成情况
               for (let k=0;k<groupDetail[i].fTask[j].fFinish.length;k++){
+                // 如果已经完成的列表里有你，则跳出这个任务
                 if (groupDetail[i].fTask[j].fFinish[k].openid == ui.openid){
+                  flag = true
                   break
                 }
               }
-              // 这里要加群号
-              if(groupDetail[i].fTask[j].fFinish.indexOf(ui) == -1){
+              // 如果这个任务没做完
+              if (!flag){
                 groupDetail[i].fTask[j]['identity'] = 'group'
+                groupDetail[i].fTask[j]['fGroupNum'] = groupDetail[i].fGroupNum
                 unfinishGroupTask.push(groupDetail[i].fTask[j])
               }
             }

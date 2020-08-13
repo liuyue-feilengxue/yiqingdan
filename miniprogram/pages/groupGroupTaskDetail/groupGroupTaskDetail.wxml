@@ -11,6 +11,9 @@
     <view class="weui-cell__bd">
       <view>{{item.nickName}}</view>
     </view>
+    <view wx:if='{{isAdmin}}'>
+      <button class="weui-btn weui-btn_primary" style="width:200rpx;" bindtap="changeToUnfinish" data-index="{{index}}">修改</button>
+    </view>
   </view>
 </view>
 
@@ -26,5 +29,6 @@
     <view class="weui-cell__bd">
       <view>{{item.nickName}}</view>
     </view>
+    
   </view>
 </view>

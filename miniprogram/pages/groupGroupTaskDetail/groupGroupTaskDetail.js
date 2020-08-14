@@ -14,6 +14,8 @@ Page({
     finish:[],
     // 未完成任务的人
     unfinish:[],
+    // 所有人
+    all:[],
     // 本群
     fGroup:{},
     // 是否为管理
@@ -23,9 +25,45 @@ Page({
   // 把已完成改为未完成
   changeToUnfinish(e){
     var index = e.currentTarget.dataset.index
+    const that = this
     var finish = this.data.finish
-    finish.splice(index,1)
-    console.log(finish)
+    wx.showModal({
+      title:"请问您是否确定该成员尚未完成任务",
+      success(res){
+        if (res.confirm){
+          finish.splice(index,1)
+          console.log(finish)
+          wx.cloud.callFunction({
+            name:"updateGroupTaskFinishMember",
+            data:{
+              fGroupNum:that.data.fGroupNum,
+              fNum:that.data.fTask.fNum,
+              finish:finish
+            }
+          }).then(res=>{
+            console.log(res)
+            var all = that.data.all
+            var unfinish = all
+            console.log(all)
+            // finish修改，unfinish加一个人（可能有bug）
+            for (let i=0;i<unfinish.length;i++){
+              for (let j = 0;j<finish.length;j++){
+                // 这个人在完成列表里，就要删掉
+                if (unfinish[i].openid==finish[j].openid){
+                  unfinish.splice(i,1)
+                  i--
+                  break
+                }
+              }
+            }
+            that.setData({
+              finish:finish,
+              unfinish:unfinish
+            })
+          })
+        }
+      }
+    })
   },
 
   /**
@@ -96,7 +134,8 @@ Page({
       that.setData({
         unfinish:allMember,
         fGroup:fGroup,
-        isAdmin:isAdmin
+        isAdmin:isAdmin,
+        all:fGroup.fAdministrator.concat(fGroup.fMember)
       })
       wx.hideLoading()
     })

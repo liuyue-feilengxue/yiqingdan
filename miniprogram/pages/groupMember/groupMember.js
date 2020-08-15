@@ -74,7 +74,43 @@ Page({
   },
   //添加为群管理*
   toAdmin(){
-
+    var index = this.data.index
+    const that = this
+    wx.showModal({
+      title:"请问您是否确定要将该成员设置为管理员",
+      success(res){
+        if (res.confirm){
+          // 要变成管理员的用户ui，注意，这里的fMember，fAdministrator是改过名字的
+          // 本地修改
+          var people = that.data.fMember[index]
+          var fMember = that.data.fMember
+          var fAdministrator = that.data.fAdministrator
+          fMember.splice(index,1)
+          fAdministrator.push(people)
+          that.setData({
+            fMember:fMember,
+            fAdministrator:fAdministrator
+          })
+          // 上传数据库的（这里虽然名字可能被改过，但是也不管这个bug了，下面代码有bug）
+          // var fGroup1 = that.data.fGroup1
+          // var people1 = fGroup1.fMember[index]
+          // var fMember1 = fGroup1.fMember
+          // fMember1.splice(index,1)
+          // var fAdministrator1 = fGroup1.fAdministrator
+          // fAdministrator1.push(people1)
+          wx.cloud.callFunction({
+            name:"updateGroupUserInfo",
+            data:{
+              fGroupNum:that.data.fGroupNum,
+              fMember:fMember,
+              fAdministrator:fAdministrator
+            }
+          }).then(res=>{
+            console.log(res)
+          })
+        }
+      }
+    })
   },
   /**
    * 生命周期函数--监听页面加载
@@ -82,6 +118,7 @@ Page({
   onLoad: function (options) {
     var fGroup = JSON.parse(options.fGroup)
     var fGroup1 = JSON.parse(options.fGroup)
+    console.log(fGroup1)
     var isAdmin = false
     const ui = wx.getStorageSync('userinfo')
     const openid = ui.openid

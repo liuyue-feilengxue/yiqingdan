@@ -72,7 +72,7 @@ Page({
     })
     
   },
-  //添加为群管理*
+  //添加为群管理*（有bug）
   toAdmin(){
     var index = this.data.index
     const that = this

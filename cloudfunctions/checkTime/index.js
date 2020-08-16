@@ -6,14 +6,18 @@ const db = cloud.database()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  
+  // 用户表
   var userdata = db.collection("t_user").get();
   var user = (await userdata).data
+  // 任务表
   var dt = await db.collection("t_task").where({
     fFinish:false
   }).get()
   //所有没完成的任务
   var task = dt.data
+  // 群组表
+  var groupdata = db.collection("t_group").get();
+  var group = (await groupdata).data
   //现在时间
   var e = new Date()
   let year = e.getFullYear()
@@ -26,13 +30,33 @@ exports.main = async (event, context) => {
 
   for (let i=0;i<user.length;i++){
     var openid = user[i]._openid
+    var fGroup = user[i].fGroup
+    // 这个用户的任务
     var thisUserTask = []
+    // 将任务表的任务放进去
     for (let j = 0;j<task.length;j++){
       if (task[j]._openid == openid){
         thisUserTask.push(task[j])
       }
     }
-
+    // 将群组里的群任务放进去
+    for (let j=0;j<fGroup.length;j++){
+      // 找群
+      for (let k=0;k<group.length;k++){
+        if (fGroup[j].fGroupNum == group[k].fGroupNum){
+          // 该群的所有任务
+          var grouptasks = group[k].fTask
+          for (let l=0;l<grouptasks.length;l++){
+            // 如果完成名单有本用户，就继续下一个任务
+            // return grouptasks.fTask.find(item=>item.fFinish)
+            grouptasks[l]["fTask"] = grouptasks[l].fTaskname
+            thisUserTask.push(grouptasks[l])
+          }
+          break
+        }
+      }
+    }
+    // 发通知
     for (let j = 0;j<thisUserTask.length;j++){
       if (now == thisUserTask[j].fWarnTime){
         const res = await cloud.callFunction({

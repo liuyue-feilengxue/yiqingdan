@@ -96,6 +96,7 @@ Page({
     var fGroupNum = this.data.fGroupNum
     var warn = that.data.warndate+' '+that.data.warntime
     var ddl = that.data.ddldate+' '+that.data.ddltime
+    var now = that.data.nowdate+' '+that.data.nowtime
     //错误提醒，提醒大于截止时间（不可能）
     if (warn>ddl){
       wx.showModal({
@@ -107,6 +108,12 @@ Page({
       wx.showModal({
         showCancel: false,
         title : '请设置任务名'
+      })
+    }
+    else if (warn<now){
+      wx.showModal({
+        showCancel: false,
+        title : '您的提醒时间大于现在时间，请重新确认'
       })
     }
     else{

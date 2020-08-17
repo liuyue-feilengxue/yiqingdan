@@ -98,11 +98,25 @@ Page({
     const that = this;
     var warn = that.data.warndate+' '+that.data.warntime
     var ddl = that.data.ddldate+' '+that.data.ddltime
+    var now = that.data.nowdate+" "+that.data.nowtime
     //错误提醒，提醒大于截止时间（不可能）
     if (warn>ddl){
       wx.showModal({
         showCancel: false,
         title : '您的提醒时间大于截止时间，请重新确认'
+      })
+    }
+    // 现在比时间大
+    else if (now>warn){
+      wx.showModal({
+        showCancel: false,
+        title : '您的提醒时间比现在时间晚，请重新确认'
+      })
+    }
+    else if (now>ddl){
+      wx.showModal({
+        showCancel: false,
+        title : '您的截止时间比现在时间晚，请重新确认'
       })
     }
     else{
@@ -145,34 +159,42 @@ Page({
       }
       //addTask
       else{
-        var subId = ""
-        // 获取订阅消息授权
-        wx.requestSubscribeMessage({
-          tmplIds: ['n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ'],
-          success(res){
-            wx.setStorageSync('dateWarnKey', "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ")
-            subId = "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ"
-            //存入数据库
-            db.collection("t_task").add({
-              data:{
-                //任务名
-                fTask:that.data.taskname,
-                //提醒时间
-                fWarnTime:that.data.warndate+' '+that.data.warntime,
-                //截止时间
-                fDeadline:that.data.ddldate+' '+that.data.ddltime,
-                //紧急程度（存0-3）
-                fUrgency:that.data.value1,
-                //是否完成
-                fFinish:false,
-                //系统自带openid无法查找
-                openid:wx.getStorageSync('userinfo').openid
-              }
-            }).then(res=>{
-              wx.navigateBack()
-            })
-          }
-        })
+        if (this.data.taskname==''){
+          wx.showModal({
+            showCancel: false,
+            title : '请设置任务名'
+          })
+        }else{
+          var subId = ""
+          // 获取订阅消息授权
+          wx.requestSubscribeMessage({
+            tmplIds: ['n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ'],
+            success(res){
+              wx.setStorageSync('dateWarnKey', "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ")
+              subId = "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ"
+              //存入数据库
+              db.collection("t_task").add({
+                data:{
+                  //任务名
+                  fTask:that.data.taskname,
+                  //提醒时间
+                  fWarnTime:that.data.warndate+' '+that.data.warntime,
+                  //截止时间
+                  fDeadline:that.data.ddldate+' '+that.data.ddltime,
+                  //紧急程度（存0-3）
+                  fUrgency:that.data.value1,
+                  //是否完成
+                  fFinish:false,
+                  //系统自带openid无法查找
+                  openid:wx.getStorageSync('userinfo').openid
+                }
+              }).then(res=>{
+                wx.navigateBack()
+              })
+            }
+          })
+        }
+        
       }
     }
     

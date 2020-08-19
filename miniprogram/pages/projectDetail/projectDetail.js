@@ -113,6 +113,7 @@ Page({
         that.setData({
           project:project
         })
+        break
       }
     }
     wx.showModal({

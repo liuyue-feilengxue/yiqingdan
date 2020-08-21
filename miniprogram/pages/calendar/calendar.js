@@ -99,21 +99,22 @@ Page({
             let flag = false
             // 遍历完成情况
             for (let k=0;k<groupDetail[i].fTask[j].fFinish.length;k++){
-              // 如果已经完成的列表里有你，则跳出这个任务
+              // 如果已经完成的列表里有你，则跳出这个任务（有bug）
               if (groupDetail[i].fTask[j].fFinish[k].openid == ui.openid){
                 flag = true
                 break
               }
             }
-            // 如果这个任务没做完
+            // 如果这个任务没做完 且 ddl是今天
             if (!flag){
-              groupDetail[i].fTask[j]['fTask'] = groupDetail[i].fTask[j].fTaskname
-              todayTask.push(groupDetail[i].fTask[j])
+              var ddldate = groupDetail[i].fTask[j].fDeadline.split(' ')
+              if (ddldate[0] == ddl){
+                groupDetail[i].fTask[j]['fTask'] = groupDetail[i].fTask[j].fTaskname
+                todayTask.push(groupDetail[i].fTask[j])
+              }
             }
           }
         }
-        // todayTask.concat(unfinishGroupTask)
-        console.log(todayTask)
 
         that.setData({
           todaytasks:todayTask
@@ -158,7 +159,6 @@ Page({
           })
         }
       })
-      console.log(this.data.todaytasks)
     })
   },
   //最上面左右切换月份

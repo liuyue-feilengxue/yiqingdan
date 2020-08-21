@@ -112,8 +112,8 @@ Page({
                 unfinishGroupTask.push(groupDetail[i].fTask[j])
               }
             }
-            groupTasks = groupTasks.concat(unfinishGroupTask)
           }
+          groupTasks = groupTasks.concat(unfinishGroupTask)
           console.log(groupTasks)
           // 获取任务
         wx.cloud.callFunction({

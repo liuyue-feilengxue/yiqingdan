@@ -23,7 +23,9 @@ Page({
     //今日任务
     todaytasks:[],
     unfinishtasks:[],
-    finishtasks:[]
+    finishtasks:[],
+    // user表里的fGroup（群组任务的时候用）
+    fGroup:[]
   },
   
   /**
@@ -35,6 +37,19 @@ Page({
   },
   onShow: function(){
     this.setTodayTask()
+    const ui = wx.getStorageSync("userinfo")
+    const that = this
+    //获取用户表的fGroup
+    wx.cloud.callFunction({
+      name:"getUserInfo",
+      data:{
+        userInfo:ui
+      }
+    }).then(res=>{
+      that.setData({
+        fGroup:res.result.data[0].fGroup
+      })
+    })
   },
   //设置今日任务
   setTodayTask(){
@@ -60,49 +75,89 @@ Page({
           //如果就是今天的任务，task就是今天的任务之一
           var task = tasks[i]
           todayTask.push(task)
-          this.setData({
-            todaytasks:todayTask
+        }
+      }
+      // 获取加入的群
+      wx.cloud.callFunction({
+        name:"getAllJoinGroup",
+        data:{
+          fGroup:that.data.fGroup
+        }
+      }).then(res=>{
+        //群组详情
+        var groupDetail = res.result
+        // 未完成的群任务
+        var unfinishGroupTask = []
+        // 获取群组任务
+        for (let i = 0;i<groupDetail.length;i++){
+          // 无任务
+          if (groupDetail[i].fTask.length == 0 ){
+            continue
+          }
+          for (let j = 0;j<groupDetail[i].fTask.length;j++){
+            // 这里要改
+            let flag = false
+            // 遍历完成情况
+            for (let k=0;k<groupDetail[i].fTask[j].fFinish.length;k++){
+              // 如果已经完成的列表里有你，则跳出这个任务
+              if (groupDetail[i].fTask[j].fFinish[k].openid == ui.openid){
+                flag = true
+                break
+              }
+            }
+            // 如果这个任务没做完
+            if (!flag){
+              groupDetail[i].fTask[j]['fTask'] = groupDetail[i].fTask[j].fTaskname
+              todayTask.push(groupDetail[i].fTask[j])
+            }
+          }
+        }
+        // todayTask.concat(unfinishGroupTask)
+        console.log(todayTask)
+
+        that.setData({
+          todaytasks:todayTask
+        })
+
+        //今日无任务
+        if(todayTask.length==0){
+          that.setData({
+            allfinish:false,
+            allunfinish:false,
+            todaytasks:[],
+            unfinishtasks:[],
+            finishtasks:[]
           })
         }
-      }
-      //今日无任务
-      if(todayTask.length==0){
-        that.setData({
-          allfinish:false,
-          allunfinish:false,
-          todaytasks:[],
-          unfinishtasks:[],
-          finishtasks:[]
-        })
-      }
-      //今日有任务
-      else{
-        var unfinishflag = false
-        var finishflag = false
-        //未完成的任务
-        var unfinishtasks=[]
-        //完成的任务
-        var finishtasks=[]
-        for(var i=0;i<that.data.todaytasks.length;i++){
-          //未做完
-          if (that.data.todaytasks[i].fFinish==false){
-            unfinishflag = true
-            var task = that.data.todaytasks[i]
-            unfinishtasks.push(task)
+        //今日有任务
+        else{
+          var unfinishflag = false
+          var finishflag = false
+          //未完成的任务
+          var unfinishtasks=[]
+          //完成的任务
+          var finishtasks=[]
+          for(var i=0;i<that.data.todaytasks.length;i++){
+            //未做完
+            if (that.data.todaytasks[i].fFinish==false){
+              unfinishflag = true
+              var task = that.data.todaytasks[i]
+              unfinishtasks.push(task)
+            }
+            else{
+              finishflag=true
+              var task = that.data.todaytasks[i]
+              finishtasks.push(task)
+            }
           }
-          else{
-            finishflag=true
-            var task = that.data.todaytasks[i]
-            finishtasks.push(task)
-          }
+          that.setData({
+            allfinish:finishflag,
+            allunfinish:unfinishflag,
+            unfinishtasks:unfinishtasks,
+            finishtasks:finishtasks
+          })
         }
-        that.setData({
-          allfinish:finishflag,
-          allunfinish:unfinishflag,
-          unfinishtasks:unfinishtasks,
-          finishtasks:finishtasks
-        })
-      }
+      })
       console.log(this.data.todaytasks)
     })
   },

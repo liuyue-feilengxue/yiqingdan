@@ -86,32 +86,20 @@ Page({
       }).then(res=>{
         //群组详情
         var groupDetail = res.result
-        // 未完成的群任务
-        var unfinishGroupTask = []
         // 获取群组任务
         for (let i = 0;i<groupDetail.length;i++){
           // 无任务
           if (groupDetail[i].fTask.length == 0 ){
             continue
           }
+          // 有任务，则遍历所有的任务
           for (let j = 0;j<groupDetail[i].fTask.length;j++){
-            // 这里要改
-            let flag = false
-            // 遍历完成情况
-            for (let k=0;k<groupDetail[i].fTask[j].fFinish.length;k++){
-              // 如果已经完成的列表里有你，则跳出这个任务（有bug）
-              if (groupDetail[i].fTask[j].fFinish[k].openid == ui.openid){
-                flag = true
-                break
-              }
-            }
             // 如果这个任务没做完 且 ddl是今天
-            if (!flag){
-              var ddldate = groupDetail[i].fTask[j].fDeadline.split(' ')
-              if (ddldate[0] == ddl){
-                groupDetail[i].fTask[j]['fTask'] = groupDetail[i].fTask[j].fTaskname
-                todayTask.push(groupDetail[i].fTask[j])
-              }
+            var ddldate = groupDetail[i].fTask[j].fDeadline.split(' ')
+            if (ddldate[0] == ddl){
+              groupDetail[i].fTask[j]['name'] = "group"
+              groupDetail[i].fTask[j]['fTask'] = groupDetail[i].fTask[j].fTaskname
+              todayTask.push(groupDetail[i].fTask[j])
             }
           }
         }
@@ -139,17 +127,43 @@ Page({
           //完成的任务
           var finishtasks=[]
           for(var i=0;i<that.data.todaytasks.length;i++){
-            //未做完
-            if (that.data.todaytasks[i].fFinish==false){
-              unfinishflag = true
-              var task = that.data.todaytasks[i]
-              unfinishtasks.push(task)
+            // 群任务
+            if (todayTask[i].name == 'group'){
+              console.log(todayTask[i])
+              // 如果列表有你，退出的flag
+              let flag = false
+              for (let j=0;j<todayTask[i].fFinish.length;j++){
+                // 已完成列表里有你
+                if (todayTask[i].fFinish[j].openid == ui.openid){
+                  finishflag = true
+                  finishtasks.push(todayTask[i])
+                  flag = true
+                  break
+                }
+                
+              }
+              // 未完成
+              if (!flag){
+                unfinishflag = true
+                unfinishtasks.push(todayTask[i])
+              }
             }
+            // 普通任务
             else{
-              finishflag=true
-              var task = that.data.todaytasks[i]
-              finishtasks.push(task)
+              //未做完
+              if (that.data.todaytasks[i].fFinish==false){
+                unfinishflag = true
+                var task = that.data.todaytasks[i]
+                unfinishtasks.push(task)
+              }
+              // 已完成
+              else{
+                finishflag=true
+                var task = that.data.todaytasks[i]
+                finishtasks.push(task)
+              }
             }
+            
           }
           that.setData({
             allfinish:finishflag,
@@ -307,6 +321,7 @@ Page({
 
   // 从未完成到完成
   toFinish(e){
+    const ui = wx.getStorageSync('userinfo')
     //点击的是第几个
     var index = e.currentTarget.dataset.index
     var task = this.data.unfinishtasks[index]
@@ -316,21 +331,32 @@ Page({
       title:"请确认该任务是否真的完成",
       confirmColor:"#34D0BA",
       success(res){
+        //点击确定键，就把该项从未完成变到完成
         if (res.confirm){
           wx.showLoading({
             title: '加载中',
             mask:true
           })
-          //点击确定键，就把该项从未完成变到完成
-          //首先是数据库要改变，其次是调用setTodayTask方法。(unfinishtasks删除该项，finishtasks增加该项)
-          db.collection('t_task').doc(task._id).update({
-            data:{
-              fFinish:true
-            }
-          }).then(res=>{
+          // 群任务
+          if (task.name == "group"){
+            // 在fFinish那里加上你的ui,并改unfinishtask和finishtask（setTodayTask()）
+            task.fFinish.push(ui)
             that.setTodayTask()
             wx.hideLoading()
-          })
+          }
+          // 普通任务
+          else{
+            //首先是数据库要改变，其次是调用setTodayTask方法。(unfinishtasks删除该项，finishtasks增加该项)
+            db.collection('t_task').doc(task._id).update({
+              data:{
+                fFinish:true
+              }
+            }).then(res=>{
+              that.setTodayTask()
+              wx.hideLoading()
+            })
+          }
+          
         }
       }
     })

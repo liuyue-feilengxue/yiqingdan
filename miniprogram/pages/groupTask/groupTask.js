@@ -21,9 +21,14 @@ Page({
     var index = e.currentTarget.dataset.index
     var taskjson = JSON.stringify(this.data.task[index])
     const that = this
+    // 跳转到群成员的那个界面
+    // wx.navigateTo({
+    //   url: '/pages/groupGroupTaskDetail/groupGroupTaskDetail?taskjson='+taskjson+
+    //   '&fGroupNum='+that.data.fGroupNum,
+    // })
     wx.navigateTo({
-      url: '/pages/groupGroupTaskDetail/groupGroupTaskDetail?taskjson='+taskjson+
-      '&fGroupNum='+that.data.fGroupNum,
+      url: '/pages/groupTaskUpdate/groupTaskUpdate?taskjson='+taskjson+
+        '&fGroupNum='+that.data.fGroupNum,
     })
   },
 

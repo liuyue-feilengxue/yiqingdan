@@ -21,7 +21,8 @@
     "pages/joinGroup/joinGroup",
     "pages/postTask/postTask",
     "pages/groupTaskDetail/groupTaskDetail",
-    "pages/groupGroupTaskDetail/groupGroupTaskDetail"
+    "pages/groupGroupTaskDetail/groupGroupTaskDetail",
+    "pages/groupTaskUpdate/groupTaskUpdate"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

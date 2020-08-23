@@ -98,6 +98,7 @@ Page({
             var ddldate = groupDetail[i].fTask[j].fDeadline.split(' ')
             if (ddldate[0] == ddl){
               groupDetail[i].fTask[j]['name'] = "group"
+              groupDetail[i].fTask[j]['fGroupNum'] = groupDetail[i].fGroupNum
               groupDetail[i].fTask[j]['fTask'] = groupDetail[i].fTask[j].fTaskname
               todayTask.push(groupDetail[i].fTask[j])
             }
@@ -129,7 +130,6 @@ Page({
           for(var i=0;i<that.data.todaytasks.length;i++){
             // 群任务
             if (todayTask[i].name == 'group'){
-              console.log(todayTask[i])
               // 如果列表有你，退出的flag
               let flag = false
               for (let j=0;j<todayTask[i].fFinish.length;j++){
@@ -341,8 +341,19 @@ Page({
           if (task.name == "group"){
             // 在fFinish那里加上你的ui,并改unfinishtask和finishtask（setTodayTask()）
             task.fFinish.push(ui)
-            that.setTodayTask()
-            wx.hideLoading()
+            // 更新
+            wx.cloud.callFunction({
+              name:"updateGroupTaskFinishMember",
+              data:{
+                fGroupNum:task.fGroupNum,
+                fNum:task.fNum,
+                finish:task.fFinish
+              }
+            }).then(res=>{
+              console.log(res)
+              that.setTodayTask()
+              wx.hideLoading()
+            })
           }
           // 普通任务
           else{
@@ -364,6 +375,7 @@ Page({
 
   // 从完成到未完成
   toUnFinish(e){
+    const ui = wx.getStorageSync('userinfo')
     var index = e.currentTarget.dataset.index
     var task = this.data.finishtasks[index]
     const that = this
@@ -376,14 +388,40 @@ Page({
             title: '加载中',
             mask:true
           })
-          db.collection('t_task').doc(task._id).update({
-            data:{
-              fFinish:false
+          // 群任务
+          if (task.name == "group"){
+            for (let i=0;i<task.fFinish.length;i++){
+              if (ui.openid == task.fFinish[i].openid){
+                task.fFinish.splice(i,1)
+                break
+              }
             }
-          }).then(res=>{
-            that.setTodayTask()
-            wx.hideLoading()
-          })
+            // 更新
+            wx.cloud.callFunction({
+              name:"updateGroupTaskFinishMember",
+              data:{
+                fGroupNum:task.fGroupNum,
+                fNum:task.fNum,
+                finish:task.fFinish
+              }
+            }).then(res=>{
+              console.log(res)
+              that.setTodayTask()
+              wx.hideLoading()
+            })
+          }
+          // 任务
+          else{
+            db.collection('t_task').doc(task._id).update({
+              data:{
+                fFinish:false
+              }
+            }).then(res=>{
+              that.setTodayTask()
+              wx.hideLoading()
+            })
+          }
+          
         }
       }
     })

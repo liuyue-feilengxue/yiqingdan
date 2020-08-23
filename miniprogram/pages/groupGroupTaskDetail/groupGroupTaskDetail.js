@@ -1,5 +1,5 @@
 // pages/groupGroupTaskDetail/groupGroupTaskDetail.js
-// 查看群组任务，点进去的
+// 完成列表
 Page({
 
   /**

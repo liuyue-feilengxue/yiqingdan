@@ -31,25 +31,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // 这里不用传fTask
-    var fTask = JSON.parse(options.fTask)
-    var fGroupNum = options.fGroupNum
-    var haveGroupTask = false
-    var task = fTask
-
-    const that = this
-    if (fTask.length!=0){
-      haveGroupTask = true
-    }
+    var fGroupNum = Number(options.fGroupNum)
     this.setData({
-      fGroupNum:fGroupNum,
-      fTask:fTask,
-      haveGroupTask:haveGroupTask
+      fGroupNum:fGroupNum
     })
-    task.sort(that.compare)
-    this.setData({
-      task:task
-    })
+    
   },
 
   /**
@@ -63,7 +49,30 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    const fGroupNum = this.data.fGroupNum
+    const that = this
+    wx.cloud.callFunction({
+      name:"getTGroup",
+      data:{
+        fGroupNum:fGroupNum
+      }
+    }).then(res=>{
+      var fTask = res.result.data[0].fTask
+      var haveGroupTask = false
+      var task = fTask
+      // 有任务
+      if (fTask.length!=0){
+        haveGroupTask = true
+      }
+      this.setData({
+        fTask:fTask,
+        haveGroupTask:haveGroupTask
+      })
+      task.sort(that.compare)
+      this.setData({
+        task:task
+      })
+    })
   },
 
   // 排序函数

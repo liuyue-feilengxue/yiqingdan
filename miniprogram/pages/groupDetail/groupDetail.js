@@ -107,9 +107,8 @@ Page({
   },
   //去查看群任务页面
   toGroupTask(){
-    var fTaskjson = JSON.stringify(this.data.fGroup.fTask)
     wx.navigateTo({
-      url: '/pages/groupTask/groupTask?fTask='+fTaskjson+"&fGroupNum="+this.data.fGroup.fGroupNum,
+      url: '/pages/groupTask/groupTask?fGroupNum='+this.data.fGroup.fGroupNum,
     })
   },
   //解散本群

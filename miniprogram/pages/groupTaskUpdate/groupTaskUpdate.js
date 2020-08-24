@@ -68,38 +68,60 @@ Page({
         value1: value
     })
   },
-  //点击确定*
+  //点击确定
   finish(){
     const that = this
-    
+    var fNum = that.data.task.fNum
+    var fGroupNum = that.data.fGroupNum
+    var task = that.data.task
     this.setData({
       ddl:this.data.ddldate+' '+this.data.ddltime,
       warn:this.data.warndate+' '+this.data.warntime,
     })
-    // 发送服务提醒
-    wx.requestSubscribeMessage({
-      tmplIds: ['n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ'],
+    task.fDeadline = that.data.ddl
+    task.fWarnTime = that.data.warn
+    task.fUrgency = that.data.value1
+    
+    wx.showModal({
+      title:"请问是否确定需要更新群任务",
       success(res){
-        wx.setStorageSync('dateWarnKey', "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ")
-        var subId = "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ"
-        //传入数据库
-        db.collection("t_task").doc(that.data._id).update({
-          data:{
-            fFinish:that.data.isFinish,
-            fDeadline:that.data.ddl,
-            fWarnTime:that.data.warn,
-            fTask:that.data.taskname,
-            fUrgency:that.data.value1,
-          }
-        }).then(res=>{
-          console.log(res)
-          wx.navigateBack()
-        })
+        if (res.confirm){
+          wx.showLoading({
+            title: '加载中',
+          })
+          // 获取fTask
+          wx.cloud.callFunction({
+            name:"getTGroup",
+            data:{
+              fGroupNum:that.data.fGroupNum
+            }
+          }).then(res=>{
+            var fTask = res.result.data[0].fTask
+            for (let i=0;i<fTask.length;i++){
+              // 是同一个任务
+              if (fTask[i].fNum = fNum){
+                fTask[i] = task
+                break
+              }
+            }
+            // 更新
+            wx.cloud.callFunction({
+              name:"updateGroupTask",
+              data:{
+                fGroupNum:fGroupNum,
+                fTask:fTask
+              }
+            }).then(res=>{
+              wx.hideLoading()
+              wx.navigateBack()
+            })
+          })
+        }
       }
     })
     
   },
-  //点击删除*
+  //点击删除
   delete(){
     const that = this
     var fGroupNum = that.data.fGroupNum
@@ -119,7 +141,6 @@ Page({
               fNum:fNum
             }
           }).then(res=>{
-            console.log(res)
             wx.hideLoading()
             wx.navigateBack()
           })

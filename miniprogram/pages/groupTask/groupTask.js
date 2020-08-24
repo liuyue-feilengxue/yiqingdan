@@ -31,7 +31,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    // 这里不用传fTask
     var fTask = JSON.parse(options.fTask)
     var fGroupNum = options.fGroupNum
     var haveGroupTask = false

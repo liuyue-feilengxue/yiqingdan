@@ -18,13 +18,13 @@ Page({
     taskname:'',
     fGroupNum:-1
   },
-  //taskname输入*
+  //taskname输入
   taskinput(e){
     this.setData({
       taskname:e.detail.value
     })
   },
-  //获取日期更新（ddl与warn日期都在这）*
+  //获取日期更新（ddl与warn日期都在这）
   bindDateChange: function(e) {
     // console.log(e)
     if (e.target.dataset.name=='ddl'){
@@ -39,7 +39,7 @@ Page({
     }
     
   },
-  //获取时间更新*
+  //获取时间更新
   bindTimeChange: function(e) {
     if (e.target.dataset.name=='ddl'){
       this.setData({
@@ -61,7 +61,7 @@ Page({
       '&fGroupNum='+that.data.fGroupNum,
     })
   },
-  //修改优先级*
+  //修改优先级
   bindPicker1Change: function(e) {
     var value = Number(e.detail.value)
     this.setData({
@@ -102,6 +102,8 @@ Page({
   //点击删除*
   delete(){
     const that = this
+    var fGroupNum = that.data.fGroupNum
+    var fNum = that.data.task.fNum
     wx.showModal({
       title:"确定要删除本任务吗？",
       success(res){
@@ -110,7 +112,13 @@ Page({
           mask:true
         })
         if (res.confirm){
-          db.collection("t_task").doc(that.data._id).remove().then(res=>{
+          wx.cloud.callFunction({
+            name:"deleteGroupTask",
+            data:{
+              fGroupNum:fGroupNum,
+              fNum:fNum
+            }
+          }).then(res=>{
             console.log(res)
             wx.hideLoading()
             wx.navigateBack()

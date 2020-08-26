@@ -1,140 +1,147 @@
 {
-	"miniprogramRoot": "miniprogram/",
-	"cloudfunctionRoot": "cloudfunctions/",
-	"setting": {
-		"urlCheck": false,
-		"es6": true,
-		"enhance": true,
-		"postcss": true,
-		"preloadBackgroundData": false,
-		"minified": true,
-		"newFeature": true,
-		"coverView": true,
-		"autoAudits": false,
-		"showShadowRootInWxmlPanel": true,
-		"scopeDataCheck": false,
-		"checkInvalidKey": true,
-		"checkSiteMap": true,
-		"uploadWithSourceMap": true,
-		"babelSetting": {
-			"ignore": [],
-			"disablePlugins": [],
-			"outputPath": ""
-		}
-	},
-	"appid": "wx40e1fd9bad2911f5",
-	"projectname": "%E6%98%93%E6%B8%85%E5%8D%95",
-	"libVersion": "2.12.0",
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
-	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
-	"condition": {
-		"search": {
-			"current": -1,
-			"list": []
-		},
-		"conversation": {
-			"current": -1,
-			"list": []
-		},
-		"plugin": {
-			"current": -1,
-			"list": []
-		},
-		"game": {
-			"list": []
-		},
-		"gamePlugin": {
-			"current": -1,
-			"list": []
-		},
-		"miniprogram": {
-			"current": -1,
-			"list": [
-				{
-					"id": -1,
-					"name": "pages/my/my",
-					"pathName": "pages/my/my",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/group/group",
-					"pathName": "pages/group/group",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/addEvent/addEvent",
-					"pathName": "pages/addEvent/addEvent",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/addTask/addTask",
-					"pathName": "pages/addTask/addTask",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/calendar/calendar",
-					"pathName": "pages/calendar/calendar",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/taskDetail/taskDetail",
-					"pathName": "pages/taskDetail/taskDetail",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/projectDetail/projectDetail",
-					"pathName": "pages/projectDetail/projectDetail",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/groupDetail/groupDetail",
-					"pathName": "pages/groupDetail/groupDetail",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/groupMember/groupMember",
-					"pathName": "pages/groupMember/groupMember",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/joinGroup/joinGroup",
-					"pathName": "pages/joinGroup/joinGroup",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/postTask/postTask",
-					"pathName": "pages/postTask/postTask",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/calendar/calendar",
-					"pathName": "pages/calendar/calendar",
-					"scene": null
-				}
-			]
-		}
-	}
+  "miniprogramRoot": "miniprogram/",
+  "cloudfunctionRoot": "cloudfunctions/",
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "preloadBackgroundData": false,
+    "minified": true,
+    "newFeature": true,
+    "coverView": true,
+    "autoAudits": false,
+    "showShadowRootInWxmlPanel": true,
+    "scopeDataCheck": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "useIsolateContext": true,
+    "useCompilerModule": true,
+    "userConfirmedUseCompilerModuleSwitch": false,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "useMultiFrameRuntime": true,
+    "useApiHook": true
+  },
+  "appid": "wx40e1fd9bad2911f5",
+  "projectname": "%E6%98%93%E6%B8%85%E5%8D%95",
+  "libVersion": "2.12.0",
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
+  "condition": {
+    "search": {
+      "current": -1,
+      "list": []
+    },
+    "conversation": {
+      "current": -1,
+      "list": []
+    },
+    "plugin": {
+      "current": -1,
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "current": -1,
+      "list": []
+    },
+    "miniprogram": {
+      "current": -1,
+      "list": [
+        {
+          "id": -1,
+          "name": "pages/my/my",
+          "pathName": "pages/my/my",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/group/group",
+          "pathName": "pages/group/group",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/addEvent/addEvent",
+          "pathName": "pages/addEvent/addEvent",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/addTask/addTask",
+          "pathName": "pages/addTask/addTask",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/calendar/calendar",
+          "pathName": "pages/calendar/calendar",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/taskDetail/taskDetail",
+          "pathName": "pages/taskDetail/taskDetail",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/projectDetail/projectDetail",
+          "pathName": "pages/projectDetail/projectDetail",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/groupDetail/groupDetail",
+          "pathName": "pages/groupDetail/groupDetail",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/groupMember/groupMember",
+          "pathName": "pages/groupMember/groupMember",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/joinGroup/joinGroup",
+          "pathName": "pages/joinGroup/joinGroup",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/postTask/postTask",
+          "pathName": "pages/postTask/postTask",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/calendar/calendar",
+          "pathName": "pages/calendar/calendar",
+          "scene": null
+        }
+      ]
+    }
+  }
 }

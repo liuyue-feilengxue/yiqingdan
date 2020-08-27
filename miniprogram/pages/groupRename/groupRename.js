@@ -14,7 +14,7 @@ Page({
       fGroupName:e.detail.value
     })
   },
-  // 完成*
+  // 完成
   finish(){
     wx.showLoading({
       title: '加载中',

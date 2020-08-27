@@ -16,6 +16,7 @@
     "pages/projectTaskDetail/projectTaskDetail",
     "pages/groupDetail/groupDetail",
     "pages/groupMember/groupMember",
+    "pages/groupRename/groupRename",
     "pages/addGroup/addGroup",
     "pages/groupTask/groupTask",
     "pages/joinGroup/joinGroup",

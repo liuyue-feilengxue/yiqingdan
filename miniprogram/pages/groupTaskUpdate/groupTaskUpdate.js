@@ -81,7 +81,7 @@ Page({
     task.fDeadline = that.data.ddl
     task.fWarnTime = that.data.warn
     task.fUrgency = that.data.value1
-    
+    task.fTaskname = that.data.taskname
     wx.showModal({
       title:"请问是否确定需要更新群任务",
       success(res){
@@ -99,11 +99,13 @@ Page({
             var fTask = res.result.data[0].fTask
             for (let i=0;i<fTask.length;i++){
               // 是同一个任务
-              if (fTask[i].fNum = fNum){
+              if (fTask[i].fNum == fNum){
                 fTask[i] = task
                 break
               }
             }
+            console.log(task)
+            console.log(fTask)
             // 更新
             wx.cloud.callFunction({
               name:"updateGroupTask",
@@ -129,11 +131,11 @@ Page({
     wx.showModal({
       title:"确定要删除本任务吗？",
       success(res){
-        wx.showLoading({
-          title: '加载中',
-          mask:true
-        })
         if (res.confirm){
+          wx.showLoading({
+            title: '加载中',
+            mask:true
+          })
           wx.cloud.callFunction({
             name:"deleteGroupTask",
             data:{
@@ -153,6 +155,7 @@ Page({
    */
   onLoad: function (options) {
     var task = JSON.parse(options.taskjson)
+    console.log(task.fNum)
     //把ddl和warn分开，分为date和time
     var ddl = task.fDeadline.split(' ')
     var warn = task.fWarnTime.split(' ')

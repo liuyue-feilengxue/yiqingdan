@@ -1,11 +1,11 @@
 <!--miniprogram/pages/groupRename/groupRename.wxml-->
 
-<view class="weui-cells__title">群名称</view>
+<view class="weui-cells__title">小组名称</view>
 
 <view class="weui-cells weui-cells_after-title">
     <view class="weui-cell weui-cell_active">
         <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入新群名" bindinput="groupName" value='{{fGroupName}}' type="text"/>
+            <input class="weui-input" placeholder="请输入新小组名" bindinput="groupName" value='{{fGroupName}}' type="text"/>
         </view>
     </view>
 </view>

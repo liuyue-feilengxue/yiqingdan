@@ -1,19 +1,19 @@
 <!--pages/addGroup/addGroup.wxml-->
-<view class="weui-cells__title">群名称</view>
+<view class="weui-cells__title">小组名称</view>
 <view class="weui-cells weui-cells_after-title">
     <view class="weui-cell weui-cell_active">
         <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="群名称" bindinput="groupName"/>
+            <input class="weui-input" placeholder="小组名称" bindinput="groupName"/>
         </view>
     </view>
 </view>
 
-<view class="weui-cells__title">群头像</view>
+<view class="weui-cells__title">小组头像</view>
 <view class="button-sp-area cell" bindtap="selectPhoto">
   <a class="weui-btn_cell weui-btn_cell-default">选择图片</a>
 </view>
 
-<view class="weui-cells__title">群密码</view>
+<view class="weui-cells__title">小组密码</view>
 
 <view class="weui-cells__group weui-cells__group_form">
   <view class="weui-cells weui-cells_checkbox">
@@ -27,7 +27,7 @@
                 <i class="weui-icon-checked"></i>
             </view>
             <view class="weui-cell__bd">
-                <view>开启群密码</view>
+                <view>开启小组密码</view>
             </view>
         </label>
     </checkbox-group>
@@ -38,7 +38,7 @@
   <view class="weui-cells weui-cells_after-title">
     <view class="weui-cell weui-cell_active">
         <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="群密码" 
+            <input class="weui-input" placeholder="小组密码" 
               password="true" bindinput="groupPassword"/>
         </view>
     </view>

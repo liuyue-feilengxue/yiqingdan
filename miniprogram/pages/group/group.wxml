@@ -32,7 +32,7 @@
 
 <view wx:else class="weui-footer">
   <view class="weui-footer__text nopages">( っ`-´c)ﾏｯ</view>
-  <view class="weui-footer__text">当前没有加入群聊哦，点击右上角 + 号创建一个吧</view>
+  <view class="weui-footer__text">当前没有加入小组哦，点击右上角 + 号创建一个吧</view>
 </view>
 
 <!-- 加号（创建群聊，加入群聊） -->
@@ -41,8 +41,8 @@
   <view class="weui-mask"></view>
   <view class="weui-actionsheet">
       <view class="weui-actionsheet__menu">
-          <view class="weui-actionsheet__cell" bindtap="toAddGroup">创建群聊</view>
-          <view class="weui-actionsheet__cell" bindtap="toJoinGroup">加入群聊</view>
+          <view class="weui-actionsheet__cell" bindtap="toAddGroup">创建小组</view>
+          <view class="weui-actionsheet__cell" bindtap="toJoinGroup">加入小组</view>
       </view>
   </view>
 </view>

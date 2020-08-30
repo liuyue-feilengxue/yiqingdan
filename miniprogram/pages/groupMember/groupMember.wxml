@@ -1,6 +1,6 @@
 <!--pages/groupMember/groupMember.wxml-->
 <view class="title">
-  <view class='titletext'>群管理</view>
+  <view class='titletext'>小组管理员</view>
 </view>
 
 <view class="weui-cells">
@@ -15,7 +15,7 @@
 </view>
 
 <view class="title1" wx:if ="{{fMember.length!=0}}">
-  <view class='titletext'>群成员</view>
+  <view class='titletext'>小组成员</view>
 </view>
 
 <view class="weui-cells" wx:if ="{{fMember.length!=0}}">
@@ -37,8 +37,8 @@
     <view class="weui-mask"></view>
     <view class="weui-actionsheet weui-actionsheet_toggle">
         <view class="weui-actionsheet__menu">
-            <view class="weui-actionsheet__cell" bindtap="toAdmin">添加为群管理</view>
-            <view class="weui-actionsheet__cell weui-actionsheet__cell_warn" bindtap="deleteMember">删除群成员</view>
+            <view class="weui-actionsheet__cell" bindtap="toAdmin">添加为小组管理</view>
+            <view class="weui-actionsheet__cell weui-actionsheet__cell_warn" bindtap="deleteMember">删除小组成员</view>
         </view>
         <view class="weui-actionsheet__action">
             <view class="weui-actionsheet__cell">取消</view>

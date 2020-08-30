@@ -18,7 +18,7 @@
         <label class="weui-form-preview__label">项目</label>
       </view>
       <view wx:elif = '{{item.identity=="group"}}'>
-        <label class="weui-form-preview__label">群任务</label>
+        <label class="weui-form-preview__label">小组任务</label>
       </view>
       <view wx:if ='{{item.identity=="task"}}'>
         <text class="weui-form-preview__value">{{item.fTask}}</text>

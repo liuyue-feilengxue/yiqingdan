@@ -19,7 +19,7 @@
 <!-- 群成员 -->
 <view class="weui-cells groupmember  weui-cell_active" bindtap="toGroupMember">
   <view class="weui-cell weui-cell_access">
-    <view class="weui-cell__bd">群成员</view>
+    <view class="weui-cell__bd">小组成员</view>
     <view class="weui-cell__ft" style="font-size: 0;">
       <text style="vertical-align: middle; font-size: 17px;">共{{fGroup.fMember.length+fGroup.fAdministrator.length}}人</text>
     </view>
@@ -39,33 +39,33 @@
 
 <view class="weui-cells other">
   <view class="weui-cell weui-cell_active weui-cell_access" bindtap="toGroupRename">
-    <view class="weui-cell__bd">群名称</view>
+    <view class="weui-cell__bd">小组名称</view>
     <view class="weui-cell__ft" style="font-size: 0;">
       <text style="vertical-align: middle; font-size: 17px;">{{fGroup.fGroupName}}</text>
     </view>
   </view>
   <view class="weui-cell weui-cell_active weui-cell_access" bindtap="copyGroupNum">
-    <view class="weui-cell__bd">群号</view>
+    <view class="weui-cell__bd">小组号</view>
     <view class="weui-cell__ft" style="font-size: 0;">
       <text style="vertical-align: middle; font-size: 17px;">{{fGroup.fGroupNum}}</text>
     </view>
   </view>
   <view class="weui-cell weui-cell_active weui-cell_access" bindtap="toPostTask" wx:if="{{isAdministrator}}">
-    <view class="weui-cell__bd">新建群任务</view>
+    <view class="weui-cell__bd">新建小组任务</view>
     <view class="weui-cell__ft" style="font-size: 0;">
     </view>
   </view>
   <view class="weui-cell weui-cell_active weui-cell_access" bindtap="toGroupTask">
-    <view class="weui-cell__bd">查看群任务</view>
+    <view class="weui-cell__bd">查看小组任务</view>
     <view class="weui-cell__ft" style="font-size: 0;">
     </view>
   </view>
 </view>
 
 <view class="weui-form__opr-area " wx:if="{{!isAdministrator}}">
-	<button class="weui-btn weui-btn_primary" bindtap="exit">退出本群</button>
+	<button class="weui-btn weui-btn_primary" bindtap="exit">退出本小组</button>
 </view>
 
 <view class="weui-form__opr-area " wx:else>
-	<button class="weui-btn weui-btn_primary" bindtap="disband">解散本群</button>
+	<button class="weui-btn weui-btn_primary" bindtap="disband">解散本小组</button>
 </view>

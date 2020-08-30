@@ -8,7 +8,7 @@
   <view class="weui-form-preview__bd">
     <view class="weui-form-preview__item">
       <view>
-        <label class="weui-form-preview__label">群任务</label>
+        <label class="weui-form-preview__label">小组任务</label>
       </view>
       <view>
         <text class="weui-form-preview__value">{{item.fTaskname}}</text>

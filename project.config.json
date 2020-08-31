@@ -134,12 +134,6 @@
           "pathName": "pages/postTask/postTask",
           "query": "",
           "scene": null
-        },
-        {
-          "id": -1,
-          "name": "pages/calendar/calendar",
-          "pathName": "pages/calendar/calendar",
-          "scene": null
         }
       ]
     }

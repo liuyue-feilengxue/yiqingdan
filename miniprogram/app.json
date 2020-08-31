@@ -23,7 +23,8 @@
     "pages/postTask/postTask",
     "pages/groupTaskDetail/groupTaskDetail",
     "pages/groupGroupTaskDetail/groupGroupTaskDetail",
-    "pages/groupTaskUpdate/groupTaskUpdate"
+    "pages/groupTaskUpdate/groupTaskUpdate",
+    "pages/updateData/updateData"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

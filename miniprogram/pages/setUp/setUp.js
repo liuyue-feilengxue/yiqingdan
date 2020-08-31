@@ -7,6 +7,12 @@ Page({
   data: {
 
   },
+  // 更新日志
+  toUpdateData(){
+    wx.navigateTo({
+      url: '/pages/updateData/updateData',
+    })
+  },
   //复制开发者微信
   getDevelopWechat(){
     wx.setClipboardData({

@@ -1,0 +1,2 @@
+/* pages/updateData/updateData.wxss */
+@import '../../wxss/style/weui.wxss';

@@ -1,0 +1,53 @@
+<!--pages/updateData/updateData.wxml-->
+<view class="page">
+  <view class="page__bd">
+    <view class="weui-article">
+      <view class="weui-article__h1">版本更新</view>
+      <view class="weui-article__section">
+        <view class="weui-article__h2">1.0.0</view>
+        <view class="weui-article__p">
+          新建任务
+        </view>
+        <view class="weui-article__p">
+          新建项目 
+        </view>
+        <view class="weui-article__p">
+          任务提醒
+        </view>
+        <view class="weui-article__p">
+          小组相关操作
+        </view>
+        <view class="weui-article__p">
+          小组任务提醒
+        </view>
+      </view>
+      <view class="weui-article__h1">组长想说的话</view>
+      <view class="weui-article__section">
+        <view class="weui-article__p">
+          2020年8月30日，我们的项目上线啦！！
+        </view>
+        <view class="weui-article__p">
+          2020年4月26日，我正式开始筹备这个项目，并且找到了第一名队友，当晚第三名队友也加入进来。
+        </view>
+        <view class="weui-article__p">
+          5月3日，第四位队友也加入我们的小组，至此，本产品的项目组成员全部到齐。
+        </view>
+        <view class="weui-article__p">
+          经历了126天的开发，我们的项目也终于通过审核，上线微信平台。
+        </view>
+        <view class="weui-article__p">
+          说实话，我还是挺激动的。整个项目的开发遭遇了挺多的困难，我也学习到了不少的知识。
+        </view> 
+        <view class="weui-article__p">
+          虽然很多功能都只是用非常基础的方法来写，但是如果还有空闲的时间，我也会不断的改进项目的算法。
+        </view>
+        <view class="weui-article__p">
+          另外，如果有意向继续开发或者更新UI界面的同学，欢迎到“联系我们”联系项目组长。
+        </view>
+        <view class="weui-article__p">
+          最后，欢迎各位使用我们的产品，若发现我们产品有bug，欢迎到“联系我们”联系项目组长。
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

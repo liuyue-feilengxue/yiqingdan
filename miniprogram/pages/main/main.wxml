@@ -58,7 +58,7 @@
   </view>
 </view>
 
-<view class="weui-footer" wx:if='{{tasks.length>0}}'>
+<view class="weui-footer" wx:if='{{all.length>0}}'>
   <view class="weui-footer__text">别拉啦~到底啦~再拉我疼~</view>
 </view>
 

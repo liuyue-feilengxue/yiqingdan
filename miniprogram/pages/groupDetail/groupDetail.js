@@ -108,7 +108,7 @@ Page({
   //去查看群任务页面
   toGroupTask(){
     wx.navigateTo({
-      url: '/pages/groupTask/groupTask?fGroupNum='+this.data.fGroup.fGroupNum,
+      url: '/pages/groupTask/groupTask?fGroupNum='+this.data.fGroup.fGroupNum+"&isAdministrator="+this.data.isAdministrator,
     })
   },
   //解散本群

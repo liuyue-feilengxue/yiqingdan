@@ -8,7 +8,7 @@ Page({
     inputShowed: false,
     //输入内容
     inputVal: "",
-    //该用户所有的群（user表里的）
+    //该用户所有的群
     fGroup:[],
     // 实时查询文本
     currentdata:[]
@@ -78,24 +78,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.showLoading({
-      title: '加载中',
-    })
-    const ui = wx.getStorageSync('userinfo')
-    const that = this
-    //把fGroup存到本地
-    wx.cloud.callFunction({
-      name:"getUserInfo",
-      data:{
-        userInfo:ui
-      }
-    }).then(res=>{
-      var fGroup = res.result.data[0].fGroup
-      that.setData({
-        fGroup:fGroup
-      })
-      wx.hideLoading()
-    })
+    
   },
 
   /**
@@ -109,7 +92,32 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    wx.showLoading({
+      title: '加载中',
+    })
+    const ui = wx.getStorageSync('userinfo')
+    const that = this
+    //把fGroup存到本地
+    wx.cloud.callFunction({
+      name:"getUserInfo",
+      data:{
+        userInfo:ui
+      }
+    }).then(res=>{
+      var fGroup = res.result.data[0].fGroup
+      wx.cloud.callFunction({
+        name:"getAllJoinGroup",
+        data:{
+          fGroup:fGroup,
+        }
+      }).then(res=>{
+        console.log(res.result)
+        that.setData({
+          fGroup:res.result
+      })
+      wx.hideLoading()
+      })
+    })
   },
 
   /**

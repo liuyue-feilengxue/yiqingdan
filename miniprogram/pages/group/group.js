@@ -83,59 +83,22 @@ Page({
         name:"getUserInfo",
         data:{
           userInfo:ui
-        }
+        } 
       }).then(res=>{
         // user表里的fGroup
         var fGroup = res.result.data[0].fGroup
-        // 更新加入的群的情况
-        function getAllJoinGroup(i){
-          //因为有可能fGroup删除了以后短一点
-          if (i >= fGroup.length){
-            that.setData({
-              fGroup:fGroup
-            })
-            // 群名群头像改好了，上传
-            wx.cloud.callFunction({
-              name:"updateJoinGroup",
-              data:{
-                userInfo:ui,
-                fGroup:fGroup
-              }
-            }).then(res=>{
-              that.setData({
-                fGroup:fGroup
-              })
-              wx.hideLoading()
-            })
-            return;
-          } 
-          wx.cloud.callFunction({
-            name:"getTGroup",
-            data:{
-              fGroupNum:fGroup[i].fGroupNum
-            }
-          }).then(res=>{
-            //这个群没了
-            if (res.result.data.length == 0 ){
-              fGroup.splice(i,1)
-              that.setData({
-                fGroup:fGroup
-              })
-              getAllJoinGroup(i)
-            }
-            // 查看是不是被踢了
-            if(!that.isInGroup(res)){
-              fGroup.splice(i,1)
-              getAllJoinGroup(i)
-            }
-            // 修改群名群头像
-            var group = res.result.data[0]
-            fGroup[i].fGroupName = group.fGroupName
-            fGroup[i].fPicture = group.fPicture
-            getAllJoinGroup(i+1)
+        wx.cloud.callFunction({
+          name:"getAllJoinGroup",
+          data:{
+            fGroup:fGroup,
+          }
+        }).then(res=>{
+          console.log(res.result)
+          that.setData({
+            fGroup:res.result
           })
-        }
-        getAllJoinGroup(0)
+          wx.hideLoading()
+        })
       })
     }
     //没登录
@@ -152,24 +115,6 @@ Page({
         }
       })
     } 
-  },
-
-  //如果在群里，就返回true，否则返回false
-  isInGroup(res){
-    var group = res.result.data[0]
-    const that = this
-    var ui = wx.getStorageSync('userinfo')
-    for(var i=0;i<group.fMember.length;i++){
-      if (group.fMember[i].openid == ui.openid){
-        return true
-      }
-    }
-    for (var i=0;i<group.fAdministrator.length;i++){
-      if (group.fAdministrator[i].openid == ui.openid){
-        return true
-      }
-    }
-    return false
   },
 
   /**

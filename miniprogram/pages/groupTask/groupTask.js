@@ -12,19 +12,23 @@ Page({
     task:[],
     // 群号
     fGroupNum:-1,
+    // 是否为管理员
+    isAdministrator:false,
     //是否有群任务
     haveGroupTask:false
   },
-
-  // 去群任务详情
+ 
+  // 去群任务详情（非管理员进不去）
   toTaskDetail(e){
     var index = e.currentTarget.dataset.index
     var taskjson = JSON.stringify(this.data.task[index])
     const that = this
-    wx.navigateTo({
-      url: '/pages/groupTaskUpdate/groupTaskUpdate?taskjson='+taskjson+
-        '&fGroupNum='+that.data.fGroupNum,
-    })
+    if (this.data.isAdministrator){
+      wx.navigateTo({
+        url: '/pages/groupTaskUpdate/groupTaskUpdate?taskjson='+taskjson+
+          '&fGroupNum='+that.data.fGroupNum,
+      })
+    }
   },
 
   /**
@@ -33,7 +37,8 @@ Page({
   onLoad: function (options) {
     var fGroupNum = Number(options.fGroupNum)
     this.setData({
-      fGroupNum:fGroupNum
+      fGroupNum:fGroupNum,
+      isAdministrator:JSON.parse(options.isAdministrator)
     })
     
   },

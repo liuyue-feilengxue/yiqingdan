@@ -71,13 +71,14 @@ Page({
     //  如果需要时分秒，就放开
     var h = now.getHours();
     var m = now.getMinutes();
+    if(h<10){
+      h='0'+h
+    }
     if(m<10){
       m='0'+m
     }
     var date = year + '-' + month + '-' + day;
     var time =  h + ':' + m;
-    // console.log('当前时间',formatDate)
-    // return formatDate;
     this.setData({
       ddldate:date,
       warndate:date,

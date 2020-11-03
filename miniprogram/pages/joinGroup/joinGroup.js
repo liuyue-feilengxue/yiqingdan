@@ -84,15 +84,11 @@ Page({
             // group表的成员
             var fMember = group.fMember
             fMember.push(ui)
-            var groupid = group._id
             var userid = that.data.userid
-            var fGroupName = group.fGroupName
             var fGroupNum = group.fGroupNum
-            var fPicture = group.fPicture
-            var obj = {fGroupName,fGroupNum,fPicture}
             // user表的fGroup
             var fGroup = that.data.fGroup
-            fGroup.push(obj)
+            fGroup.push(fGroupNum)
             //调用云函数修改group的数据，由于创建者的openid与加入者不同
             wx.cloud.callFunction({
               name:"updateGroupMember",

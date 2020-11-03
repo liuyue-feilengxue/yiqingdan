@@ -92,6 +92,7 @@ Page({
         title : '您的群组名尚未填写，请重新检查'
       })
     }
+    // 无头像
     else if (this.data.fPicture==""){
       wx.showModal({
         showCancel: false,
@@ -132,14 +133,9 @@ Page({
           }
         }).then(res=>{
           var _id = res.result.data[0]._id
-          //group对象，用于存进fGroup
-          var group = {}
           //原有的群
           var fGroup = res.result.data[0].fGroup
-          group["fGroupNum"] = that.data.fGroupNum
-          group["fGroupName"] = that.data.fGroupName
-          group["fPicture"] = that.data.fPicture
-          fGroup.push(group)
+          fGroup.push(that.data.fGroupNum)
           //存到user表里
           db.collection("t_user").doc(_id).update({
             data:{

@@ -33,17 +33,15 @@ Page({
     const that = this
     const ui = wx.getStorageSync('userinfo')
     var task = that.data.task
-    // 发送服务提醒
-    // wx.requestSubscribeMessage({
-    //   tmplIds: ['n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ'],
-    //   success(res){
-    //     wx.setStorageSync('dateWarnKey', "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ")
-    //     var subId = "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ"
-    //   }
-    // })
-    
+    // 文字合法
+    if (!this.textcheck(that.data.taskname)){
+      wx.showModal({
+        showCancel: false,
+        title : '您的任务或项目名有不合法信息'
+      })
+    }
     // 如果是已完成
-    if(that.data.isFinish){
+    else if(that.data.isFinish){
       wx.showModal({
         title:"请问你是否确定已经完成该任务",
         success(res){
@@ -70,7 +68,20 @@ Page({
       })
     }
   },
-  
+  textcheck(text){
+    wx.cloud.callFunction({
+      name:"msgSecurityCheck",
+      data:{
+        text:text
+      },
+      success(e){
+        return true
+      },
+      fail(e){
+        return false
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

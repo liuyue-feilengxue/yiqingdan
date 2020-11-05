@@ -12,111 +12,61 @@ Page({
   //登录
   onGotUserInfo(e){ 
     const that = this
-    wx.showModal({
-      title:"是否同意获取本机授权",
-      confirmColor:"#34D0BA",
-      success(res){
-        if (res.confirm){
-          //openid一样
-          wx.cloud.callFunction({
-            name:"login",
-            success:res=>{
-              that.setData({
-                openid: res.result.openid,
-                userinfo : e.detail.userInfo
-              })
-              //保存在缓存中
-              that.data.userinfo.openid = that.data.openid
-              wx.setStorageSync('userinfo', that.data.userinfo)
-              //在数据库中 查找 是否有userinfo（即查一下有没有这个用户）（查的也是openid）
-              wx.cloud.callFunction({
-                name:"getUserInfo",
-                //把userinfo传过去，如果有，就不用存入，没有就存入
-                data:{
-                  userInfo:that.data.userinfo,
-                }
-              }).then(res=>{
-                console.log(res)
-                if (res.result.data.length==1){
-                  //在数据库内存在这个人的信息
-                  // 更新一下用户表的userinfo
-                  db.collection("t_user").doc(res.result.data[0]._id).update({
-                    data:{
-                      userInfo:that.data.userinfo
-                    }
-                  })
-                  // 更新所加入群的信息。
-                  var fGroup = res.result.data[0].fGroup
-                  for (var i = 0;i<fGroup.length;i++){
-                    //根据群号搜索
-                    var fGroupNum = fGroup[i].fGroupNum
-                    wx.cloud.callFunction({
-                      name:"getTGroup",
-                      data:{
-                        fGroupNum:fGroupNum
-                      }
-                    }).then(res=>{
-                      var fAdministrator = res.result.data[0].fAdministrator
-                      var fMember = res.result.data[0].fMember
-                      var breakflag = false
-                      // 管理员
-                      for (var j = 0; j<fAdministrator.length ; j++){
-                        //openid一样，但ui不一样
-                        if ((fAdministrator[j].openid === that.data.openid)&&(fAdministrator[j]!=that.data.userinfo)){
-                          fAdministrator[j] = that.data.userinfo
-                          breakflag = true
-                          break
-                        }
-                      }
-                      // 普通成员
-                      for (var j = 0;j<fMember.length;j++){
-                        if (breakflag){
-                          break
-                        }
-                        if ((fMember[j].openid === that.data.openid)&&(fMember[j]!=that.data.userinfo)){
-                          fMember[j] = that.data.userinfo
-                          break
-                        }
-                      }
-                      //调用云函数修改
-                      wx.cloud.callFunction({
-                        name:"updateGroupUserInfo",
-                        data:{
-                          fGroupNum:res.result.data[0].fGroupNum,
-                          fAdministrator:fAdministrator,
-                          fMember:fMember
-                        }
-                      })
-                      // 订阅服务
-                      wx.requestSubscribeMessage({
-                        tmplIds: ['n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ'],
-                        success(res){
-                          wx.setStorageSync('dateWarnKey', "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ")
-                          var subId = "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ"
-                        }
-                      })
-                    })
-                  }
-                }else{
-                  //数据库中没有这个人的信息
-                  // 存入数据库
-                  var fGroup = []
-                  db.collection("t_user").add({
-                    data:{
-                      userInfo:that.data.userinfo,
-                      fGroup:fGroup
-                    }
-                  }).then(res=>{
-                    console.log(res)
-                  })
-                }
-              })
-            },
-            fail:res=>{
-              console.log("云函数调用失败")
-            }
-          })
-        }
+    wx.cloud.callFunction({
+      name:"login",
+      success:res=>{
+        that.setData({
+          openid: res.result.openid,
+          userinfo : e.detail.userInfo
+        })
+        //保存在缓存中
+        that.data.userinfo.openid = that.data.openid
+        wx.setStorageSync('userinfo', that.data.userinfo)
+        //在数据库中 查找 是否有userinfo（即查一下有没有这个用户）（查的也是openid）
+        wx.cloud.callFunction({
+          name:"getUserInfo",
+          //把userinfo传过去，如果有，就不用存入，没有就存入
+          data:{
+            userInfo:that.data.userinfo,
+          }
+        }).then(res=>{
+          console.log(res)
+          if (res.result.data.length==1){
+            //在数据库内存在这个人的信息
+            // 更新一下用户表的userinfo
+            db.collection("t_user").doc(res.result.data[0]._id).update({
+              data:{
+                userInfo:that.data.userinfo
+              }
+            })
+            // 订阅服务（无用，因为不是bindtap）
+            wx.requestSubscribeMessage({
+              tmplIds: ['n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ'],
+              success(res){
+                wx.setStorageSync('dateWarnKey', "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ")
+              },
+              fail(err){
+                console.log(err)
+              }
+            })
+          }
+          else{
+            //数据库中没有这个人的信息
+            // 存入数据库
+            var fGroup = []
+            db.collection("t_user").add({
+              data:{
+                userInfo:that.data.userinfo,
+                fGroup:fGroup
+              }
+            }).then(res=>{
+              console.log(res)
+            })
+          }
+        })
+      },
+      fail:res=>{
+        console.log("云函数调用失败")
       }
     })
     

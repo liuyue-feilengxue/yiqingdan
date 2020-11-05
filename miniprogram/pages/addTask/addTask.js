@@ -97,109 +97,151 @@ Page({
   //点击确定
   finish(){
     const that = this;
-    var warn = that.data.warndate+' '+that.data.warntime
-    var ddl = that.data.ddldate+' '+that.data.ddltime
-    var now = that.data.nowdate+" "+that.data.nowtime
-    //错误提醒，提醒大于截止时间（不可能）
-    if (warn>ddl){
-      wx.showModal({
-        showCancel: false,
-        title : '您的提醒时间大于截止时间，请重新确认'
-      })
-    }
-    // 现在比时间大
-    else if (now>warn){
-      wx.showModal({
-        showCancel: false,
-        title : '您的提醒时间比现在时间晚，请重新确认'
-      })
-    }
-    else if (now>ddl){
-      wx.showModal({
-        showCancel: false,
-        title : '您的截止时间比现在时间晚，请重新确认'
-      })
-    }
-    else{
-      //addProject
-      if (this.data.father == 'addProject'){
-        if (this.data.taskname==''){
+    // 获取订阅消息授权
+    wx.requestSubscribeMessage({
+      tmplIds: ['n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ'],
+      success(res){
+        wx.setStorageSync('dateWarnKey', "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ")
+        var now = that.data.nowdate+" "+that.data.nowtime
+        var ddl = that.data.ddldate+' '+that.data.ddltime;
+        var warn = that.data.warndate+ ' ' + that.data.warntime;
+        //错误提醒，提醒大于截止时间（不可能）
+        if (warn>ddl){
           wx.showModal({
             showCancel: false,
-            title : '请设置任务名'
+            title : '您的提醒时间大于截止时间，请重新确认'
           })
-        }else{
-        wx.showLoading({
-          title: '加载中',
-        })
-        const pages = getCurrentPages()
-        // 上一页
-        const lastPages = pages[pages.length - 2]
-        
-        // 自定义的time和index
-        var time = this.data.time;
-        // index为task的长度
-        var index = this.data.length;
-        console.log(index)
-        var ddl = this.data.ddldate+' '+this.data.ddltime;
-        var warn = this.data.warndate+ ' ' + this.data.warntime;
-        var obj = {ddl,warn}
-        var time1 = time.concat(obj)
-  
-        var tasks = this.data.tasks.concat(this.data.taskname)
-        // 数据传递
-        lastPages.setData({
-          tasks:tasks,
-          time:time1,
-          isFirst:false
-        })
-        wx.hideLoading()
-        wx.navigateBack()
+          return
         }
-         
-      }
-      //addTask
-      else{
-        if (this.data.taskname==''){
+        // 现在比时间大
+        else if (now>warn){
           wx.showModal({
             showCancel: false,
-            title : '请设置任务名'
+            title : '您的提醒时间比现在时间晚，请重新确认'
           })
-        }else{
-          var subId = ""
-          // 获取订阅消息授权
-          wx.requestSubscribeMessage({
-            tmplIds: ['n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ'],
-            success(res){
-              wx.setStorageSync('dateWarnKey', "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ")
-              subId = "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ"
-              //存入数据库
-              db.collection("t_task").add({
-                data:{
-                  //任务名
-                  fTask:that.data.taskname,
-                  //提醒时间
-                  fWarnTime:that.data.warndate+' '+that.data.warntime,
-                  //截止时间
-                  fDeadline:that.data.ddldate+' '+that.data.ddltime,
-                  //紧急程度（存0-3）
-                  fUrgency:that.data.value1,
-                  //是否完成
-                  fFinish:false,
-                  //系统自带openid无法查找
-                  openid:wx.getStorageSync('userinfo').openid
-                }
-              }).then(res=>{
-                wx.navigateBack()
+          return
+        }
+        else if (now>ddl){
+          wx.showModal({
+            showCancel: false,
+            title : '您的截止时间比现在时间晚，请重新确认'
+          })
+          return
+        }
+        // 检查标题
+        wx.cloud.callFunction({
+          name:"msgSecurityCheck",
+          data:{
+            text:that.data.taskname
+          },
+          success(e){
+            //addProject
+            if (that.data.father == 'addProject'){
+              if (that.data.taskname==''){
+                wx.showModal({
+                  showCancel: false,
+                  title : '请设置任务名'
+                })
+                return
+              }
+              else{
+              wx.showLoading({
+                title: '加载中',
               })
-            }
-          })
-        }
+              const pages = getCurrentPages()
+              // 上一页
+              const lastPages = pages[pages.length - 2]
+              
+              // 自定义的time和index
+              var time = that.data.time;
+              // index为task的长度
+              var index = that.data.length;
+              console.log(index)
+              var ddl = that.data.ddldate+' '+that.data.ddltime;
+              var warn = that.data.warndate+ ' ' + that.data.warntime;
+              var obj = {ddl,warn}
+              var time1 = time.concat(obj)
         
+              var tasks = that.data.tasks.concat(that.data.taskname)
+              // 数据传递
+              lastPages.setData({
+                tasks:tasks,
+                time:time1,
+                isFirst:false
+              })
+              wx.hideLoading()
+              wx.navigateBack()
+              }
+            }
+            //addTask
+            else{
+              if (that.data.taskname==''){
+                wx.showModal({
+                  showCancel: false,
+                  title : '请设置任务名'
+                })
+              }
+              // 正确
+              else{
+                //存入数据库
+                db.collection("t_task").add({
+                  data:{
+                    //任务名
+                    fTask:that.data.taskname,
+                    //提醒时间
+                    fWarnTime:that.data.warndate+' '+that.data.warntime,
+                    //截止时间
+                    fDeadline:that.data.ddldate+' '+that.data.ddltime,
+                    //紧急程度（存0-3）
+                    fUrgency:that.data.value1,
+                    //是否完成
+                    fFinish:false,
+                    //系统自带openid无法查找
+                    openid:wx.getStorageSync('userinfo').openid
+                  }
+                }).then(res=>{
+                  wx.navigateBack()
+                })
+              }
+            }
+          },
+          // 有不合法消息
+          fail(e){
+            wx.showModal({
+              showCancel: false,
+              title : '您的任务或项目名有不合法信息'
+            })
+          }
+        })
+
+      },
+      // 拒绝消息提醒
+      fail(res){
+        wx.showModal({
+          showCancel: false,
+          title : '您关闭了通知提醒，会无法接受到微信的提醒'
+        })
+        return
       }
-    }
-    
+    })
+
   },
+
+  textcheck(text){
+    wx.cloud.callFunction({
+      name:"msgSecurityCheck",
+      data:{
+        text:text
+      },
+      success(e){
+        resolve(true)
+      },
+      fail(e){
+        reject(false)
+      }
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */

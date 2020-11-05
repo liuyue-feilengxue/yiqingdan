@@ -75,28 +75,37 @@ Page({
       ddl:this.data.ddldate+' '+this.data.ddltime,
       warn:this.data.warndate+' '+this.data.warntime,
     })
-    // 发送服务提醒
-    wx.requestSubscribeMessage({
-      tmplIds: ['n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ'],
-      success(res){
-        wx.setStorageSync('dateWarnKey', "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ")
-        var subId = "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ"
-        //传入数据库
-        db.collection("t_task").doc(that.data._id).update({
-          data:{
-            fFinish:that.data.isFinish,
-            fDeadline:that.data.ddl,
-            fWarnTime:that.data.warn,
-            fTask:that.data.taskname,
-            fUrgency:that.data.value1,
-          }
-        }).then(res=>{
-          console.log(res)
-          wx.navigateBack()
-        })
-      }
-    })
-    
+    console.log(that.data.taskname)
+    // 文字合法
+    if (!this.textcheck(that.data.taskname)){
+      wx.showModal({
+        showCancel: false,
+        title : '您的任务或项目名有不合法信息'
+      })
+    }
+    else{
+      // 发送服务提醒
+      wx.requestSubscribeMessage({
+        tmplIds: ['n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ'],
+        success(res){
+          wx.setStorageSync('dateWarnKey', "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ")
+          var subId = "n_7pjG1HufYoGBjOfRDVj_0Bva_uSwNUuFdiGurNusQ"
+          //传入数据库
+          db.collection("t_task").doc(that.data._id).update({
+            data:{
+              fFinish:that.data.isFinish,
+              fDeadline:that.data.ddl,
+              fWarnTime:that.data.warn,
+              fTask:that.data.taskname,
+              fUrgency:that.data.value1,
+            }
+          }).then(res=>{
+            console.log(res)
+            wx.navigateBack()
+          })
+        }
+      })
+    }
   },
   //点击删除
   delete(){
@@ -117,6 +126,23 @@ Page({
         }
       }
     }) 
+  },
+  // 文字检测
+  textcheck(text){
+    wx.cloud.callFunction({
+      name:"msgSecurityCheck",
+      data:{
+        text:text
+      },
+      success(e){
+        console.log(e)
+        return true
+      },
+      fail(e){
+        console.log(e)
+        return false
+      }
+    })
   },
   /**
    * 生命周期函数--监听页面加载

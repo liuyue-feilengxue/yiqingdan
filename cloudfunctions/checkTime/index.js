@@ -50,7 +50,7 @@ exports.main = async (event, context) => {
     for (let j=0;j<fGroup.length;j++){
       // 找群
       for (let k=0;k<group.length;k++){
-        if (fGroup[j].fGroupNum == group[k].fGroupNum){
+        if (fGroup[j]== group[k].fGroupNum){
           // 该群的所有任务
           var grouptasks = group[k].fTask
           for (let l=0;l<grouptasks.length;l++){

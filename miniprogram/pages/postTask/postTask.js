@@ -71,6 +71,9 @@ Page({
     if(m<10){
       m='0'+m
     }
+    if (h<10){
+      h='0'+h
+    }
     var date = year + '-' + month + '-' + day;
     var time =  h + ':' + m;
     // console.log('当前时间',formatDate)
